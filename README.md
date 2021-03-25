@@ -44,7 +44,7 @@ MIT OpenCourseWare Search Engine
 * youtubedl-python-test
 
   ```
-  # change into frontend directory
+  # change into directory
   cd youtubedl-python-test
   
   # installing dependencies
