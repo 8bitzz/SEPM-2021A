@@ -1,4 +1,3 @@
-import './App.css';
 import styled from 'styled-components';
 import Search from './components/Search';
 

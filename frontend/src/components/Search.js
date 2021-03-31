@@ -1,6 +1,7 @@
 import React from 'react';
 import SearchIcon from '@material-ui/icons/Search';
 import styled from 'styled-components';
+import Button from '@material-ui/core/Button';
 
 function Search() {
     return(
@@ -9,8 +10,8 @@ function Search() {
                 <IconGray/>
                 <SearchInput/>
             </SearchBar>
+            <SearchButton>How to search</SearchButton>
             <SearchButton>Search this</SearchButton>
-            <SearchButton>How to search?</SearchButton>
         </form>
     );
 }
@@ -39,20 +40,16 @@ const SearchInput = styled.input`
     }
 `;
 
-const SearchButton = styled.button`
-    padding: 7px 15px;
-    background-color: #f8f8f8;
-    border: 1px solid white;
-    color: #5f6368;
-    font-size: medium;
-    margin-right: 5px;
+const SearchButton = styled(Button)`
+    background-color: #f8f8f8 !important;
+    color: #5f6368 !important;
+    margin: 5px !important;
+    padding: 7px 15px !important;
+    text-transform: capitalize !important;
 
     :hover {
-        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-        background-image: -webkit-linear-gradient(top, #f8f8f8, #f1f1f1);
-        background-color: #f8f8f8;
-        border: 1px solid #c6c6c6;
-        color: #222;
+        box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1)!important;
+        color: #222 !important;
     }
 `;
 
