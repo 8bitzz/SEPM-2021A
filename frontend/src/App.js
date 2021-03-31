@@ -12,7 +12,7 @@ function App() {
 
   return (
     <Wrapper>
-      <p>Welcome to React</p>
+      <p>Welcome to EduSearch</p>
       <Search/>
     </Wrapper>
   );
