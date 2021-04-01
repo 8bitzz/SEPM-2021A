@@ -13,6 +13,7 @@ function Search() {
             <SearchButton>How to search</SearchButton>
             <SearchButton>Search this</SearchButton>
         </form>
+
     );
 }
 
@@ -24,8 +25,7 @@ const SearchBar = styled.div`
     padding: 10px 20px;
     border-radius: 999px;
     width: 75vw;
-    margin: 1rem auto;
-    margin-top: 40px;
+    margin: 30px auto;
     max-width: 560px;
 `;
 
@@ -41,15 +41,17 @@ const SearchInput = styled.input`
 `;
 
 const SearchButton = styled(Button)`
-    background-color: #f8f8f8 !important;
-    color: #5f6368 !important;
-    margin: 5px !important;
-    padding: 7px 15px !important;
-    text-transform: capitalize !important;
-
-    :hover {
-        box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1)!important;
-        color: #222 !important;
+    && {
+        background-color: #f8f8f8;
+        color: #5f6368;
+        margin: 5px;
+        padding: 7px 15px;
+        text-transform: capitalize;
+    }
+    
+    &&:hover {
+        box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+        color: #222;
     }
 `;
 
