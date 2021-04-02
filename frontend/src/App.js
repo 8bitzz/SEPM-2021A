@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import styled from 'styled-components';
+import Search from './components/Search';
+import NavBar from './components/NavBar';
+import cover from './images/cover.png';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Wrapper>
+      <NavBar/>
+      <LogoWrapper>
+        <img src={cover} alt="cover" width="600px"></img>
+      </LogoWrapper>
+      <Search/>
+    </Wrapper>
   );
 }
+
+const Wrapper = styled.section`
+  padding-left: 4em;
+  background: #ffffff;
+  height:100vh;
+  text-align: center;
+`;
+
+const LogoWrapper = styled.div`
+  padding-top:10vh;
+  height:30vh;
+  text-align: center;
+`;
 
 export default App;
