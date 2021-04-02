@@ -1,13 +1,14 @@
 import styled from 'styled-components';
 import Search from './components/Search';
 import NavBar from './components/NavBar';
+import cover from './images/cover.png';
 
 function App() {
   return (
     <Wrapper>
       <NavBar/>
       <LogoWrapper>
-        <p>Welcome to EduSearch</p>
+        <img src={cover} alt="cover" width="600px"></img>
       </LogoWrapper>
       <Search/>
     </Wrapper>
