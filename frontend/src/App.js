@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import Search from './components/Search';
 import NavBar from './components/NavBar';
 import cover from './images/cover.png';
+import { Link } from 'react-router-dom';
 
 function App() {
   return (
