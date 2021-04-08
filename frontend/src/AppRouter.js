@@ -13,10 +13,6 @@ function AppRouter() {
             <div>
                 <Link to="/search"><button>Login</button></Link>
             </div>
-                
-        
-                
-        
         </LogoWrapper>
       </Wrapper>
 
