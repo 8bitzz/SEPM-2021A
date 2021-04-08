@@ -15,8 +15,6 @@ function AppRouter() {
             </div>
         </LogoWrapper>
       </Wrapper>
-
-    
     );
   }
   
