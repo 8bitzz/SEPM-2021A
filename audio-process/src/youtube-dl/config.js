@@ -7,14 +7,26 @@ const dump_options = (url) => {
         preferFreeFormats: true,
         youtubeSkipDashManifest: true,
         referer: url,
-        format: "worstaudio[ext=m4a]",
+        //Get File directly from youtube, but have timeline error in Quicktime
+        format: "worstaudio[ext=m4a]", 
+
+        // Get file and convert using ffmpeg
+        // extractAudio: true,
+        // audioFormat: "m4a",
+        // audioQuality: 5 // 0 - 9 (smaller = better)
     };
 };
 
 const download_options = (output) => {
     return {
         output: getFileOutput(output),
-        format: "worstaudio[ext=m4a]",
+        //Get File directly from youtube, but have timeline error in Quicktime
+        format: "worstaudio[ext=m4a]", 
+
+        // Get file and convert using ffmpeg
+        // extractAudio: true,
+        // audioFormat: "m4a",
+        // audioQuality: 5 // 0 - 9 (smaller = better)
     };
 };
 
