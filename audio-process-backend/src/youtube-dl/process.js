@@ -3,6 +3,7 @@ const { dump_options, download_options, getFileOutput } = require("./config");
 const fs = require("fs");
 
 const singleDownload = (url, next) => {
+    console.log(`Processing link ${url}`);
     youtubedl(url, dump_options(url)).then((output) => {
         if (!output) {
             console.log("Can't download current video (exceding expected video length)!");
@@ -28,4 +29,28 @@ const singleDownload = (url, next) => {
     });
 };
 
-module.exports = { singleDownload };
+const playlistDownload = async (url, next) => {
+    // console.log(`Processing link ${url}`);
+    // youtubedl(url, { flatPlaylist: true, j: true }).then((output) => {
+    //     console.log(output);
+    // });
+};
+
+const getPlaylists = (url, filename) => {
+    const subprocess = youtubedl.raw(url, {
+        dumpJson: true,
+        flatPlaylist: true,
+        getDuration: true,
+    });
+    console.log(`Running subprocess as ${subprocess.pid}`);
+    subprocess.stdout.pipe(fs.createWriteStream(filename));
+    subprocess.stderr.on("error", (error) => {
+        console.log("Error!");
+        console.log(error);
+    });
+    subprocess.on("exit", (code, signal) => {
+        console.log(`Process completed! Code ${code}!`);
+    });
+};
+
+module.exports = { singleDownload, playlistDownload, getPlaylists };
