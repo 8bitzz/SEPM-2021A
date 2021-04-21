@@ -4,6 +4,10 @@ const fs = require("fs");
 
 const singleDownload = (url, next) => {
     youtubedl(url, dump_options(url)).then((output) => {
+        if (!output) {
+            console.log("Can't download current video (exceding expected video length)!");
+            return;
+        }
         console.log(`Downloading ${output._filename}`);
         if (fs.existsSync(getFileOutput(output))) {
             console.log("File has already been processed!");

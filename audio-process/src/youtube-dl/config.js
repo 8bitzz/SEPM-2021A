@@ -7,8 +7,9 @@ const dump_options = (url) => {
         preferFreeFormats: true,
         youtubeSkipDashManifest: true,
         referer: url,
+        matchFilter: `duration < ${process.env.MAX_VIDEO_LENGTH}`,
         //Get File directly from youtube, but have timeline error in Quicktime
-        format: "worstaudio[ext=m4a]", 
+        format: "worstaudio[ext=m4a]",
 
         // Get file and convert using ffmpeg
         // extractAudio: true,
@@ -21,7 +22,7 @@ const download_options = (output) => {
     return {
         output: getFileOutput(output),
         //Get File directly from youtube, but have timeline error in Quicktime
-        format: "worstaudio[ext=m4a]", 
+        format: "worstaudio[ext=m4a]",
 
         // Get file and convert using ffmpeg
         // extractAudio: true,
