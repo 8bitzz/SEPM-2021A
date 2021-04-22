@@ -2,8 +2,10 @@ import React from 'react';
 import SearchIcon from '@material-ui/icons/Search';
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
+import { useHistory } from 'react-router-dom';
 
-function Search() {
+const Search = (props) => {
+    const history = useHistory();
     return(
         <form>
             <SearchBar>
@@ -11,7 +13,7 @@ function Search() {
                 <SearchInput/>
             </SearchBar>
             <SearchButton>How to search</SearchButton>
-            <SearchButton>Search this</SearchButton>
+            <SearchButton onClick={() => history.push('/contact')}>Go to contact</SearchButton>
         </form>
 
     );
