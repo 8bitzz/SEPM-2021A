@@ -1,7 +1,8 @@
 import styled from 'styled-components';
-import Search from '../components/Search';
 import NavBar from '../components/NavBar';
 import cover from '../images/cover.png';
+import HomeSearchBar from '../components/HomeSearchBar';
+import SearchButton from '../components/SearchButton';
 
 function Homepage() {
   return (
@@ -10,7 +11,9 @@ function Homepage() {
       <LogoWrapper>
         <img src={cover} alt="cover" width="600px"></img>
       </LogoWrapper>
-      <Search/>
+      <HomeSearchBar/>
+      <SearchButton name='How to search'/>
+      <SearchButton name='Search this'/>
     </Wrapper>
   );
 }
