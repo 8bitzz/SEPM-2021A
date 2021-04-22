@@ -1,8 +1,8 @@
 import React from 'react';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
@@ -10,12 +10,9 @@ import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
-
+import WhatshotIcon from '@material-ui/icons/Whatshot';
+import FavoriteIcon from '@material-ui/icons/Favorite'; 
 import styled from 'styled-components';
-import Button from '@material-ui/core/Button';
-import { useHistory } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -25,8 +22,8 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
     },
     appBar: {
-      width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: drawerWidth,
+      zIndex: theme.zIndex.drawer + 1,
+      backgroundColor: "#233326",
     },
     drawer: {
       width: drawerWidth,
@@ -35,35 +32,27 @@ const useStyles = makeStyles((theme: Theme) =>
     drawerPaper: {
       width: drawerWidth,
     },
-    // necessary for content to be below app bar
-    toolbar: theme.mixins.toolbar,
+    drawerContainer: {
+      overflow: 'auto',
+    },
     content: {
       flexGrow: 1,
-      backgroundColor: theme.palette.background.default,
       padding: theme.spacing(3),
     },
+    video: {
+        paddingTop: theme.spacing(2),
+        paddingLeft: theme.spacing(5),
+        width: '100%',
+    },
+    transcript: {
+        paddingTop: theme.spacing(5),
+        paddingLeft: theme.spacing(5),
+    }
   }),
 );
 
-const AuthenButton = styled(Button)`
-    && {
-        background-color: #f8f8f8;
-        color: #5f6368;
-        margin: 5px;
-        padding: 7px 15px;
-        text-transform: uppercase;
-    }
-    
-    &&:hover {
-        box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
-        background-color: #7de38d;
-        color: #222;
-    }
-`;
-
-export default function PermanentDrawerLeft() {
+export default function ClippedDrawer() {
   const classes = useStyles();
-  const history = useHistory();
 
   return (
     <div className={classes.root}>
@@ -71,9 +60,8 @@ export default function PermanentDrawerLeft() {
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
           <Typography variant="h6" noWrap>
-            Search Result
+            EduSearch
           </Typography>
-          <AuthenButton onClick={() => history.push('')}>Sign up</AuthenButton>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -82,53 +70,44 @@ export default function PermanentDrawerLeft() {
         classes={{
           paper: classes.drawerPaper,
         }}
-        anchor="left"
       >
-        <div className={classes.toolbar} />
-        <Divider />
-        <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
+        <Toolbar />
+        <div className={classes.drawerContainer}>
+          <List>
+            <ListItem button>
+                <ListItemIcon><WhatshotIcon/></ListItemIcon>
+                <ListItemText>Newest</ListItemText>
             </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
+            <Divider />
+            <ListItem button>
+                <ListItemIcon><FavoriteIcon/></ListItemIcon>
+                <ListItemText>Most viewed</ListItemText>
             </ListItem>
-          ))}
-        </List>
+            <Divider />
+          </List>
+        </div>
       </Drawer>
       <main className={classes.content}>
-        <div className={classes.toolbar} />
-        <Typography paragraph>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-          ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum
-          facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit
-          gravida rutrum quisque non tellus. Convallis convallis tellus id interdum velit laoreet id
-          donec ultrices. Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit
-          adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra nibh cras.
-          Metus vulputate eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo quis
-          imperdiet massa tincidunt. Cras tincidunt lobortis feugiat vivamus at augue. At augue eget
-          arcu dictum varius duis at consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem
-          donec massa sapien faucibus et molestie ac.
-        </Typography>
-        <Typography paragraph>
-          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper eget nulla
-          facilisi etiam dignissim diam. Pulvinar elementum integer enim neque volutpat ac
-          tincidunt. Ornare suspendisse sed nisi lacus sed viverra tellus. Purus sit amet volutpat
-          consequat mauris. Elementum eu facilisis sed odio morbi. Euismod lacinia at quis risus sed
-          vulputate odio. Morbi tincidunt ornare massa eget egestas purus viverra accumsan in. In
-          hendrerit gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem et
-          tortor. Habitant morbi tristique senectus et. Adipiscing elit duis tristique sollicitudin
-          nibh sit. Ornare aenean euismod elementum nisi quis eleifend. Commodo viverra maecenas
-          accumsan lacus vel facilisis. Nulla posuere sollicitudin aliquam ultrices sagittis orci a.
-        </Typography>
+        <Toolbar />
+        <div className={classes.video}>
+            <iframe id="player" type="text/html" width="100%" height='600px'
+                src="http://www.youtube.com/embed/M7lc1UVf-VE?enablejsapi=1&origin=http://example.com"
+                frameborder="0">
+            </iframe>
+        </div>
+        <div className={classes.transcript}>
+            <Typography paragraph>
+            Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper eget nulla
+            facilisi etiam dignissim diam. Pulvinar elementum integer enim neque volutpat ac
+            tincidunt. Ornare suspendisse sed nisi lacus sed viverra tellus. Purus sit amet volutpat
+            consequat mauris. Elementum eu facilisis sed odio morbi. Euismod lacinia at quis risus sed
+            vulputate odio. Morbi tincidunt ornare massa eget egestas purus viverra accumsan in. In
+            hendrerit gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem et
+            tortor. Habitant morbi tristique senectus et. Adipiscing elit duis tristique sollicitudin
+            nibh sit. Ornare aenean euismod elementum nisi quis eleifend. Commodo viverra maecenas
+            accumsan lacus vel facilisis. Nulla posuere sollicitudin aliquam ultrices sagittis orci a.
+            </Typography>
+        </div>
       </main>
     </div>
   );

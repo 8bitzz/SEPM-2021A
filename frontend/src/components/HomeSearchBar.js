@@ -16,8 +16,8 @@ function HomeSearchBar() {
 const SearchBar = styled.div`
     display: flex;
     align-items: center;
-    border: 1px solid lightgray;
-    height: 30px;
+    border: 1px solid lightgray;         
+    min-height: 30px;
     padding: 10px 20px;
     border-radius: 999px;
     width: 75vw;
