@@ -20,6 +20,7 @@ function NavBar() {
         <AppBar position="fixed" className={classes.navBar}>
             <Toolbar>
                 <EduSearchButton name="Sign up"></EduSearchButton>
+                <EduSearchButton name="Log in"></EduSearchButton>
             </Toolbar>
         </AppBar>
     );
