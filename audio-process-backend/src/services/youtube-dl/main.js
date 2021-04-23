@@ -10,7 +10,10 @@ const singleDownload = async (url, next) => {
             throw "Can't download current video (exceding expected video length)! " + url;
         }
         if (fs.existsSync(getFileOutput(output))) {
-            throw `File ${output._filename} has already been processed!`;
+            throw `File ${output._filename} has already been downloaded!`;
+        }
+        if (output.automatic_captions) {
+            output.automatic_captions = { en: output.automatic_captions["en"] };
         }
         let outputDownload = await youtubedl(url, download_options(output));
         return { code: 0, output };
