@@ -8,8 +8,9 @@ import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import { Paper } from '@material-ui/core';
-import styled from 'styled-components';
 
+import styled from 'styled-components';
+import { compose } from 'recompose';
 import { withRouter } from 'react-router-dom';
 import { withFirebase } from '../services/index';
 
@@ -166,7 +167,10 @@ class SignUpFormBase extends Component {
     }
 }
 
-const SignUpForm = withRouter(withFirebase(SignUpFormBase));
+const SignUpForm = compose(
+    withRouter,
+    withFirebase,
+  )(SignUpFormBase);
 
 const PaperWrap = styled(Paper)`
     margin-top: 120px;
