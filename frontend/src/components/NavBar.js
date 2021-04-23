@@ -21,7 +21,7 @@ function NavBar() {
         <AppBar position="fixed" className={classes.navBar}>
             <Toolbar>
                 <LinkWrap to="/signup"><EduSearchButton name="Sign up"></EduSearchButton></LinkWrap>
-                <EduSearchButton name="Log in"></EduSearchButton>
+                <LinkWrap to="/signin"><EduSearchButton name="Sign in"></EduSearchButton></LinkWrap>
             </Toolbar>
         </AppBar>
     );

@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
@@ -13,18 +11,18 @@ import { compose } from 'recompose';
 import { Link, withRouter } from 'react-router-dom';
 import { withFirebase } from '../services/index';
 
-const SignUpPage = () => {
+const SignInPage = () => {
     return(
         <Container maxWidth="sm">
             <PaperWrap>
                 <TitleWrap component="h1" variant="h5">
-                    Sign up
+                    Sign in
                 </TitleWrap>
-                <SignUpForm />
+                <SignInForm />
                 <Grid container justify="center">
                     <Grid item>
-                        <Link to='/signin'>
-                            Already have an account? Sign in
+                        <Link to='/signup'>
+                            Don't have any account yet? Sign up
                         </Link>
                     </Grid>
                 </Grid>
@@ -33,33 +31,24 @@ const SignUpPage = () => {
     );
 }
 
-const INITIAL_STATE = {
-    username: '',
+const INITIAL_STATE = { 
     email: '',
-    passwordOne: '',
-    passwordTwo: '',
+    password: '',
     error: null,
 };
 
-class SignUpFormBase extends Component {
+class SignInFormBase extends Component {
     constructor(props) {
         super(props);
+
         this.state = { ...INITIAL_STATE };
     }
 
     onSubmit = event => {
-        const { username, email, passwordOne } = this.state;
+        const { email, password } = this.state;
 
         this.props.firebase
-            .doCreateUserWithEmailAndPassword(email, passwordOne)
-            .then(authUser => {
-                // Create a user in the Firebase realtime database
-                return this.props.firebase
-                .user(authUser.user.uid)
-                .set({
-                    username,
-                    email, });
-                })
+            .doSignInWithEmailAndPassword(email, password)
             .then(() => {
                 this.setState({ ...INITIAL_STATE });
                 this.props.history.push('/result');
@@ -76,37 +65,15 @@ class SignUpFormBase extends Component {
     };
 
     render() {
-        const {
-            username,
-            email,
-            passwordOne,
-            passwordTwo,
-            error,
-        } = this.state;
+        const { email, password, error } = this.state;
 
         const isInvalid =
-            passwordOne !== passwordTwo ||
-            passwordOne === '' ||
-            email === '' ||
-            username === '';
+            password === '' ||
+            email === '' ;
 
         return (
             <form noValidate onSubmit={this.onSubmit}>
                 <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                        <TextField
-                            autoComplete="username"
-                            name="username"
-                            variant="outlined"
-                            required
-                            fullWidth
-                            id="username"
-                            label="Full Name"
-                            autoFocus
-                            value={username}
-                            onChange={this.onChange}
-                        />
-                    </Grid>
                     <Grid item xs={12}>
                         <TextField
                             variant="outlined"
@@ -125,32 +92,13 @@ class SignUpFormBase extends Component {
                             variant="outlined"
                             required
                             fullWidth
-                            name="passwordOne"
+                            name="password"
                             label="Password"
                             type="password"
-                            id="passwordOne"
+                            id="password"
                             autoComplete="current-password"
-                            value={passwordOne}
+                            value={password}
                             onChange={this.onChange}
-                        />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <TextField
-                            variant="outlined"
-                            required
-                            fullWidth
-                            name="passwordTwo"
-                            label="Confirm Password"
-                            type="password"
-                            id="passwordTwo"
-                            value={passwordTwo}
-                            onChange={this.onChange}
-                        />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <FormControlLabel
-                            control={<Checkbox value="allowExtraEmails" color="primary" />}
-                            label="I want to create a room chat"
                         />
                     </Grid>
                 </Grid>
@@ -161,7 +109,7 @@ class SignUpFormBase extends Component {
                     color="primary"
                     disabled={isInvalid}
                 >
-                    Sign Up
+                    Sign in
                 </ButtonWrap>
                 <Grid>
                     <Grid item xs={12}>
@@ -174,10 +122,10 @@ class SignUpFormBase extends Component {
     }
 }
 
-const SignUpForm = compose(
-    withRouter,
+const SignInForm = compose( 
+    withRouter, 
     withFirebase,
-  )(SignUpFormBase);
+    )(SignInFormBase);
 
 const PaperWrap = styled(Paper)`
     margin-top: 120px;
@@ -212,4 +160,4 @@ const ErrorWrap = styled.div`
 `;
 
 
-export default SignUpPage;
+export default SignInPage;
