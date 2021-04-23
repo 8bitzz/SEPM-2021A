@@ -2,7 +2,7 @@ import React from 'react'
 import SearchIcon from '@material-ui/icons/Search';
 import styled from 'styled-components';
 
-function HomeSearchBar() {
+function EduSearchBar() {
     return (
         <>
             <SearchBar>
@@ -40,4 +40,4 @@ const IconGray = styled(SearchIcon)`
     color: gray;
 `;
 
-export default HomeSearchBar
+export default EduSearchBar

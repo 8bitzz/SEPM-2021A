@@ -12,7 +12,13 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import WhatshotIcon from '@material-ui/icons/Whatshot';
 import FavoriteIcon from '@material-ui/icons/Favorite'; 
+
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+
 import Video from '../components/Video';
+import EduSearchBar from '../components/EduSearchBar';
+import EduSearchButton from '../components/EduSearchButton';
 
 const drawerWidth = 250;
 
@@ -37,7 +43,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     content: {
       flexGrow: 1,
-      padding: theme.spacing(10),
+      padding: theme.spacing(2),
     },
     
   }),
@@ -54,9 +60,11 @@ export default function ClippedDrawer() {
       <CssBaseline />
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
-          <Typography variant="h6" noWrap>
-            EduSearch
-          </Typography>
+          <LinkWrapper to='/'>
+            <Typography variant="h6" noWrap>
+              EduSearch
+            </Typography>
+          </LinkWrapper>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -84,8 +92,14 @@ export default function ClippedDrawer() {
       </Drawer>
       <main className={classes.content}>
         <Toolbar />
+        <EduSearchBar />
         <Video source={vidSource} transcript={vidTranscipt}/>
       </main>
     </div>
   );
 }
+
+const LinkWrapper = styled(Link)`
+  text-decoration: none;
+  color: #fff;
+`;

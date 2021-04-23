@@ -1,18 +1,11 @@
 import React from 'react'
 import Button from '@material-ui/core/Button';
 import styled from 'styled-components';
-import { useHistory } from 'react-router-dom';
 
-const SearchButton = ({name}) => {
-    const history = useHistory();
-
-    function handleClick() {
-        history.push('/result');
-    }
-
+const EduSearchButton = ({name}) => {
     return (
         <>
-            <StyledButton onClick={handleClick}>{name}</StyledButton>
+            <StyledButton>{name}</StyledButton>
         </>
     )
 }
@@ -33,4 +26,4 @@ const StyledButton = styled(Button)`
     }
 `;
 
-export default SearchButton
+export default EduSearchButton

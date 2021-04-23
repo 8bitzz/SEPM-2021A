@@ -1,34 +1,39 @@
 import styled from 'styled-components';
 import NavBar from '../components/NavBar';
 import cover from '../images/cover.png';
-import HomeSearchBar from '../components/HomeSearchBar';
-import SearchButton from '../components/SearchButton';
+import EduSearchBar from '../components/EduSearchBar';
+import EduSearchButton from '../components/EduSearchButton';
+import { Link } from 'react-router-dom';
 
 function Homepage() {
   return (
     <Wrapper>
       <NavBar/>
       <LogoWrapper>
-        <img src={cover} alt="cover" width="600px"></img>
+        <img src={cover} alt="cover" height="200px"></img>
       </LogoWrapper>
-      <HomeSearchBar/>
-      <SearchButton name='How to search'/>
-      <SearchButton name='Search this'/>
+      <EduSearchBar/>
+      <EduSearchButton name='How to search'/>
+      <LinkWrapper to='/result'><EduSearchButton name='Search this'/></LinkWrapper>
     </Wrapper>
   );
 }
 
 const Wrapper = styled.section`
-  padding-left: 4em;
+  margin: 0px;
   background: #ffffff;
   height:100vh;
   text-align: center;
 `;
 
 const LogoWrapper = styled.div`
-  padding-top:10vh;
-  height:30vh;
+  margin-top: 40px;
+  height:200px;
   text-align: center;
+`;
+
+const LinkWrapper = styled(Link)`
+  text-decoration: none;
 `;
 
 export default Homepage;

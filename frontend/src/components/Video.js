@@ -29,7 +29,7 @@ const Video = ({source, transcript}) => {
             </div>
             <div className={classes.transcript}>
                 <Typography paragraph>
-                {transcript}
+                 {transcript}
                 </Typography>
             </div>
         </>
