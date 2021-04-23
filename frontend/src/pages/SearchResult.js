@@ -78,7 +78,7 @@ const vidTranscipt = "Consequat mauris nunc congue nisi vitae suscipit. Fringill
 const SearchResult = () => {
   const classes = useStyles();
 
-  const [searchTerm, setSearchTerm] = React.useState('');
+  const [searchTerm, setSearchTerm] = React.useState('Computer Science');
   const handleSearch = event => {
     setSearchTerm(event.target.value);
   };
@@ -126,14 +126,13 @@ const SearchResult = () => {
           alignItems="center"
         >
           <Grid item>
-            <p>Searching for: {searchTerm}</p>
-            <EduSearchBar onSearch={handleSearch}/>
+            <EduSearchBar searchTerm={searchTerm} onSearch={handleSearch}/>
           </Grid>
           <Grid item>
             <StyledButton>Search</StyledButton>
           </Grid>
         </Grid>
-        
+        <p>Searching for: {searchTerm}</p>
         <Video source={vidSource} transcript={vidTranscipt}/>
       </main>
     </div>

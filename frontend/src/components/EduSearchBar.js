@@ -2,12 +2,12 @@ import React from 'react'
 import SearchIcon from '@material-ui/icons/Search';
 import styled from 'styled-components';
 
-const EduSearchBar = ({onSearch}) => {
+const EduSearchBar = ({searchTerm, onSearch}) => {
     return (
         <>
             <SearchBar>
                 <IconGray/>
-                <SearchInput onChange={onSearch}/>
+                <SearchInput value={searchTerm} onChange={onSearch} autoFocus/>
             </SearchBar>
         </>
     )
