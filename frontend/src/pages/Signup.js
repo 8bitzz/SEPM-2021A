@@ -91,7 +91,7 @@ class SignUpFormBase extends Component {
             username === '';
 
         return (
-            <form noValidate onSubmit={this.onSubmit}>
+            <FormWrap noValidate onSubmit={this.onSubmit}>
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
                         <TextField
@@ -169,7 +169,7 @@ class SignUpFormBase extends Component {
                     </Grid>
                 </Grid>
                 
-            </form>
+            </FormWrap>
         )
     }
 }
@@ -185,9 +185,12 @@ const PaperWrap = styled(Paper)`
 `;
 
 const TitleWrap = styled(Typography)`
-    margin-top: 20px;
-    margin-bottom: 40px;
+    margin: 20px;
     text-align: center;
+`;
+
+const FormWrap = styled.form`
+    margin: 20px;
 `;
 
 const ButtonWrap = styled(Button)`
@@ -202,6 +205,11 @@ const ButtonWrap = styled(Button)`
     &&:disabled {
         background-color: #f8f8f8;
         color: #5f6368;
+    }
+
+    &&:hover {
+        background-color: #233326;
+        color: #fff;
     }
 `;
 
