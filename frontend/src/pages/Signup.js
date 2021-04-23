@@ -10,76 +10,77 @@ import Container from '@material-ui/core/Container';
 import { Paper } from '@material-ui/core';
 import styled from 'styled-components';
 
-const INITIAL_STATE = {
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    passwordConfirm:'',
-    error: null,
-  };
-
-class Signup extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = { ...INITIAL_STATE };
-    }
-
-    onChange = event => {
-        this.setState({ [event.target.name]: event.target.value });
-      };
-
-    render() {
-        const {
-            firstName,
-            lastName,
-            email,
-            password,
-            passwordConfirm,
-            error
-          } = this.state;
-
-        const isInvalid =
-        password !== passwordConfirm ||
-        firstName === '' ||
-        lastName === '' ||
-        email === '' ||
-        password === '';
-
-
-        return (
+const SignUpPage = () => {
+    return(
         <Container maxWidth="sm">
             <PaperWrap>
                 <TitleWrap component="h1" variant="h5">
                     Sign up
                 </TitleWrap>
-                <form noValidate>
-                <Grid container spacing={2}>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            autoComplete="fname"
-                            name="firstName"
-                            variant="outlined"
-                            required
-                            fullWidth
-                            id="firstName"
-                            label="First Name"
-                            autoFocus
-                            value={firstName}
-                            onChange={this.onChange}
-                        />
+                <SignUpForm />
+                <Grid container justify="center">
+                    <Grid item>
+                        <Link href="#" variant="body2">
+                            Already have an account? Sign in
+                        </Link>
                     </Grid>
-                    <Grid item xs={12} sm={6}>
+                </Grid>
+            </PaperWrap>
+        </Container>
+    );
+}
+
+const INITIAL_STATE = {
+    username: '',
+    email: '',
+    passwordOne: '',
+    passwordTwo: '',
+    error: null,
+};
+
+class SignUpForm extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { ...INITIAL_STATE };
+    }
+
+    onSubmit = event => {
+
+    }
+
+    onChange = event => {
+        this.setState({ [event.target.name]: event.target.value });
+    };
+
+    render() {
+        const {
+            username,
+            email,
+            passwordOne,
+            passwordTwo,
+            error,
+        } = this.state;
+
+        const isInvalid =
+            passwordOne !== passwordTwo ||
+            passwordOne === '' ||
+            email === '' ||
+            username === '';
+
+        return (
+            <form noValidate onSubmit={this.onSubmit}>
+                <Grid container spacing={2}>
+                    <Grid item xs={12}>
                         <TextField
+                            autoComplete="username"
+                            name="username"
                             variant="outlined"
                             required
                             fullWidth
-                            id="lastName"
-                            label="Last Name"
-                            name="lastName"
-                            autoComplete="lname"
-                            value={lastName}
+                            id="username"
+                            label="Full Name"
+                            autoFocus
+                            value={username}
                             onChange={this.onChange}
                         />
                     </Grid>
@@ -101,12 +102,12 @@ class Signup extends Component {
                             variant="outlined"
                             required
                             fullWidth
-                            name="password"
+                            name="passwordOne"
                             label="Password"
                             type="password"
-                            id="password"
+                            id="passwordOne"
                             autoComplete="current-password"
-                            value={password}
+                            value={passwordOne}
                             onChange={this.onChange}
                         />
                     </Grid>
@@ -115,11 +116,11 @@ class Signup extends Component {
                             variant="outlined"
                             required
                             fullWidth
-                            name="passwordConfirm"
+                            name="passwordTwo"
                             label="Confirm Password"
                             type="password"
-                            id="passwordConfirm"
-                            value={passwordConfirm}
+                            id="passwordTwo"
+                            value={passwordTwo}
                             onChange={this.onChange}
                         />
                     </Grid>
@@ -139,20 +140,11 @@ class Signup extends Component {
                 >
                     Sign Up
                 </ButtonWrap>
-                <Grid container justify="center">
-                    <Grid item>
-                    <Link href="#" variant="body2">
-                        Already have an account? Sign in
-                    </Link>
-                    </Grid>
-                </Grid>
-                {error && <p>{error.message}</p>}
-                </form>
-            </PaperWrap>
-        </Container>
+            </form>
         )
     }
 }
+
 
 const PaperWrap = styled(Paper)`
     margin-top: 120px;
@@ -161,7 +153,7 @@ const PaperWrap = styled(Paper)`
 
 const TitleWrap = styled(Typography)`
     margin-top: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
     text-align: center;
 `;
 
@@ -173,12 +165,12 @@ const ButtonWrap = styled(Button)`
         margin-bottom: 20px;
         text-transform: capitalize;
     }
-    
-    &&:hover {
-        box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
-        background-color: #233326;
-        color: #fff;
+
+    &&:disabled {
+        background-color: #f8f8f8;
+        color: #5f6368;
     }
 `;
 
-export default Signup;
+
+export default SignUpPage;
