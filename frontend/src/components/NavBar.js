@@ -1,7 +1,8 @@
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import { Button, IconButton, makeStyles } from '@material-ui/core';
-import AccountCircle from '@material-ui/icons/AccountCircle';
+import { makeStyles } from '@material-ui/core';
+import styled from 'styled-components';
+import EduSearchButton from './EduSearchButton';
 
 const useStyles = makeStyles({
     navBar: {
@@ -18,11 +19,7 @@ function NavBar() {
     return(
         <AppBar position="fixed" className={classes.navBar}>
             <Toolbar>
-                <Button>Sign up</Button>
-                <Button>Log in</Button>
-                <IconButton>
-                    <AccountCircle/>
-                </IconButton>
+                <EduSearchButton name="Sign up"></EduSearchButton>
             </Toolbar>
         </AppBar>
     );

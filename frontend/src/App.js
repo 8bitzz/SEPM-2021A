@@ -1,31 +1,21 @@
-import styled from 'styled-components';
-import Search from './components/Search';
-import NavBar from './components/NavBar';
-import cover from './images/cover.png';
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Homepage from './pages/Homepage'
+import SearchResult from './pages/SearchResult';
 
 function App() {
   return (
-    <Wrapper>
-      <NavBar/>
-      <LogoWrapper>
-        <img src={cover} alt="cover" width="600px"></img>
-      </LogoWrapper>
-      <Search/>
-    </Wrapper>
+    <Router>
+        <Switch>
+          <Route path="/result">
+            <SearchResult />
+          </Route>
+          <Route path="/" exact>
+            <Homepage />
+          </Route>
+        </Switch>
+    </Router>
   );
 }
-
-const Wrapper = styled.section`
-  padding-left: 4em;
-  background: #ffffff;
-  height:100vh;
-  text-align: center;
-`;
-
-const LogoWrapper = styled.div`
-  padding-top:10vh;
-  height:30vh;
-  text-align: center;
-`;
 
 export default App;
