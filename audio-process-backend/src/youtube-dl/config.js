@@ -31,6 +31,14 @@ const download_options = (output) => {
     };
 };
 
+const playlist_options = {
+    dumpJson: true,
+    flatPlaylist: true,
+    getDuration: true,
+    getDescription: true,
+    // getId: true, // use this to get id only, remove others
+};
+
 const getFileOutput = (output) => {
     return `${process.cwd()}\/assets\/${output._filename}`;
 };
@@ -39,4 +47,5 @@ module.exports = {
     dump_options,
     download_options,
     getFileOutput,
+    playlist_options,
 };
