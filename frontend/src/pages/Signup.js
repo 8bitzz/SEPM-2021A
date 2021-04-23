@@ -3,12 +3,15 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
+import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import { Paper } from '@material-ui/core';
 import styled from 'styled-components';
+
+import { withRouter } from 'react-router-dom';
+import { withFirebase } from '../services/index';
 
 const SignUpPage = () => {
     return(
@@ -38,14 +41,26 @@ const INITIAL_STATE = {
     error: null,
 };
 
-class SignUpForm extends Component {
+class SignUpFormBase extends Component {
     constructor(props) {
         super(props);
         this.state = { ...INITIAL_STATE };
     }
 
     onSubmit = event => {
+        const { username, email, passwordOne } = this.state;
 
+        this.props.firebase
+            .doCreateUserWithEmailAndPassword(email, passwordOne)
+            .then(authUser => {
+                this.setState({ ...INITIAL_STATE });
+                this.props.history.push('/');
+            })
+            .catch(error => {
+                this.setState({ error });
+            });
+
+        event.preventDefault();
     }
 
     onChange = event => {
@@ -140,11 +155,18 @@ class SignUpForm extends Component {
                 >
                     Sign Up
                 </ButtonWrap>
+                <Grid>
+                    <Grid item xs={12}>
+                        {error && <ErrorWrap>{error.message}</ErrorWrap>}
+                    </Grid>
+                </Grid>
+                
             </form>
         )
     }
 }
 
+const SignUpForm = withRouter(withFirebase(SignUpFormBase));
 
 const PaperWrap = styled(Paper)`
     margin-top: 120px;
@@ -170,6 +192,12 @@ const ButtonWrap = styled(Button)`
         background-color: #f8f8f8;
         color: #5f6368;
     }
+`;
+
+const ErrorWrap = styled.div`
+    margin-bottom: 10px;
+    color: red;
+    text-align: center;
 `;
 
 
