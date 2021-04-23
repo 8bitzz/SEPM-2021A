@@ -3,6 +3,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import { makeStyles } from '@material-ui/core';
 import styled from 'styled-components';
 import EduSearchButton from './EduSearchButton';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles({
     navBar: {
@@ -19,11 +20,15 @@ function NavBar() {
     return(
         <AppBar position="fixed" className={classes.navBar}>
             <Toolbar>
-                <EduSearchButton name="Sign up"></EduSearchButton>
+                <LinkWrap to="/signup"><EduSearchButton name="Sign up"></EduSearchButton></LinkWrap>
                 <EduSearchButton name="Log in"></EduSearchButton>
             </Toolbar>
         </AppBar>
     );
 }
+
+const LinkWrap = styled(Link)`
+    text-decoration: none;
+`;
 
 export default NavBar;

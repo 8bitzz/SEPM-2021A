@@ -22,7 +22,7 @@ class Signup extends Component {
             <TitleWrap component="h1" variant="h5">
               Sign up
             </TitleWrap>
-            <form noValidate>
+            <FormWrap noValidate>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                   <TextField
@@ -92,7 +92,7 @@ class Signup extends Component {
                   </Link>
                 </Grid>
               </Grid>
-            </form>
+            </FormWrap>
         </PaperWrap>
     </Container>
     )
@@ -124,6 +124,10 @@ const ButtonWrap = styled(Button)`
         background-color: #233326;
         color: #fff;
     }
+`;
+
+const FormWrap = styled.form`
+    margin: 10px;
 `;
 
 export default Signup;
