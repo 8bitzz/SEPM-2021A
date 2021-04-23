@@ -10,93 +10,148 @@ import Container from '@material-ui/core/Container';
 import { Paper } from '@material-ui/core';
 import styled from 'styled-components';
 
+const INITIAL_STATE = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    passwordConfirm:'',
+    error: null,
+  };
+
 class Signup extends Component {
     constructor(props) {
         super(props);
+
+        this.state = { ...INITIAL_STATE };
     }
 
-  render() {
-    return (
-    <Container maxWidth="sm">
-        <PaperWrap>
-            <TitleWrap component="h1" variant="h5">
-              Sign up
-            </TitleWrap>
-            <FormWrap noValidate>
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    autoComplete="fname"
-                    name="firstName"
-                    variant="outlined"
-                    required
+    onChange = event => {
+        this.setState({ [event.target.name]: event.target.value });
+      };
+
+    render() {
+        const {
+            firstName,
+            lastName,
+            email,
+            password,
+            passwordConfirm,
+            error
+          } = this.state;
+
+        const isInvalid =
+        password !== passwordConfirm ||
+        firstName === '' ||
+        lastName === '' ||
+        email === '' ||
+        password === '';
+
+
+        return (
+        <Container maxWidth="sm">
+            <PaperWrap>
+                <TitleWrap component="h1" variant="h5">
+                    Sign up
+                </TitleWrap>
+                <form noValidate>
+                <Grid container spacing={2}>
+                    <Grid item xs={12} sm={6}>
+                        <TextField
+                            autoComplete="fname"
+                            name="firstName"
+                            variant="outlined"
+                            required
+                            fullWidth
+                            id="firstName"
+                            label="First Name"
+                            autoFocus
+                            value={firstName}
+                            onChange={this.onChange}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <TextField
+                            variant="outlined"
+                            required
+                            fullWidth
+                            id="lastName"
+                            label="Last Name"
+                            name="lastName"
+                            autoComplete="lname"
+                            value={lastName}
+                            onChange={this.onChange}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField
+                            variant="outlined"
+                            required
+                            fullWidth
+                            id="email"
+                            label="Email Address"
+                            name="email"
+                            autoComplete="email"
+                            value={email}
+                            onChange={this.onChange}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField
+                            variant="outlined"
+                            required
+                            fullWidth
+                            name="password"
+                            label="Password"
+                            type="password"
+                            id="password"
+                            autoComplete="current-password"
+                            value={password}
+                            onChange={this.onChange}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField
+                            variant="outlined"
+                            required
+                            fullWidth
+                            name="passwordConfirm"
+                            label="Confirm Password"
+                            type="password"
+                            id="passwordConfirm"
+                            value={passwordConfirm}
+                            onChange={this.onChange}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <FormControlLabel
+                            control={<Checkbox value="allowExtraEmails" color="primary" />}
+                            label="I want to create a room chat"
+                        />
+                    </Grid>
+                </Grid>
+                <ButtonWrap
+                    type="submit"
                     fullWidth
-                    id="firstName"
-                    label="First Name"
-                    autoFocus
-                  />
+                    variant="contained"
+                    color="primary"
+                    disabled={isInvalid}
+                >
+                    Sign Up
+                </ButtonWrap>
+                <Grid container justify="center">
+                    <Grid item>
+                    <Link href="#" variant="body2">
+                        Already have an account? Sign in
+                    </Link>
+                    </Grid>
                 </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    variant="outlined"
-                    required
-                    fullWidth
-                    id="lastName"
-                    label="Last Name"
-                    name="lastName"
-                    autoComplete="lname"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    variant="outlined"
-                    required
-                    fullWidth
-                    id="email"
-                    label="Email Address"
-                    name="email"
-                    autoComplete="email"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    variant="outlined"
-                    required
-                    fullWidth
-                    name="password"
-                    label="Password"
-                    type="password"
-                    id="password"
-                    autoComplete="current-password"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <FormControlLabel
-                    control={<Checkbox value="allowExtraEmails" color="primary" />}
-                    label="I want to create a room chat"
-                  />
-                </Grid>
-              </Grid>
-              <ButtonWrap
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-              >
-                Sign Up
-              </ButtonWrap>
-              <Grid container justify="center">
-                <Grid item>
-                  <Link href="#" variant="body2">
-                    Already have an account? Sign in
-                  </Link>
-                </Grid>
-              </Grid>
-            </FormWrap>
-        </PaperWrap>
-    </Container>
-    )
-  }
+                {error && <p>{error.message}</p>}
+                </form>
+            </PaperWrap>
+        </Container>
+        )
+    }
 }
 
 const PaperWrap = styled(Paper)`
@@ -124,10 +179,6 @@ const ButtonWrap = styled(Button)`
         background-color: #233326;
         color: #fff;
     }
-`;
-
-const FormWrap = styled.form`
-    margin: 10px;
 `;
 
 export default Signup;

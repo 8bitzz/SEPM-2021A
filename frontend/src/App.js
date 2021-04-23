@@ -8,15 +8,9 @@ function App() {
   return (
     <Router>
         <Switch>
-          <Route path="/result">
-            <SearchResult />
-          </Route>
-          <Route path="/signup">
-            <Signup />
-          </Route>
-          <Route path="/" exact>
-            <Homepage />
-          </Route>
+          <Route exact path="/" component={Homepage} />
+          <Route path="/result" component={SearchResult} />
+          <Route path="/signup" component={Signup} />
         </Switch>
     </Router>
   );
