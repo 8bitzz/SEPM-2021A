@@ -39,10 +39,13 @@ const LinkWrap = styled(Link)`
 `;
 
 const NavWrap = styled(AppBar)`
-    background-color: #fff;
-    color: #5f6368;
-    box-shadow: 0px 0px 0px 0px;
-    align-items: flex-end
+    && {
+        background-color: #ffffff;
+        color: #5f6368;
+        box-shadow: 0px 0px 0px 0px;
+        align-items: flex-end;
+    }
+    
 `;
 
 export default Navigation;
