@@ -7,6 +7,7 @@ const cors = require("cors");
 
 // Routes Import
 const ytdlRoutes = require("./src/routes/ytdlRoutes");
+const speechRoutes = require("./src/routes/speechApiRoutes");
 
 // App config
 const app = express();
@@ -30,6 +31,7 @@ app.use("/assets", express.static(__dirname + "/assets")); // serving static aud
 
 // Routes
 app.use("/ytdl", ytdlRoutes);
+app.use("/speech-api", speechRoutes);
 
 // Default routes
 app.get("/", function (req, res) {
