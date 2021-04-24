@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core';
 import styled from 'styled-components';
 import EduSearchButton from './EduSearchButton';
 import { Link } from 'react-router-dom';
+import SignOutButton from './SignOutButton';
 
 const useStyles = makeStyles({
     navBar: {
@@ -22,6 +23,7 @@ function NavBar() {
             <Toolbar>
                 <LinkWrap to="/signup"><EduSearchButton name="Sign up"></EduSearchButton></LinkWrap>
                 <LinkWrap to="/signin"><EduSearchButton name="Sign in"></EduSearchButton></LinkWrap>
+                <SignOutButton />
             </Toolbar>
         </AppBar>
     );

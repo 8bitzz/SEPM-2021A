@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
@@ -145,12 +143,6 @@ class SignUpFormBase extends Component {
                             id="passwordTwo"
                             value={passwordTwo}
                             onChange={this.onChange}
-                        />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <FormControlLabel
-                            control={<Checkbox value="allowExtraEmails" color="primary" />}
-                            label="I want to create a room chat"
                         />
                     </Grid>
                 </Grid>
