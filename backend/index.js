@@ -4,6 +4,8 @@ var bodyParser = require("body-parser");
 var helmet = require("helmet");
 var dotenv = require("dotenv");
 var cors = require("cors");
+var admin = require("firebase-admin");
+var serviceAccount = require("./edusearch-680ef-firebase-adminsdk-qp590-0b68bc838a");
 
 // Import routes
 var userRoutes = require("./routes/userRoutes");
@@ -23,6 +25,23 @@ mongoose.connect(process.env.MONGODB_URL, {
     useFindAndModify: false,
     useCreateIndex: true,
 });
+
+// Firebase
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: "https://edusearch-680ef-default-rtdb.firebaseio.com",
+});
+let defaultAuth = admin.auth();
+
+defaultAuth
+    .verifyIdToken("5KCpGxHVmpfSFo6k9mdsrEVKlg42")
+    .then((decodedToken) => {
+        const uid = decodedToken.uid;
+        console.log(uid);
+    })
+    .catch((error) => {
+        console.log("error");
+    });
 
 //Middleware
 app.use(helmet());
