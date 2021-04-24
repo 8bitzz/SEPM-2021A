@@ -1,5 +1,6 @@
 const Video = require("../models/video");
 const GoogleStorageService = require("../services/google-storage-api/main");
+const GoogleSpeechService = require("../services/google-speech-api/main");
 
 const transcriptSingleAudio = async (req, res) => {
   try {
@@ -28,12 +29,17 @@ const transcriptSingleAudio = async (req, res) => {
     const fileName = video._filename;
     console.log("Filename = " + fileName);
     const uri = await GoogleStorageService.uploadAudio(fileName);
+    console.log("Upload Done!!!");
 
     // Save URI to Video in Mongodb
     video.google_storage_uri = uri
     await video.save();
     
-    return res.json({ message: "Uploaded Success! URI = " + uri });
+    // Transcript
+    const transcription = await GoogleSpeechService.processAudio({uri});
+
+    // Response
+    return res.json({ message: "Success! URI = " + uri, "transcription": transcription });
   } catch (error) {
     return res.status(400).json({ error });
   }

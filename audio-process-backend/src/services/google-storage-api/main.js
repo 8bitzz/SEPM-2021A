@@ -18,9 +18,9 @@ const uploadAudio = async (fileName) => {
   }
 
   const destFileName = "audio/" + fileName;
-  console.log(`${filePath} uploaded to ${bucketName}`);
 
   // Upload to Storage
+  console.log(`Uploading ${filePath} to Google Storage...`)
   await storage.bucket(bucketName).upload(filePath, {
     destination: destFileName,
   });
