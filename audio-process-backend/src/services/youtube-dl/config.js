@@ -15,7 +15,7 @@ const dump_options = (url) => {
         writeAutoSub: true,
         // Get file and convert using ffmpeg
         extractAudio: true,
-        audioFormat: "flac",
+        audioFormat: process.env.FILE_FORMAT,
         // audioQuality: "128k", // 0 - 9 (smaller = better)
         preferFfmpeg: true,
     };
@@ -25,11 +25,11 @@ const download_options = (output) => {
     return {
         output: getFileOutput(output),
         //Get File directly from youtube, but have timeline error in Quicktime
-        format: "worstaudio[ext=m4a]",
+        // format: "worstaudio[ext=m4a]",
 
         // Get file and convert using ffmpeg
         extractAudio: true,
-        audioFormat: "flac",
+        audioFormat: process.env.FILE_FORMAT,
         // audioQuality: "128k", // 0 - 9 (smaller = better)
         preferFfmpeg: true,
     };
