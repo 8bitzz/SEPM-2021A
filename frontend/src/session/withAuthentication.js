@@ -16,15 +16,31 @@ const withAuthentication = Component => {
     componentDidMount() {
       this.listener = this.props.firebase.auth.onAuthStateChanged(
         authUser => {
+          // setState authUser
           authUser
             ? this.setState({ authUser })
             : this.setState({ authUser: null });
+        },
+      );
+      this.onIdTokenChangedlistener = this.props.firebase.auth.onIdTokenChanged(
+        authUser => {
+          if(authUser){
+            authUser.getIdToken(true).then(function (idToken) {
+                localStorage.setItem("idtoken", idToken);
+                localStorage.setItem("isSignedIn", true);
+            }).catch(function (error) {
+                console.log(error);
+            });
+          } else {
+            localStorage.clear();
+          }
         },
       );
     }
 
     componentWillUnmount() {
       this.listener();
+      this.onIdTokenChangedlistener();
     }
 
     render() {
