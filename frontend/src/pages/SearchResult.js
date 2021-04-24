@@ -86,7 +86,7 @@ const SearchResult = () => {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar position="fixed" className={classes.appBar}>
+      {/* <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
           <LinkWrapper to='/'>
             <Typography variant="h6" noWrap>
@@ -94,7 +94,7 @@ const SearchResult = () => {
             </Typography>
           </LinkWrapper>
         </Toolbar>
-      </AppBar>
+      </AppBar> */}
       <Drawer
         className={classes.drawer}
         variant="permanent"
