@@ -1,4 +1,5 @@
 const Video = require("../models/video");
+const GoogleStorageService = require("../services/google-storage-api/main");
 
 const transcriptSingleAudio = async (req, res) => {
   try {
@@ -20,7 +21,11 @@ const transcriptSingleAudio = async (req, res) => {
         return res.status(400).json({ error: "Video is already processed!" });
       }
 
-      return res.json({ message: "It's transcriptSingleAudio!" });
+      // Upload to Google Storage
+      const fileName = video._filename;
+      const fileURL = await GoogleStorageService.uploadAudio(fileName);
+
+      return res.json({ message: "Uploaded Success! URL = " + fileURL });
   } catch (error) {
       return res.status(400).json({ error });
   }
