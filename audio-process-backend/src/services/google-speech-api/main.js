@@ -10,9 +10,9 @@ const processAudio = (config) => {
     // Get all data
     const fileName = config.fileName;
     const gcsUri = getURIGoogleStorage(fileName);
-    const encoding = config.encoding ?? 'MP3';
-    const sampleRateHertz = config.sampleRateHertz ?? 16000;
-    const languageCode = config.languageCode ?? 'en-US';
+    const encoding = config.encoding ?? process.env.GOOGLE_SPEECH_ENCODING;
+    const sampleRateHertz = config.sampleRateHertz ?? process.env.GOOGLE_SPEECH_SAMPLE_RATE;
+    const languageCode = config.languageCode ?? process.env.GOOGLE_SPEECH_LANGUAGE_CODE;
 
     // Google Speech Request
     const request = {
@@ -25,7 +25,8 @@ const processAudio = (config) => {
             uri: gcsUri,
         }
     };
-
+    console.log(request);
+    
     // Detects speech in the audio file. This creates a recognition job that you
     // can wait for now, or get its result later.
     const [operation] = await client.longRunningRecognize(request);

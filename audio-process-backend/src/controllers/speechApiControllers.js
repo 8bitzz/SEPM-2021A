@@ -3,31 +3,35 @@ const GoogleStorageService = require("../services/google-storage-api/main");
 
 const transcriptSingleAudio = async (req, res) => {
   try {
-      // Validate URL
-      const videoID = req.body.videoID;
-      if (!videoID || videoID.length === 0) {
-        return res.status(400).json({ error: "Missing videoID in the Body!" });
-      }
-      
-      // Check if the video exists in the mongodb
-      let videos = await Video.find({ id: videoID }).exec();
-      if (videos.length === 0) {
-        return res.status(400).json({ error: "Could not find Video ID in the database!" });
-      }
+    // Validate URL
+    const videoID = req.body.videoID;
+    if (!videoID || videoID.length === 0) {
+      return res.status(400).json({ error: "Missing videoID in the Body!" });
+    }
 
-      // Check if it is processed
-      const video = videos[0];
-      if (video.processed) {
-        return res.status(400).json({ error: "Video is already processed!" });
-      }
+    // Check if the video exists in the mongodb
+    console.log(videoID);
+    let videos = await Video.find({ _id: videoID }).exec();
+    if (videos.length === 0) {
+      return res
+        .status(400)
+        .json({ error: "Could not find Video ID in the database!" });
+    }
 
-      // Upload to Google Storage
-      const fileName = video._filename;
-      const fileURL = await GoogleStorageService.uploadAudio(fileName);
+    // Check if it is processed
+    const video = videos[0];
+    if (video.processed) {
+      return res.status(400).json({ error: "Video is already processed!" });
+    }
 
-      return res.json({ message: "Uploaded Success! URL = " + fileURL });
+    // Upload to Google Storage
+    const fileName = video._filename;
+    console.log("Filename = " + fileName);
+    const fileURL = await GoogleStorageService.uploadAudio(fileName);
+
+    return res.json({ message: "Uploaded Success! URL = " + fileURL });
   } catch (error) {
-      return res.status(400).json({ error });
+    return res.status(400).json({ error });
   }
 };
 
