@@ -27,9 +27,13 @@ const transcriptSingleAudio = async (req, res) => {
     // Upload to Google Storage
     const fileName = video._filename;
     console.log("Filename = " + fileName);
-    const fileURL = await GoogleStorageService.uploadAudio(fileName);
+    const uri = await GoogleStorageService.uploadAudio(fileName);
 
-    return res.json({ message: "Uploaded Success! URL = " + fileURL });
+    // Save URI to Video in Mongodb
+    video.google_storage_uri = uri
+    await video.save();
+    
+    return res.json({ message: "Uploaded Success! URI = " + uri });
   } catch (error) {
     return res.status(400).json({ error });
   }
