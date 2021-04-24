@@ -6,26 +6,31 @@ import EduSearchButton from './EduSearchButton';
 import { Link } from 'react-router-dom';
 import SignOutButton from './SignOutButton';
 
-const useStyles = makeStyles({
-    navBar: {
-        backgroundColor: "#fff",
-        color: "#5f6368",
-        boxShadow: "0px 0px 0px 0px",
-        alignItems:'flex-end'
-    }
-});
-
-function NavBar() {
-    const classes = useStyles();
-
+const Navigation = ({authUser}) => {
     return(
-        <AppBar position="fixed" className={classes.navBar}>
+        <NavWrap position="fixed">
+            {authUser ? <NavigationAuth /> : <NavigationNonAuth />}
+        </NavWrap>
+    );
+}
+
+const NavigationNonAuth = () => {
+    return (
+        <>
             <Toolbar>
-                <LinkWrap to="/signup"><EduSearchButton name="Sign up"></EduSearchButton></LinkWrap>
                 <LinkWrap to="/signin"><EduSearchButton name="Sign in"></EduSearchButton></LinkWrap>
+            </Toolbar>
+        </>
+    );
+}
+ 
+const NavigationAuth = () => {
+    return(
+        <>
+            <Toolbar>
                 <SignOutButton />
             </Toolbar>
-        </AppBar>
+        </>
     );
 }
 
@@ -33,4 +38,11 @@ const LinkWrap = styled(Link)`
     text-decoration: none;
 `;
 
-export default NavBar;
+const NavWrap = styled(AppBar)`
+    background-color: #fff;
+    color: #5f6368;
+    box-shadow: 0px 0px 0px 0px;
+    align-items: flex-end
+`;
+
+export default Navigation;
