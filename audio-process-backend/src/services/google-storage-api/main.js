@@ -2,10 +2,6 @@ const { Storage } = require("@google-cloud/storage");
 const { getGoogleCredentialKeyFile } = require("../../utils/main");
 const fs = require("fs");
 
-// Creates a client from a Google service account key
-const keyFileName = getGoogleCredentialKeyFile();
-const storage = new Storage({ keyFilename: keyFileName });
-
 const getFilePath = (fileName) => {
   return `${process.cwd()}\/assets\/${fileName}`;
 };
@@ -13,6 +9,8 @@ const getFilePath = (fileName) => {
 const uploadAudio = async (fileName) => {
   const filePath = getFilePath(fileName);
   const bucketName = process.env.GOOGLE_STORAGE_BUCKET_NAME;
+  const keyFileName = getGoogleCredentialKeyFile();
+  const storage = new Storage({ keyFilename: keyFileName });
 
   // Check if the file exist before uploading
   if (!fs.existsSync(filePath)) {
