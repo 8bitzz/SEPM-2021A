@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 function Homepage() {
   return (
     <Wrapper>
-      <Navigation/>
+      {/* <Navigation/> */}
       <LogoWrapper>
         <img src={cover} alt="cover" height="200px"></img>
       </LogoWrapper>
