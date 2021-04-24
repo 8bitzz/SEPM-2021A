@@ -19,7 +19,8 @@ function NavBar() {
     return(
         <AppBar position="fixed" className={classes.navBar}>
             <Toolbar>
-                <EduSearchButton name="Sign up"></EduSearchButton>
+                <EduSearchButton name="Sign In"></EduSearchButton>
+                <EduSearchButton name="Register"></EduSearchButton>
             </Toolbar>
         </AppBar>
     );
