@@ -2,10 +2,10 @@ import React from 'react'
 import Button from '@material-ui/core/Button';
 import styled from 'styled-components';
 
-const EduSearchButton = ({name}) => {
+const EduSearchButton = ({name, handleClick}) => {
     return (
         <>
-            <StyledButton>{name}</StyledButton>
+            <StyledButton onClick={handleClick}>{name}</StyledButton>
         </>
     )
 }

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import NavBar from '../components/NavBar';
+import Navigation from '../components/Navigation';
 import cover from '../images/cover.png';
 import EduSearchBar from '../components/EduSearchBar';
 import EduSearchButton from '../components/EduSearchButton';
@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 function Homepage() {
   return (
     <Wrapper>
-      <NavBar/>
+      {/* <Navigation/> */}
       <LogoWrapper>
         <img src={cover} alt="cover" height="200px"></img>
       </LogoWrapper>
