@@ -4,7 +4,7 @@ import EduSearchButton from './EduSearchButton';
 
 const SignOutButton = ({ firebase }) => {
     return (
-        <EduSearchButton onClick={firebase.doSignOut} name="Sign out"/>
+        <EduSearchButton handleClick={firebase.doSignOut} name="Sign out"/>
     );
 }
 

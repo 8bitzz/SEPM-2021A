@@ -5,32 +5,36 @@ import styled from 'styled-components';
 import EduSearchButton from './EduSearchButton';
 import { Link } from 'react-router-dom';
 import SignOutButton from './SignOutButton';
+ 
+import { AuthUserContext } from '../session/index';
 
-const Navigation = ({authUser}) => {
+const Navigation = () => {
     return(
-        <NavWrap position="fixed">
-            {authUser ? <NavigationAuth /> : <NavigationNonAuth />}
-        </NavWrap>
+        <AuthUserContext.Consumer>
+            { authUser =>
+                authUser ? <NavigationAuth /> : <NavigationNonAuth />
+            }
+        </AuthUserContext.Consumer>
     );
 }
 
 const NavigationNonAuth = () => {
     return (
-        <>
+        <NavWrap position="fixed">
             <Toolbar>
                 <LinkWrap to="/signin"><EduSearchButton name="Sign in"></EduSearchButton></LinkWrap>
             </Toolbar>
-        </>
+        </NavWrap>
     );
 }
  
 const NavigationAuth = () => {
     return(
-        <>
+        <NavWrap position="fixed">
             <Toolbar>
                 <SignOutButton />
             </Toolbar>
-        </>
+        </NavWrap>
     );
 }
 
