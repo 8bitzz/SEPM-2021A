@@ -1,3 +1,5 @@
+var mockData = require("../mock-data/search_response.json");
+
 const search = async (req, res) => {
     try {
       // Validate URL
@@ -7,9 +9,7 @@ const search = async (req, res) => {
       }
   
       // Response
-      return res.json({
-        message: "Success!",
-      });
+      return res.json(mockData);
     } catch (error) {
       return res.status(400).json({ error });
     }
