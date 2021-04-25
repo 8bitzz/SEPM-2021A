@@ -9,15 +9,15 @@ const dump_options = (url) => {
         referer: url,
         matchFilter: `duration < ${process.env.MAX_VIDEO_LENGTH}`,
         //Get File directly from youtube, but have timeline error in Quicktime
-        // format: "worstaudio[ext=m4a]",
+        format: "worstaudio[ext=m4a]",
         writeSub: true,
         subLang: "en",
         writeAutoSub: true,
         // Get file and convert using ffmpeg
-        extractAudio: true,
-        audioFormat: process.env.FILE_FORMAT,
+        // extractAudio: true,
+        // audioFormat: process.env.FILE_FORMAT,
         // audioQuality: "128k", // 0 - 9 (smaller = better)
-        preferFfmpeg: true,
+        // preferFfmpeg: true,
     };
 };
 
@@ -25,13 +25,13 @@ const download_options = (output) => {
     return {
         output: getFileOutput(output),
         //Get File directly from youtube, but have timeline error in Quicktime
-        // format: "worstaudio[ext=m4a]",
+        format: "worstaudio[ext=m4a]",
 
         // Get file and convert using ffmpeg
-        extractAudio: true,
-        audioFormat: process.env.FILE_FORMAT,
+        // extractAudio: true,
+        // audioFormat: process.env.FILE_FORMAT,
         // audioQuality: "128k", // 0 - 9 (smaller = better)
-        preferFfmpeg: true,
+        // preferFfmpeg: true,
     };
 };
 
