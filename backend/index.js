@@ -52,7 +52,7 @@ app.get("/authtest", (req, res) => {
 
 // Default routes
 app.get("/", function (req, res) {
-    res.send(`Restful API is running on port ${PORT}`);
+    res.send(`Restful API is running on port ${PORT}! ${JSON.stringify(process.env)}`);
 });
 
 // Express App initialize
