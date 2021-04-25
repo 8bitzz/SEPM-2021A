@@ -8,9 +8,11 @@ require("dotenv").config();
 var serviceAccount = require(process.cwd() + "/" + process.env.FIREBASE_FILE);
 
 // Import routes
+const appRoutes = require("./src/routes/appRoutes");
 
 // Import authentication route
 var { isAuthenticated } = require("./src/controllers/userControllers");
+var { searchAPI } = require("./src/controllers/appController");
 
 // App config
 var app = express();
@@ -44,6 +46,7 @@ app.use((req, res, next) => {
 app.use(isAuthenticated);
 
 // Routes
+app.use("/app", appRoutes);
 
 // Test Authentication
 app.get("/authtest", (req, res) => {
