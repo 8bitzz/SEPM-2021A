@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "edusearch-rmit",
+  "private_key_id": "21cae1fc129d032b49a7e957863707dc1fcef5ca",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDIsTw8AIbWkN4Q\nAKacpTOoT/8aChaIDKHvwCaq9DoBNbYFw5QRtb/Bp1LyuXM+1GiFQUH/qeVXroIT\n//AxOLAUdkb5Mz7qUiwekV7UERDEmF4W0C19JbEfjiN03aJ1Cwy0VCyGFHvXTX4D\nQgcDrNNF/809IfaJj0LSw6+LR7e2n4QmbDqle3hWM6DLu+UjNoZa9YB8RPSq+r+Q\nnoXJsjrzzua0nTS74LMAS4ay2YCwn16Tttq9KPvUO3/IlomF2OE+Q5jkuyvPmhGe\nVKuaCYZwDaNfVfM9vQJ87ozuX6irXKg46wihrmTeAvIWVWvEeFWJ6zv/QyLI5/jh\nnwwieZ3hAgMBAAECggEAHvNv1IRznHFba0C2cU/BtOegHOjJCx1WTMPSaCi3Lgrr\nB140yTsW7NY8eCY6oZ9008w50fnmiUxmpOVNVUH8AdkwiUEqfE0aScfl8IhbO36Q\n0C2LPmg1i1DKo2eE+k5Zx2Z4jAsVAveMA2jyQlJWg6P3h+yOJC6IbI8fqmLFRfAe\nXBasRXt6A4G1lz1AP0EMiVW+m1aqcnHAMJyk8dJZGOM+5XxjC3EV9WZXDEOM+pZm\nTdnigVqIqTmyZRDCfIH/yZBrvQF3vjLU5CZSFM7fk4aAkKRc6QkG/j3yxxpEuG+y\nWSZc+pdgTuLy7xUyk6kv+XEZPODiX4rQcsDbZrTcowKBgQDjLs82gTKS4NNT+wxK\nVFBcA24R1l6zYN2hchggsqcA7YA9OHEoqyNn61zNi6bGd84rSoU12f1DAzERyt24\n5GbPlzYQI/aQAWT7J3sNjaGp1IlKo5B6OlKKQKjqu9QybmtudiROjPTfCfLrEolc\nAWgpFGfXB7d0iuRtVHsQkFgyzwKBgQDiJjZ9XVGCFRJComf/O0oVXDHtvqJiVypl\nFbxnAvnplFHvVdno+QhmM1lJO2Uq1nGykGRWsBctBqB9ae0FIUZlITHQXOi98KGX\n0VS70aUEKjHrxC++7U4+ltkygXEry+Pt6xkki+dKMJkk1qIJlduQFNljhhmh5Xxb\nvwWK09sQTwKBgDJY4Vs27rpWUP8/l82xOc3qhK43T+14/iUVX/t/HDu8Zrsqkwls\nRAB3zK1Q0bkSPAKkFTmGAfaj8m/7AYBEPfSrkjOphK8NYA+5BDBQvw8gJvz/mrk7\ny6cQBV9gGPrENdLZI9q0ql/zmH44MXDObwMLnqes8h9F2LHSEyPsmV9JAoGAGJDM\nFHwhkX7Wd/SKVXhMSNu19LxjiUksqsRcrdft68iXyebKf/slRWzIgyL3j1qyCRKU\nQ7JnIhX5MwZhn9AIhI3Bin+9LHzKIOK1UJ2qTjSDLbgm85d1i2j5ePoEoBxKyxph\npc2oty9mQ1EpUt87dYA+SQhVGngCNTkf0f/HaRMCgYBRvIkFZAH9rl71dKCjWzAR\nQl8QHQuR4zKblePrYdUdGpPqiHXTuDMPhuugA1Mvj1XH59rTh/3LMU65SIpyJfd7\nNUz/3aeKnCS0JK4BatnU3ZiPeAwjIBbCrqlHMiy1lrfy1IOjXjyxgH3cHhlvSma6\ncJ3cYEDiges7qRK2/NbHMA==\n-----END PRIVATE KEY-----\n",
+  "client_email": "edusearch@edusearch-rmit.iam.gserviceaccount.com",
+  "client_id": "118032566033792589551",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/edusearch%40edusearch-rmit.iam.gserviceaccount.com"
+}
