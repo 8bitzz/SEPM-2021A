@@ -35,6 +35,8 @@ import EduSearchBar from '../components/EduSearchBar';
 import ClipNavigation from '../components/ClipNavigation';
 import SaveButton from '../components/SaveButton';
 
+import Navigation from '../components/Navigation';
+
 const drawerWidth = 250;
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -132,13 +134,10 @@ const SearchResult = () => {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar position="fixed" className={classes.appBar}>
+      {/* <AppBar position="fixed" className={classes.appBar}>
         <Toolbar className={classes.toolBar}>
         
           <LinkWrapper to='/'>
-            {/* <LogoWrapper>
-              <img src={cover} alt="cover" height="200px"></img>
-            </LogoWrapper> */}
             <Typography variant="h6" className={classes.logo} noWrap>
               EduSearch
             </Typography>
@@ -147,8 +146,9 @@ const SearchResult = () => {
               <IconButton className={classes.user} color="inherit" ><AccountCircle/></IconButton>
             </div>
         </Toolbar>
-      </AppBar>
-      
+      </AppBar> */}
+
+      <Navigation/>
       <Drawer
         className={classes.drawer}
         variant="permanent"
