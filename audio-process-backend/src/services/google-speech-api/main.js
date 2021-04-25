@@ -7,7 +7,7 @@ const {
 
 const processAudio = async (config) => {
   // Get all data
-  const uri = config.uri;
+  const uri = "audio/trimp.flac"
   const gcsUri = getURIGoogleStorage(uri);
   const encoding = config.encoding ?? process.env.GOOGLE_SPEECH_ENCODING;
   const sampleRateHertz =
@@ -42,9 +42,14 @@ const processAudio = async (config) => {
   const [response] = await operation.promise();
   console.log("[Google Speech]: Finished! Response count = " + response.results.length);
   console.log(response.results);
-
-  var words = [];
+  
+  // Log and response data
+  var data = [];
   response.results.forEach((result) => {
+    var row = result.alternatives[0];
+    if (row !== undefined) {
+      data.push(row)
+    }
     console.log(`Transcription: ${result.alternatives[0].transcript}`);
     result.alternatives[0].words.forEach((wordInfo) => {
       // NOTE: If you have a time offset exceeding 2^32 seconds, use the
@@ -59,10 +64,9 @@ const processAudio = async (config) => {
         wordInfo.endTime.nanos / 100000000;
       console.log(`Word: ${wordInfo.word}`);
       console.log(`\t ${startSecs} secs - ${endSecs} secs`);
-      words.push(wordInfo);
     });
   });
-  return words;
+  return data;
 };
 
 module.exports = {
