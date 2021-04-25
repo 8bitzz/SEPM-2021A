@@ -19,6 +19,7 @@ const singleDownload = async (url, next) => {
         a[a.length - 1] = process.env.FILE_FORMAT;
         output._filename = a.join(".");
         let outputDownload = await youtubedl(url, download_options(output));
+        console.log(output);
         return { code: 0, output };
     } catch (error) {
         return { code: 1, error };

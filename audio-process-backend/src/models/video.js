@@ -18,6 +18,7 @@ var VideoSchema = new mongoose.Schema({
     requested_subtitles: Object,
     upload_date: String,
     categories: Object,
+    google_storage_uri: String,
     processed: {
         type: Boolean,
         default: false,
