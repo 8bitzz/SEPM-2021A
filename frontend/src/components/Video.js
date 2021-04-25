@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 const useStyles = makeStyles((theme) =>
     createStyles({
         video: {
-            paddingTop: theme.spacing(2),
+            paddingTop: theme.spacing(1),
             paddingLeft: theme.spacing(5),
             width: '100%',
         },
