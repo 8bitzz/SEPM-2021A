@@ -12,7 +12,6 @@ import LastPageIcon from '@material-ui/icons/LastPage';
             count: 0
           };
         }
-
         render() {
             return (
                 <div>

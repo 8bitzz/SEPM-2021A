@@ -196,8 +196,7 @@ const SearchResult = () => {
         <div >
           <Toolbar className={classes.functionBar}>
             <div>
-              {/* <IconButton onClick={(SaveButton)}><FavoriteBorderIcon/></IconButton> */}
-              <IconButton><FavoriteBorderIcon/></IconButton>
+              <SaveButton/>
               <IconButton><NoteAddOutlinedIcon/></IconButton>
             </div>
 
