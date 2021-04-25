@@ -13,7 +13,6 @@ const App = () => {
   // alert(process.env.REACT_APP_URL);
   return(
     <Router>
-          <Navigation/>
           <Switch>
             <Route exact path="/" component={Homepage} />
             <Route path="/result" component={SearchResult} />

@@ -1,7 +1,6 @@
 import React from 'react';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
@@ -10,12 +9,9 @@ import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-
 import WhatshotIcon from '@material-ui/icons/Whatshot';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import NoteAddOutlinedIcon from '@material-ui/icons/NoteAddOutlined';
 import NavigateBeforeOutlinedIcon from '@material-ui/icons/NavigateBeforeOutlined';
 import NavigateNextOutlinedIcon from '@material-ui/icons/NavigateNextOutlined';
@@ -25,15 +21,15 @@ import LastPageIcon from '@material-ui/icons/LastPage';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import cover from '../images/cover.png';
 
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 import Video from '../components/Video';
 import EduSearchBar from '../components/EduSearchBar';
-import ClipNavigation from '../components/ClipNavigation';
 import SaveButton from '../components/SaveButton';
+
+import NavBar from '../components/NavBar';
 
 const drawerWidth = 250;
 
@@ -42,14 +38,6 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       display: 'flex',
       backgroundColor: '#fff', 
-    },
-    appBar: {
-      zIndex: theme.zIndex.drawer + 1,
-      backgroundColor: "#233326",
-      
-    },
-    toolBar: {
-      justifyContent: 'space-between',
     },
     drawer: {
       width: drawerWidth,
@@ -65,13 +53,6 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
       padding: theme.spacing(2, 16, 2, 14),
     },
-    logo: {
-      // flexGrow: 10,
-    },
-    user: {
-      marginLeft: theme.spacing(1),
-      // flexGrow: 1,
-    },
     functionBar: {
       paddingLeft: theme.spacing(5),
       justifyContent: 'space-between',
@@ -85,17 +66,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   }),
 );
-
-const LogoWrapper = styled.div`
-  margin-top: 40px;
-  height:200px;
-  text-align: center;
-`;
-
-const LinkWrapper = styled(Link)`
-  text-decoration: none;
-  color: #fff;
-`;
 
 const StyledButton = styled(Button)`
     && {
@@ -132,23 +102,7 @@ const SearchResult = () => {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar position="fixed" className={classes.appBar}>
-        <Toolbar className={classes.toolBar}>
-        
-          <LinkWrapper to='/'>
-            {/* <LogoWrapper>
-              <img src={cover} alt="cover" height="200px"></img>
-            </LogoWrapper> */}
-            <Typography variant="h6" className={classes.logo} noWrap>
-              EduSearch
-            </Typography>
-          </LinkWrapper>
-            <div>
-              <IconButton className={classes.user} color="inherit" ><AccountCircle/></IconButton>
-            </div>
-        </Toolbar>
-      </AppBar>
-      
+      <NavBar/>
       <Drawer
         className={classes.drawer}
         variant="permanent"

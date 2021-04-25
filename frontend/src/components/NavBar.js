@@ -1,29 +1,58 @@
+import React from 'react'
+import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import { makeStyles } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import IconButton from '@material-ui/core/IconButton';
 import styled from 'styled-components';
-import EduSearchButton from './EduSearchButton';
+import { Link } from 'react-router-dom';
 
-const useStyles = makeStyles({
-    navBar: {
-        backgroundColor: "#fff",
-        color: "#5f6368",
-        boxShadow: "0px 0px 0px 0px",
-        alignItems:'flex-end'
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      display: 'flex',
+      backgroundColor: '#fff', 
+    },
+    appBar: {
+      zIndex: theme.zIndex.drawer + 1,
+      backgroundColor: "#4ca790",
+      
+    },
+    toolBar: {
+      justifyContent: 'space-between',
+    },
+    user: {
+      marginLeft: theme.spacing(1),
+      // flexGrow: 1,
     }
-});
+  }),
+);
 
-function NavBar() {
+const LinkWrapper = styled(Link)`
+  text-decoration: none;
+  color: #fff;
+`;
+
+const NavBar = () => {
     const classes = useStyles();
 
-    return(
-        <AppBar position="fixed" className={classes.navBar}>
-            <Toolbar>
-                <EduSearchButton name="Sign In"></EduSearchButton>
-                <EduSearchButton name="Register"></EduSearchButton>
-            </Toolbar>
-        </AppBar>
-    );
+    return (
+        <div className={classes.root}>
+            <AppBar position="fixed" className={classes.appBar}>
+                <Toolbar className={classes.toolBar}>
+                    <LinkWrapper to='/'>
+                        <Typography variant="h6" className={classes.logo} noWrap>
+                            EduSearch
+                        </Typography>
+                    </LinkWrapper>
+                    <div>
+                        <IconButton className={classes.user} color="inherit" ><AccountCircle/></IconButton>
+                    </div>
+                </Toolbar>
+            </AppBar>
+        </div>
+    )
 }
 
 export default NavBar;
