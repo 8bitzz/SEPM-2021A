@@ -16,7 +16,7 @@ const processAudio = async (config) => {
     config.languageCode ?? process.env.GOOGLE_SPEECH_LANGUAGE_CODE;
 
   // Google Speech Request
-  console.log("Transcripting audio ...");
+  console.log("[Google Speech]: Transcripting audio ...");
   const request = {
     config: {
       encoding: encoding,
@@ -37,9 +37,11 @@ const processAudio = async (config) => {
   // Detects speech in the audio file. This creates a recognition job that you
   // can wait for now, or get its result later.
   const [operation] = await client.longRunningRecognize(request);
-  console.log("Waiting for Google Speech Operation to complete...")
+  console.log("[Google Speech]: Waiting for Google Speech Operation to complete...")
   // Get a Promise representation of the final result of the job
   const [response] = await operation.promise();
+  console.log("[Google Speech]: Finished! Response count = " + response.results.length);
+
   var words = [];
   response.results.forEach((result) => {
     console.log(`Transcription: ${result.alternatives[0].transcript}`);

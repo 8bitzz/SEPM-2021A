@@ -11,7 +11,6 @@ const transcriptSingleAudio = async (req, res) => {
     }
 
     // Check if the video exists in the mongodb
-    console.log(videoID);
     let videos = await Video.find({ _id: videoID }).exec();
     if (videos.length === 0) {
       return res
@@ -27,9 +26,7 @@ const transcriptSingleAudio = async (req, res) => {
 
     // Upload to Google Storage
     const fileName = video._filename;
-    console.log("Filename = " + fileName);
     const uri = await GoogleStorageService.uploadAudio(fileName);
-    console.log("Upload Done!!!");
 
     // Save URI to Video in Mongodb
     video.google_storage_uri = uri
