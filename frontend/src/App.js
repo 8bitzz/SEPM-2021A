@@ -10,7 +10,6 @@ import TestFirebaseSendToken from "./components/TestFirebaseSendToken"
 import { withAuthentication } from './session/index';
 
 const App = () => {
-  // alert(process.env.REACT_APP_URL);
   return(
     <Router>
           <Switch>
