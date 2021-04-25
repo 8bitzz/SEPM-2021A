@@ -4,12 +4,13 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "publishToHeroku": "cd ../ && git subtree push --prefix backend heroku-app-backend master || true"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^3.0.7",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
