@@ -19,9 +19,19 @@ const uploadAudio = async (fileName) => {
 
   const destFileName = "audio/" + fileName;
 
-  // Upload to Storage
+  // Check if the file is already exsited on the Google Storage
+  // Then skip to save bandwidth
+  const bucket = storage.bucket(bucketName);
+  const file = bucket.file(destFileName);
+  const isExist = await file.exists();
+  if (isExist) {
+    console.log("File is existed. Skip uploading...");
+    return destFileName;
+  }
+
+  // Upload
   console.log(`Uploading ${filePath} to Google Storage...`)
-  await storage.bucket(bucketName).upload(filePath, {
+  await bucket.upload(filePath, {
     destination: destFileName,
   });
 
