@@ -50,9 +50,14 @@ app.get("/authtest", (req, res) => {
     res.json(req.user ? req.user : { message: "No User Found" });
 });
 
-// Default routes
+//
 app.get("/", function (req, res) {
-    res.send(`Restful API is running on port ${PORT}! ${JSON.stringify(process.env)}`);
+    res.send(`Restful API is running on port ${PORT}!`);
+});
+
+// Default routes
+app.get("/env-config", function (req, res) {
+    res.send(`${JSON.stringify(process.env)}`);
 });
 
 // Express App initialize
