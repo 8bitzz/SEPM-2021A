@@ -41,6 +41,7 @@ const processAudio = async (config) => {
   // Get a Promise representation of the final result of the job
   const [response] = await operation.promise();
   console.log("[Google Speech]: Finished! Response count = " + response.results.length);
+  console.log(response.results);
 
   var words = [];
   response.results.forEach((result) => {
@@ -58,7 +59,7 @@ const processAudio = async (config) => {
         wordInfo.endTime.nanos / 100000000;
       console.log(`Word: ${wordInfo.word}`);
       console.log(`\t ${startSecs} secs - ${endSecs} secs`);
-      words.append(wordInfo);
+      words.push(wordInfo);
     });
   });
   return words;
