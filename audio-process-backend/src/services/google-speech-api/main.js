@@ -22,7 +22,7 @@ const processAudio = async (config) => {
       encoding: encoding,
       languageCode: languageCode,
       enableWordTimeOffsets: true,
-      audio_channel_count: 2
+      audioChannelCount: 2
     },
     audio: {
       uri: gcsUri,
