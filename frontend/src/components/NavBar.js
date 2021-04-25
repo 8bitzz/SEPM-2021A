@@ -7,7 +7,8 @@ import EduSearchButton from './EduSearchButton';
 const useStyles = makeStyles({
     navBar: {
         backgroundColor: "#fff",
-        color: "#5f6368",
+        // color: "#5f6368", current
+        color: "#149078",
         boxShadow: "0px 0px 0px 0px",
         alignItems:'flex-end'
     }

@@ -1,5 +1,6 @@
 import React from 'react';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -10,6 +11,8 @@ import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import Badge from '@material-ui/core/Badge';
+
 
 import WhatshotIcon from '@material-ui/icons/Whatshot';
 import FavoriteIcon from '@material-ui/icons/Favorite';
@@ -37,6 +40,17 @@ import SaveButton from '../components/SaveButton';
 
 const drawerWidth = 250;
 
+const StyledBadge = withStyles((theme) => ({
+  badge: {
+    right: 5,
+    top: 13,
+    border: `2px solid ${theme.palette.background.paper}`,
+    padding: '0 4px',
+    backgroundColor: '#4ca790',
+    color: 'white',
+  },
+}))(Badge);
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -45,8 +59,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     appBar: {
       zIndex: theme.zIndex.drawer + 1,
-      backgroundColor: "#233326",
-      
+      // backgroundColor: "#233326", current
+
+      backgroundColor: "#4ca790",
     },
     toolBar: {
       justifyContent: 'space-between',
@@ -83,6 +98,11 @@ const useStyles = makeStyles((theme: Theme) =>
     countClip: {
       
     },
+    countNote: {
+      '& > *': {
+        margin: theme.spacing(0),
+      },
+    },
   }),
 );
 
@@ -99,7 +119,8 @@ const LinkWrapper = styled(Link)`
 
 const StyledButton = styled(Button)`
     && {
-        background-color: #233326;
+        // background-color: #233326; current
+        background-color: #4ca790 ;
         color: #fff;
         margin-left: 20px;
         padding: 7px 15px;
@@ -136,13 +157,11 @@ const SearchResult = () => {
         <Toolbar className={classes.toolBar}>
         
           <LinkWrapper to='/'>
-            {/* <LogoWrapper>
-              <img src={cover} alt="cover" height="200px"></img>
-            </LogoWrapper> */}
             <Typography variant="h6" className={classes.logo} noWrap>
               EduSearch
             </Typography>
           </LinkWrapper>
+          
             <div>
               <IconButton className={classes.user} color="inherit" ><AccountCircle/></IconButton>
             </div>
@@ -197,7 +216,10 @@ const SearchResult = () => {
           <Toolbar className={classes.functionBar}>
             <div>
               <SaveButton/>
-              <IconButton><NoteAddOutlinedIcon/></IconButton>
+              <StyledBadge badgeContent={1} max={9} >
+                <IconButton><NoteAddOutlinedIcon/></IconButton>
+              </StyledBadge>
+              {/* <IconButton><NoteAddOutlinedIcon/></IconButton> */}
             </div>
 
             <div className={classes.clipBar} > 

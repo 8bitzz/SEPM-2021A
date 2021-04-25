@@ -5,8 +5,10 @@ import SearchResult from './pages/SearchResult';
 import SignUpPage from './pages/Signup';
 import SignInPage from './pages/Signin';
 import Navigation from './components/Navigation';
+import SavedClips from './pages/SavedClips';
 
 import { withAuthentication } from './session/index';
+
 
 const App = () => {
   alert(process.env.REACT_APP_URL);
@@ -18,6 +20,8 @@ const App = () => {
             <Route path="/result" component={SearchResult} />
             <Route path="/signup" component={SignUpPage} />
             <Route path="/signin" component={SignInPage} />
+            <Route path="/savedclips" component={SavedClips} />
+
           </Switch>
       </Router>
   );
