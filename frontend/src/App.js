@@ -4,7 +4,7 @@ import Homepage from './pages/Homepage'
 import SearchResult from './pages/SearchResult';
 import SignUpPage from './pages/Signup';
 import SignInPage from './pages/Signin';
-import Navigation from './components/Navigation';
+// import Navigation from './components/Navigation';
 import SavedClips from './pages/SavedClips';
 import TestFirebaseSendToken from "./components/TestFirebaseSendToken"
 
