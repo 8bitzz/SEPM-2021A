@@ -17,8 +17,11 @@ import NavigateBeforeOutlinedIcon from "@material-ui/icons/NavigateBeforeOutline
 import NavigateNextOutlinedIcon from "@material-ui/icons/NavigateNextOutlined";
 import FirstPageIcon from "@material-ui/icons/FirstPage";
 import LastPageIcon from "@material-ui/icons/LastPage";
+import NoteAddIcon from '@material-ui/icons/NoteAdd';
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
+import { withStyles } from '@material-ui/core/styles';
+import Badge from '@material-ui/core/Badge';
 
 import styled from "styled-components";
 import { Link } from "react-router-dom";
@@ -27,14 +30,33 @@ import {useLocation} from "react-router-dom";
 import Video from "../components/Video";
 import SaveButton from "../components/SaveButton";
 import NavBar from "../components/NavBar";
+import { AppBar } from "@material-ui/core";
 
 const drawerWidth = 250;
+
+const StyledBadge = withStyles((theme) => ({
+  badge: {
+    right: 5,
+    top: 13,
+    border: `2px solid ${theme.palette.background.paper}`,
+    padding: '0 4px',
+    backgroundColor: '#4ca790',
+    color: 'white',
+  },
+}))(Badge);
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       display: "flex",
       backgroundColor: "#fff",
+    },
+    appBar: {
+      zIndex: theme.zIndex.drawer + 1,
+      backgroundColor: "#4ca790",
+    },
+    toolBar: {
+      justifyContent: 'space-between',
     },
     drawer: {
       width: drawerWidth,
@@ -59,6 +81,16 @@ const useStyles = makeStyles((theme: Theme) =>
       alignItems: "center",
     },
     countClip: {},
+    transcript: {
+      paddingTop: theme.spacing(2),
+      paddingLeft: theme.spacing(5),
+    },
+    keywordsBar: {
+      paddingLeft: theme.spacing(5),
+      justifyContent: "space-between",
+      border: "1px solid black",
+      borderRadius: "10px",  
+    },
   })
 );
 
@@ -89,6 +121,9 @@ const SearchResult = () => {
   const [count, setCount] = React.useState(1);
   const totalPage = 10;
 
+  const [word, setWord] = React.useState(1);
+  const totalWord = 5;
+
   // Get the value of URL param
   const search = useLocation().search;
   const query = new URLSearchParams(search).get('term');
@@ -117,23 +152,16 @@ const SearchResult = () => {
           <List>
             <ListItem button>
               <ListItemIcon>
-                <WhatshotIcon />
-              </ListItemIcon>
-              <ListItemText>Newest</ListItemText>
-            </ListItem>
-            <Divider />
-            <ListItem button>
-              <ListItemIcon>
                 <FavoriteIcon />
               </ListItemIcon>
-              <ListItemText>Most viewed</ListItemText>
+              <ListItemText>Saved Clips</ListItemText>
             </ListItem>
             <Divider />
             <ListItem button>
               <ListItemIcon>
-                <ThumbUpIcon />
+                <NoteAddIcon />
               </ListItemIcon>
-              <ListItemText>Rating</ListItemText>
+              <ListItemText>Notes</ListItemText>
             </ListItem>
             <Divider />
           </List>
@@ -147,9 +175,9 @@ const SearchResult = () => {
           <Toolbar className={classes.functionBar}>
             <div>
               <SaveButton />
-              <IconButton>
-                <NoteAddOutlinedIcon />
-              </IconButton>
+              <StyledBadge badgeContent={1} max={9} >
+                <IconButton><NoteAddOutlinedIcon/></IconButton>
+              </StyledBadge>
             </div>
 
             <div className={classes.clipBar}>
@@ -176,7 +204,37 @@ const SearchResult = () => {
             </div>
           </Toolbar>
         </div>
-        <Video source={vidSource} transcript={vidTranscipt} />
+
+        <Video source={vidSource} /> 
+
+        <div className={classes.transcript}>
+          <Toolbar className={classes.keywordsBar}>
+            <div>
+            <Typography>
+                {" "}
+                {word}/{totalWord}
+              </Typography>
+            </div>
+            <div>
+              <p> "<b>{searchTerm}</b>" </p>
+            </div>
+            <div>
+            <IconButton
+                onClick={() => setWord(word > 1 ? word - 1 : word)}
+              >
+                <NavigateBeforeOutlinedIcon />
+              </IconButton>
+              <IconButton
+                onClick={() => setWord(word < totalWord? word + 1 : word)}
+              >
+                <NavigateNextOutlinedIcon />
+              </IconButton>
+            </div>
+            
+          </Toolbar>
+        </div>
+
+        <div className={classes.transcript}> {vidTranscipt}</div>
       </main>
     </div>
   );

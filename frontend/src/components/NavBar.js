@@ -15,7 +15,7 @@ import { AuthUserContext } from "../session/index";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
       display: "flex",

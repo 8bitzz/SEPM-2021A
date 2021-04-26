@@ -9,10 +9,10 @@ const useStyles = makeStyles((theme) =>
             paddingLeft: theme.spacing(5),
             width: '100%',
         },
-        transcript: {
-            paddingTop: theme.spacing(5),
-            paddingLeft: theme.spacing(5),
-        }
+        // transcript: {
+        //     paddingTop: theme.spacing(5),
+        //     paddingLeft: theme.spacing(5),
+        // }
     })
 );
 
@@ -27,11 +27,11 @@ const Video = ({source, transcript}) => {
                     frameborder="0">
                 </iframe>
             </div>
-            <div className={classes.transcript}>
+            {/* <div className={classes.transcript}>
                 <Typography paragraph>
                  {transcript}
                 </Typography>
-            </div>
+            </div> */}
         </>
     )
 }

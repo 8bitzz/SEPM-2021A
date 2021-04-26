@@ -6,7 +6,8 @@ import { withStyles } from '@material-ui/core/styles';
 
 const useStyles = theme => ({
     clickedButton: {
-       color: '#1fad35'
+       color: '#4ca790'
+       
     }
 });
 

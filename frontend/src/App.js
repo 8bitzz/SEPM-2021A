@@ -4,9 +4,12 @@ import Homepage from './pages/Homepage'
 import SearchResult from './pages/SearchResult';
 import SignUpPage from './pages/Signup';
 import SignInPage from './pages/Signin';
+// import Navigation from './components/Navigation';
+import SavedClips from './pages/SavedClips';
 import TestFirebaseSendToken from "./components/TestFirebaseSendToken"
 
 import { withAuthentication } from './session/index';
+
 
 const App = () => {
   return(
@@ -16,6 +19,7 @@ const App = () => {
             <Route path="/search" component={SearchResult} />
             <Route path="/signup" component={SignUpPage} />
             <Route path="/signin" component={SignInPage} />
+            <Route path="/savedclips" component={SavedClips} />
             <Route path="/testFirebaseSendToken" component={TestFirebaseSendToken} />
           </Switch>
       </Router>
