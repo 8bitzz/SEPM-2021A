@@ -61,6 +61,10 @@ const uploadAndTranscript = async (req, res, video, _filename) => {
     // Transcript
     const transcription = await GoogleSpeechService.processAudio({ uri });
 
+    // save
+    video.processed = true;
+    await video.save();
+
     // Response
     return res.json({
       message: "Success! URI = " + uri,
