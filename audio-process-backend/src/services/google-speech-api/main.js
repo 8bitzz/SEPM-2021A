@@ -7,7 +7,7 @@ const {
 
 const processAudio = async (config) => {
   // Get all data
-  const uri = "audio/trimp.flac"
+  const uri = config.uri;
   const gcsUri = getURIGoogleStorage(uri);
   const encoding = config.encoding ?? process.env.GOOGLE_SPEECH_ENCODING;
   const sampleRateHertz =

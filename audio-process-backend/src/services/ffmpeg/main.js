@@ -14,7 +14,7 @@ var convertToFLAC = (filename, next) => {
             next({ code: 1, error: "An error occurred: " + err.message });
         })
         .on("end", () => {
-            next({ code: 0, message: "Processing finished !" });
+            next({ code: 0, message: "Processing finished !", filename });
         })
         .run();
 };
