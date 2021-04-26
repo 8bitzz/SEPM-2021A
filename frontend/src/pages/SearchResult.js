@@ -17,18 +17,15 @@ import NavigateBeforeOutlinedIcon from "@material-ui/icons/NavigateBeforeOutline
 import NavigateNextOutlinedIcon from "@material-ui/icons/NavigateNextOutlined";
 import FirstPageIcon from "@material-ui/icons/FirstPage";
 import LastPageIcon from "@material-ui/icons/LastPage";
-
-import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import {useLocation} from "react-router-dom";
 
 import Video from "../components/Video";
-import EduSearchBar from "../components/EduSearchBar";
 import SaveButton from "../components/SaveButton";
-
 import NavBar from "../components/NavBar";
 
 const drawerWidth = 250;
@@ -65,7 +62,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const StyledButton = styled(Button)`
+const SubmitButton = styled(Button)`
   && {
     background-color: #233326;
     color: #fff;
@@ -92,7 +89,14 @@ const SearchResult = () => {
   const [count, setCount] = React.useState(1);
   const totalPage = 10;
 
-  const [searchTerm, setSearchTerm] = React.useState("Scrum");
+  // Get the value of URL param
+  const search = useLocation().search;
+  const query = new URLSearchParams(search).get('term');
+
+  // Set the initial state to the param value
+  const [searchTerm, setSearchTerm] = React.useState(query);
+
+  // Update the searchTerm on input changed
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
   };
