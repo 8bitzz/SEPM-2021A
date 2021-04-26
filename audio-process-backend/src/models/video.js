@@ -27,6 +27,10 @@ var VideoSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    flacConvert: {
+        type: Boolean,
+        default: false,
+    },
 });
 
 module.exports = mongoose.model("Video", VideoSchema);
