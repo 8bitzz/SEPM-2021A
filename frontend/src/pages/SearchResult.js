@@ -174,8 +174,7 @@ const SearchResult = () => {
           <Grid item>
             <StyledButton>Search</StyledButton>
           </Grid>
-        </Grid>
-        {/* <p>Searching for: {searchTerm}</p> */}
+        </Grid> 
         
         <div >
           <Toolbar className={classes.functionBar}>
@@ -187,14 +186,12 @@ const SearchResult = () => {
               {/* <IconButton><NoteAddOutlinedIcon/></IconButton> */}
             </div>
 
-            <div className={classes.clipBar} > 
-              
+            <div className={classes.clipBar} >
               <IconButton onClick={() => setCount(1)}><FirstPageIcon/></IconButton>
               <IconButton onClick={() => setCount(count > 1 ? count - 1 : count)}><NavigateBeforeOutlinedIcon/></IconButton>
               <Typography className={classes.countClip} > {count}/{totalPage}</Typography>
               <IconButton onClick={() => setCount(count < totalPage ? count + 1 : count)}><NavigateNextOutlinedIcon/></IconButton>
               <IconButton onClick={() => setCount(totalPage)}><LastPageIcon/></IconButton>
-              
             </div>
           </Toolbar>
         </div>

@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
+import NavBar from '../components/NavBar';
 
 const SavedClips = () => {
     return (
-        <h1>test</h1>
+        <NavBar />
     );
 }
 
