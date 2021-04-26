@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import Navigation from '../components/Navigation';
+import HomeNavBar from '../components/HomeNavBar';
 import cover from '../images/cover.png';
 import EduSearchBar from '../components/EduSearchBar';
 import EduSearchButton from '../components/EduSearchButton';
@@ -30,7 +30,7 @@ const Homepage = () => {
 
   return (
     <Wrapper>
-      <Navigation/>
+      <HomeNavBar/>
       <LogoWrapper>
         <img src={cover} alt="cover" height="200px"></img>
       </LogoWrapper>
