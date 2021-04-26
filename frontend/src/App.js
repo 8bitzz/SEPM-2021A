@@ -12,12 +12,11 @@ import { withAuthentication } from './session/index';
 
 
 const App = () => {
-  // alert(process.env.REACT_APP_URL);
   return(
     <Router>
           <Switch>
             <Route exact path="/" component={Homepage} />
-            <Route path="/result" component={SearchResult} />
+            <Route path="/search" component={SearchResult} />
             <Route path="/signup" component={SignUpPage} />
             <Route path="/signin" component={SignInPage} />
             <Route path="/savedclips" component={SavedClips} />

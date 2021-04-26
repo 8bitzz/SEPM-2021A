@@ -8,7 +8,7 @@ import SignOutButton from './SignOutButton';
  
 import { AuthUserContext } from '../session/index';
 
-const Navigation = () => {
+const HomeNavBar = () => {
     return(
         <AuthUserContext.Consumer>
             { authUser =>
@@ -52,4 +52,4 @@ const NavWrap = styled(AppBar)`
     
 `;
 
-export default Navigation;
+export default HomeNavBar;
