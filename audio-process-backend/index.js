@@ -33,17 +33,6 @@ app.use("/assets", express.static(__dirname + "/assets")); // serving static aud
 app.use("/ytdl", ytdlRoutes);
 app.use("/speech-api", speechRoutes);
 
-// test routes convert file
-const { convertToFLAC } = require("./src/services/ffmpeg/main");
-app.get("/audio-convert-flac", (req, res) => {
-    convertToFLAC(req.body.filename, (data) => {
-        if (data.code === 1) {
-            return res.status(400).send(data);
-        }
-        res.send(data);
-    });
-});
-
 // Default routes
 app.get("/", function (req, res) {
     res.send(`Audio Process Restful API is running!`);
@@ -51,5 +40,5 @@ app.get("/", function (req, res) {
 
 // Express App initialize
 app.listen(PORT, function () {
-    console.log(`Your server is running on port ${PORT}`);
+    console.log(`Your server is running on port ${PORT}. ENV CONFIG: ${process.env.ENV_TYPE}`);
 });
