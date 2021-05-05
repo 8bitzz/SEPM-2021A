@@ -17,7 +17,7 @@ const search = async (req, res) => {
       });
 
       const response = {
-        videoURL: "https://www.youtube.com/watch?v=pfU0QORkRpY",
+        videoURL: "https://www.youtube.com/embed/Oh8aK-0N-9M",
         numberOfMatchedVideos: 1,
         numberOfMatchedSentence: matchedTranscriptIndxes.count,
         originalTranscription: mockData.transcription,
