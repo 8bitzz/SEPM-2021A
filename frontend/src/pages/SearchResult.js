@@ -136,10 +136,16 @@ const SearchResult = () => {
     setSearchTerm(event.target.value);
   };
 
+  const handleSubmit = (event) => {
+    const message = "Call API with searchTerm = ";
+    alert(`${message}${searchTerm}`);
+    event.preventDefault();
+  }
+
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <NavBar searchTerm={searchTerm} onSearch={handleSearch}/>
+      <NavBar searchTerm={searchTerm} onSearch={handleSearch} onSubmit={handleSubmit}/>
       <Drawer
         className={classes.drawer}
         variant="permanent"
