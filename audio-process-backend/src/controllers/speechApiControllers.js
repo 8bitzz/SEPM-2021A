@@ -26,7 +26,6 @@ const transcriptSingleAudio = async (req, res) => {
 
         // Convert to flac if need
         if (video.flacConvert) {
-            console.log("111111111");
             await uploadAndTranscript(req, res, video, video._filename);
         } else {
             convertToFLAC(video._filename, async (data) => {
