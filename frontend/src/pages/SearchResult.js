@@ -1,5 +1,5 @@
 import React from "react";
-import { createStyles, Theme, makeStyles } from "@material-ui/core/styles";
+import { createStyles, makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -11,11 +11,8 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import NoteAddIcon from '@material-ui/icons/NoteAdd';
-import Button from "@material-ui/core/Button";
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import styled from "styled-components";
-import { Link } from "react-router-dom";
 import axios from 'axios';
 import { useLocation } from "react-router-dom";
 
@@ -24,7 +21,7 @@ import NavBar from "../components/NavBar";
 
 const drawerWidth = 250;
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
       display: "flex",
@@ -64,12 +61,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const API_ENDPOINT = 'https://hn.algolia.com/api/v1/search?query=';
-
-const vidSource =
-  "http://www.youtube.com/embed/M7lc1UVf-VE?enablejsapi=1&origin=http://example.com";
-const vidTranscipt =
-  "Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper eget nullafacilisi etiam dignissim diam. Pulvinar elementum integer enim neque Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper eget nullafacilisi etiam dignissim diam. Pulvinar elementum integer enim nequeConsequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper eget nullafacilisi etiam dignissim diam. Pulvinar elementum integer enim neque";
+const API_ENDPOINT = 'http://localhost:7001/app/search?term=';
 
 const videosReducer = (state, action) => {
   switch (action.type) {
@@ -84,7 +76,7 @@ const videosReducer = (state, action) => {
         ...state,
         isLoading: false,
         isError: false,
-        data: action.payload, // payload ???
+        data: action.payload, 
       };
     case 'VIDEOS_FETCH_FAILURE':
       return {
@@ -110,7 +102,7 @@ const SearchResult = () => {
   // Handle all of states related to asynchronous data
   const [videos, dispatchVideos] = React.useReducer(
     videosReducer,
-    { data: [], 
+    { data: {}, 
       isLoading: false, 
       isError: false 
     }
@@ -128,7 +120,7 @@ const SearchResult = () => {
       .then(result => {
         dispatchVideos({
           type: 'VIDEOS_FETCH_SUCCESS',
-          payload: result.data.hits,
+          payload: result.data,
         });
       })
       .catch(() =>
@@ -185,43 +177,22 @@ const SearchResult = () => {
       <main className={classes.content}>
         <Toolbar />
         <Typography variant="body1">Searching for: {searchTerm}</Typography>
-        {/* { videos.isError && <div className={classes.error}><Typography>Something went wrong ... </Typography></div> }
+        { videos.isError && <div className={classes.error}><Typography>Something went wrong ... </Typography></div> }
 
         { videos.isLoading 
         ? <div className={classes.progress}><CircularProgress /></div>
-        : <Video searchTerm={searchTerm} source={vidSource} transcript={vidTranscipt}/> 
-        } */}
-
-        {videos.isError && <p>Something went wrong ...</p>}
-
-        {videos.isLoading ? (
-          <p>Loading ...</p>
-        ) : (
-          <StoryList list={videos.data} />
-        )}
-
+        : <Video 
+            searchTerm={searchTerm} 
+            videoUrl={videos.data.videoURL} 
+            noVideos={videos.data.numberOfMatchedVideos}
+            transcript={videos.data.originalTranscription}
+            transcriptIndex={videos.data.matchingTranscriptionIndexs}
+            
+          /> 
+        }
       </main>
     </div>
   );
 };
-
-const StoryList = ({ list }) =>
-  list.map(item => (
-    <Item
-      key={item.objectID}
-      item={item}
-    />
-  ));
-
-const Item = ({ item }) => (
-  <div>
-    <span>
-      <a href={item.url}>{item.title}</a>
-    </span>
-    <span>{item.author}</span>
-    <span>{item.num_comments}</span>
-    <span>{item.points}</span>
-  </div>
-);
 
 export default SearchResult;

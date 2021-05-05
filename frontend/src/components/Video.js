@@ -26,11 +26,11 @@ const StyledBadge = withStyles((theme) => ({
 
 const useStyles = makeStyles((theme) =>
     createStyles({
-        video: {
-            paddingTop: theme.spacing(1),
-            paddingLeft: theme.spacing(5),
-            width: '100%',
-        },
+        // video: {
+        //     paddingTop: theme.spacing(1),
+        //     paddingLeft: theme.spacing(5),
+        //     width: '100%',
+        // },
         functionBar: {
             paddingLeft: theme.spacing(5),
             justifyContent: "space-between",
@@ -50,17 +50,26 @@ const useStyles = makeStyles((theme) =>
             border: "1px solid black",
             borderRadius: "10px",  
         },
+        youtubevideo: {
+            paddingTop: theme.spacing(1),
+            paddingLeft: theme.spacing(5),
+            position: "relative",
+            paddingBottom: "56.25%" /* 16:9 */,
+            paddingTop: 25,
+            height: 0
+        },
+
     })
 );
 
-const Video = ({searchTerm, source, transcript}) => {
+const Video = ({searchTerm, videoUrl, noVideos, transcript, transcriptIndex}) => {
     const classes = useStyles();
 
     const [count, setCount] = React.useState(1);
-    const totalPage = 10;
+    const totalPage = noVideos;
 
     const [word, setWord] = React.useState(1);
-    const totalWord = 5;
+    const totalWord = 2;
 
     return (
         <>  
@@ -98,10 +107,18 @@ const Video = ({searchTerm, source, transcript}) => {
           </Toolbar>
         </div>
 
-        <div className={classes.video}>
-            <iframe id="player" type="text/html" width="100%" height='500px'
-                src={source}
-                frameborder="0">
+        <div className={classes.youtubevideo}>
+            <iframe 
+                style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    width: "100%",
+                    height: "100%"
+                }}
+                src={videoUrl}
+                frameborder="0"
+            >
             </iframe>
         </div>
 
@@ -132,7 +149,7 @@ const Video = ({searchTerm, source, transcript}) => {
           </Toolbar>
         </div>
 
-        <div className={classes.transcript}> {transcript}</div>
+        <div className={classes.transcript}></div>
         </>
     )
 }
