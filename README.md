@@ -7,13 +7,14 @@ MIT OpenCourseWare Search Engine
 * Huynh Le Minh Hieu - S3804595
 * Nguyen Thu Hang - S3798976
 
-## Requirements
-* NodeJS v10 or higher (v12 recommended).
+## Run Requirements
+* NodeJS v12 or higher (v14 recommended).
 * NPM 
-* MongoDB (v3.3 or higher).
-* Python 3
 
-## How to run ?
+## Backend Development Requirements
+* MongoDB (v3.3 or higher)
+
+## How to run
 
 * Frontend
 
@@ -31,7 +32,7 @@ MIT OpenCourseWare Search Engine
 * Backend
 
   ```
-  # change into frontend directory
+  # change into backend directory
   cd backend
   
   # installing dependencies
@@ -41,15 +42,18 @@ MIT OpenCourseWare Search Engine
   node index.js
   ```
  
-* youtubedl-python-test
+* audio-process-backend
 
   ```
   # change into directory
-  cd youtubedl-python-test
+  cd audio-process-backend
   
   # installing dependencies
-  python3 -m pip install -r requirements.txt
+  npm install
   
-  # start the project
-  python3 YoutubeDownloadAudio.py
+  # start the project 
+  # default env
+  node index.js
+  # local test env
+  node -r dotenv/config index.js dotenv_config_path=./.env.local.test
   ```

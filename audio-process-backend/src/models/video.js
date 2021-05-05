@@ -31,6 +31,7 @@ var VideoSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    transcriptList: [{ type: mongoose.Schema.Types.ObjectId, ref: "Transcript" }],
 });
 
 module.exports = mongoose.model("Video", VideoSchema);
