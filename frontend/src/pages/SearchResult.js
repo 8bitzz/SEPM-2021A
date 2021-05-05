@@ -139,6 +139,7 @@ const SearchResult = () => {
   const handleSubmit = (event) => {
     const message = "Call API with searchTerm = ";
     alert(`${message}${searchTerm}`);
+    
     event.preventDefault();
   }
 
