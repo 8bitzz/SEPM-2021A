@@ -16,7 +16,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import {useLocation} from "react-router-dom";
+import axios from 'axios';
+import { useLocation } from "react-router-dom";
 
 import Video from "../components/Video";
 import NavBar from "../components/NavBar";
@@ -63,6 +64,8 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+const API_ENDPOINT = 'https://hn.algolia.com/api/v1/search?query=';
+
 const vidSource =
   "http://www.youtube.com/embed/M7lc1UVf-VE?enablejsapi=1&origin=http://example.com";
 const vidTranscipt =
@@ -97,7 +100,14 @@ const videosReducer = (state, action) => {
 const SearchResult = () => {
   const classes = useStyles();
 
-  // Handle states related to asynchronous data
+  // Get the value of URL param
+  const search = useLocation().search;
+  const query = new URLSearchParams(search).get('term');
+
+  // Set the initial state to the param value
+  const [searchTerm, setSearchTerm] = React.useState(query);
+
+  // Handle all of states related to asynchronous data
   const [videos, dispatchVideos] = React.useReducer(
     videosReducer,
     { data: [], 
@@ -106,16 +116,29 @@ const SearchResult = () => {
     }
   );
 
-  // Get the value of URL param
-  const search = useLocation().search;
-  const query = new URLSearchParams(search).get('term');
+  const [url, setUrl] = React.useState(
+    `${API_ENDPOINT}${searchTerm}`
+  );
 
-  // Set the initial state to the param value
-  const [searchTerm, setSearchTerm] = React.useState(query);
+  const handleFetchVideos = React.useCallback(() => {
+    dispatchVideos({ type: 'VIDEOS_FETCH_INIT' });
 
-  // Handle UI when loading
-  const [isLoading, setIsLoading] = React.useState(false);
-  const [isError, setIsError] = React.useState(false);
+    axios
+      .get(url)
+      .then(result => {
+        dispatchVideos({
+          type: 'VIDEOS_FETCH_SUCCESS',
+          payload: result.data.hits,
+        });
+      })
+      .catch(() =>
+        dispatchVideos({ type: 'VIDEOS_FETCH_FAILURE' })
+      );
+  }, [url]);
+
+  React.useEffect(() => {
+    handleFetchVideos();
+  }, [handleFetchVideos]);
 
   // Update the searchTerm on input changed
   const handleSearch = (event) => {
@@ -124,10 +147,7 @@ const SearchResult = () => {
 
   
   const handleSubmit = (event) => {
-    const message = "Call API with searchTerm = ";
-    alert(`${message}${searchTerm}`);
-    setIsLoading(false);
-    
+    setUrl(`${API_ENDPOINT}${searchTerm}`);
     event.preventDefault();
   }
 
@@ -165,16 +185,43 @@ const SearchResult = () => {
       <main className={classes.content}>
         <Toolbar />
         <Typography variant="body1">Searching for: {searchTerm}</Typography>
-        { isError && <div className={classes.error}><Typography>Something went wrong ... </Typography></div> }
+        {/* { videos.isError && <div className={classes.error}><Typography>Something went wrong ... </Typography></div> }
 
-        { isLoading 
+        { videos.isLoading 
         ? <div className={classes.progress}><CircularProgress /></div>
         : <Video searchTerm={searchTerm} source={vidSource} transcript={vidTranscipt}/> 
-        }
+        } */}
+
+        {videos.isError && <p>Something went wrong ...</p>}
+
+        {videos.isLoading ? (
+          <p>Loading ...</p>
+        ) : (
+          <StoryList list={videos.data} />
+        )}
 
       </main>
     </div>
   );
 };
+
+const StoryList = ({ list }) =>
+  list.map(item => (
+    <Item
+      key={item.objectID}
+      item={item}
+    />
+  ));
+
+const Item = ({ item }) => (
+  <div>
+    <span>
+      <a href={item.url}>{item.title}</a>
+    </span>
+    <span>{item.author}</span>
+    <span>{item.num_comments}</span>
+    <span>{item.points}</span>
+  </div>
+);
 
 export default SearchResult;
