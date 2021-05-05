@@ -92,14 +92,12 @@ const videosReducer = (state, action) => {
 const SearchResult = () => {
   const classes = useStyles();
 
-  // Get the value of URL param
+  // Set the initial state of searchTerm as the URL param
   const search = useLocation().search;
   const query = new URLSearchParams(search).get('term');
-
-  // Set the initial state to the param value
   const [searchTerm, setSearchTerm] = React.useState(query);
 
-  // Handle all of states related to asynchronous data
+  // Use Reducer to handle states related to asynchronous data
   const [videos, dispatchVideos] = React.useReducer(
     videosReducer,
     { data: {}, 
@@ -108,10 +106,11 @@ const SearchResult = () => {
     }
   );
 
+  // Introduce URL state to trigger the side-effect for fetching data if only user submit searchTerm
   const [url, setUrl] = React.useState(
     `${API_ENDPOINT}${searchTerm}`
   );
-
+  
   const handleFetchVideos = React.useCallback(() => {
     dispatchVideos({ type: 'VIDEOS_FETCH_INIT' });
 
@@ -126,17 +125,16 @@ const SearchResult = () => {
       .catch(() =>
         dispatchVideos({ type: 'VIDEOS_FETCH_FAILURE' })
       );
-  }, [url]);
+  }, [url]); // Re-fetch data when the url is updated
 
   React.useEffect(() => {
     handleFetchVideos();
-  }, [handleFetchVideos]);
+  }, [handleFetchVideos]); // Trigger when handleFetchVideos() is re-defined
 
   // Update the searchTerm on input changed
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
   };
-
   
   const handleSubmit = (event) => {
     setUrl(`${API_ENDPOINT}${searchTerm}`);
@@ -187,7 +185,6 @@ const SearchResult = () => {
             noVideos={videos.data.numberOfMatchedVideos}
             transcript={videos.data.originalTranscription}
             transcriptIndex={videos.data.matchingTranscriptionIndexs}
-            
           /> 
         }
       </main>

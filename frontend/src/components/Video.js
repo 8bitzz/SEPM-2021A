@@ -69,7 +69,7 @@ const Video = ({searchTerm, videoUrl, noVideos, transcript, transcriptIndex}) =>
     const totalPage = noVideos;
 
     const [word, setWord] = React.useState(1);
-    const totalWord = 2;
+    const totalWord = transcriptIndex?.length ?? 0; // Fix bug transcriptIndex undefined
 
     return (
         <>  
