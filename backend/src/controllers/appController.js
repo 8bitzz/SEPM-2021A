@@ -11,7 +11,7 @@ const search = async (req, res) => {
       // Response
       var matchedTranscriptIndxes = [];
       mockData.transcription.forEach((item, index) => {
-        if (item.transcript.includes(term)) {
+        if (item.transcript.toLowerCase().includes(term.toLowerCase())) {
           matchedTranscriptIndxes.push(index);
         }
       });
