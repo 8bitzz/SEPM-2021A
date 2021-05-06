@@ -39,17 +39,20 @@ const search = async (req, res) => {
         if (!term || term.length === 0) {
             return res.status(400).json({ error: "Missing term in Param Query!" });
         }
+        // Validate isExact
         if (!isExact) {
             return res.status(400).json({ error: "Missing isExact in Param Query!" });
         }
         if (isExact.toString() == "true") {
             term = '"' + term + '"';
         }
+        // Perform index text search
         let search = await Transcript.find({ $text: { $search: term } }, { score: { $meta: "textScore" } })
             .sort({ score: { $meta: "textScore" } })
             .exec();
         let videoIdSet = new Set();
         let videoList = [];
+        // Get video and map search transcript to correct video 
         for (const v of search) {
             let vidId = v.video.toString();
             if (!videoIdSet.has(vidId)) {
