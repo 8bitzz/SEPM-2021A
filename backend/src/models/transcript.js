@@ -1,22 +1,18 @@
 var mongoose = require("mongoose");
 
 var TranscriptSchema = new mongoose.Schema({
-    transcript: {
+    text: {
         type: String,
     },
-    confidence: {
-        type: Number,
+    startTime: {
+        type: String,
     },
-    words: [
-        {
-            word: String,
-            startTime: String,
-            endTime: String,
-        },
-    ],
+    endTime: {
+        type: String,
+    },
     video: { type: mongoose.Schema.Types.ObjectId, ref: "Video" },
     order: Number,
 });
-TranscriptSchema.index({transcript: "text"});
+TranscriptSchema.index({text: "text"});
 
 module.exports = mongoose.model("Transcript", TranscriptSchema);
