@@ -1,6 +1,7 @@
 var router = require("express").Router();
-var { search } = require("../controllers/appController");
+var { search, searchmock } = require("../controllers/appController");
 
-router.get("/search", search);
+router.get("/search-mock", searchmock); // differnt format than normal search, should return list of videos rather than a single transcript
+router.get("search", search);
 
 module.exports = router;
