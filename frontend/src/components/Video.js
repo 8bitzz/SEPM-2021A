@@ -11,6 +11,7 @@ import LastPageIcon from "@material-ui/icons/LastPage";
 import IconButton from "@material-ui/core/IconButton";
 
 import SaveButton from "./SaveButton";
+import Highlighter from "react-highlight-words";
 
 
 const StyledBadge = withStyles((theme) => ({
@@ -55,21 +56,30 @@ const useStyles = makeStyles((theme) =>
             paddingLeft: theme.spacing(5),
             position: "relative",
             paddingBottom: "56.25%" /* 16:9 */,
-            paddingTop: 25,
             height: 0
         },
 
     })
 );
 
-const Video = ({searchTerm, videoUrl, noVideos, transcript, transcriptIndex}) => {
+const Video = ({keyWord, videoUrl, noVideos, transcriptList, transcriptIndex}) => {
     const classes = useStyles();
 
     const [count, setCount] = React.useState(1);
     const totalPage = noVideos;
 
     const [word, setWord] = React.useState(1);
-    const totalWord = transcriptIndex?.length ?? 0; // Fix bug transcriptIndex undefined
+    const totalWord = transcriptIndex?.length ?? 0; // Use ?? to fix bug undefined
+
+    const videoTrans = transcriptList?.map((transcript, index) => (
+        <li key={index}>
+            <Highlighter
+                searchWords={[keyWord]}
+                autoEscape={true}
+                textToHighlight={transcript.transcript}
+            />
+        </li>
+    )) ?? []; // Use `map(() => ())` instead of `map(() => {})` to fix bug "Expected to return a value in arrow function"
 
     return (
         <>  
@@ -117,7 +127,7 @@ const Video = ({searchTerm, videoUrl, noVideos, transcript, transcriptIndex}) =>
                     height: "100%"
                 }}
                 src={videoUrl}
-                frameborder="0"
+                frameBorder="0"
             >
             </iframe>
         </div>
@@ -131,7 +141,7 @@ const Video = ({searchTerm, videoUrl, noVideos, transcript, transcriptIndex}) =>
               </Typography>
             </div>
             <div>
-              <p> "<b>{searchTerm}</b>" </p>
+              <p> "<b>{keyWord}</b>" </p>
             </div>
             <div>
             <IconButton
@@ -149,7 +159,11 @@ const Video = ({searchTerm, videoUrl, noVideos, transcript, transcriptIndex}) =>
           </Toolbar>
         </div>
 
-        <div className={classes.transcript}></div>
+        <div className={classes.transcript}>
+            <ul>
+                {videoTrans}
+            </ul>
+        </div>
         </>
     )
 }

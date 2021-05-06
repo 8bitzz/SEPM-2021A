@@ -92,10 +92,10 @@ const videosReducer = (state, action) => {
 const SearchResult = () => {
   const classes = useStyles();
 
-  // Set the initial state of searchTerm as the URL param
+  // Set the initial state of searchTerm as the URL param s
   const search = useLocation().search;
   const query = new URLSearchParams(search).get('term');
-  const [searchTerm, setSearchTerm] = React.useState(query);
+  const [searchTerm, setSearchTerm] = React.useState(query || " ");
 
   // Use Reducer to handle states related to asynchronous data
   const [videos, dispatchVideos] = React.useReducer(
@@ -137,7 +137,10 @@ const SearchResult = () => {
   };
   
   const handleSubmit = (event) => {
-    setUrl(`${API_ENDPOINT}${searchTerm}`);
+    if (searchTerm) {
+      setUrl(`${API_ENDPOINT}${searchTerm}`);
+    }
+    
     event.preventDefault();
   }
 
@@ -174,16 +177,16 @@ const SearchResult = () => {
       </Drawer>
       <main className={classes.content}>
         <Toolbar />
-        <Typography variant="body1">Searching for: {searchTerm}</Typography>
-        { videos.isError && <div className={classes.error}><Typography>Something went wrong ... </Typography></div> }
 
-        { videos.isLoading 
-        ? <div className={classes.progress}><CircularProgress /></div>
+        { videos.isLoading && <div className={classes.progress}><CircularProgress /></div> }
+
+        { videos.isError 
+        ? <div className={classes.error}><Typography>Something went wrong ... </Typography></div> 
         : <Video 
-            searchTerm={searchTerm} 
+            keyWord={searchTerm}  
             videoUrl={videos.data.videoURL} 
             noVideos={videos.data.numberOfMatchedVideos}
-            transcript={videos.data.originalTranscription}
+            transcriptList={videos.data.originalTranscription}
             transcriptIndex={videos.data.matchingTranscriptionIndexs}
           /> 
         }
