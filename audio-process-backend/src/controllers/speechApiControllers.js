@@ -62,17 +62,9 @@ const uploadAndTranscript = async (req, res, video, _filename) => {
         // save
         let transcriptList = [];
         let order = 0;
-        for (const data of transcription) {
-            let newTranscript = new Transcript({ video: video._id, order });
-            let words = data.words.map((v) => {
-                const startTime = `${v.startTime.seconds}` + "." + v.startTime.nanos / 100000000;
-                const endTime = `${v.endTime.seconds}` + "." + v.endTime.nanos / 100000000;
-                const word = v.word;
-                return { word, startTime, endTime };
-            });
-            newTranscript.words = words;
-            newTranscript.transcript = data.transcript;
-            newTranscript.confidence = data.confidence;
+        let trans = transcriptDataParse(transcription);
+        for (const data of trans) {
+            let newTranscript = new Transcript({ ...data, video: video._id, order });
             transcriptList.push(newTranscript._id);
             await newTranscript.save();
         }
@@ -83,11 +75,42 @@ const uploadAndTranscript = async (req, res, video, _filename) => {
         // Response
         return res.json({
             message: "Success! URI = " + uri,
-            transcription: transcription,
+            transcription: trans,
         });
     } catch (error) {
         return res.status(400).json({ error });
     }
+};
+
+const transcriptDataParse = (transcription) => {
+    let words = [];
+    let bag = [];
+    let result = [];
+    for (const a of transcription) {
+        words = words.concat(a.words);
+    }
+    for (let i = 0; i < words.length; i++) {
+        bag.push(words[i]);
+        if ((i + 1) % process.env.TRANSCRIPT_WORD_LIMIT == 0) {
+            let startTime = `${checkNull(bag[0].startTime.seconds)}` + "." + checkNull(bag[0].startTime.nanos) / 100000000;
+            let endTime =
+                `${checkNull(bag[bag.length - 1].endTime.seconds)}` +
+                "." +
+                checkNull(bag[bag.length - 1].endTime.nanos) / 100000000;
+            let text = "";
+            bag.forEach((v) => {
+                text += v.word + " ";
+            });
+            text = text.trim();
+            result.push({ startTime, endTime, text });
+            bag = [];
+        }
+    }
+    return result;
+};
+
+const checkNull = (text) => {
+    return text ? text : 0;
 };
 
 module.exports = {

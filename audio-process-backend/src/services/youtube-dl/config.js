@@ -9,7 +9,7 @@ const dump_options = (url) => {
         referer: url,
         matchFilter: `duration < ${process.env.MAX_VIDEO_LENGTH}`,
         //Get File directly from youtube, but have timeline error in Quicktime
-        format: "worstaudio[ext=m4a]",
+        format: "bestaudio[ext=m4a]",
         writeSub: true,
         subLang: "en",
         writeAutoSub: true,
@@ -25,7 +25,7 @@ const download_options = (output) => {
     return {
         output: getFileOutput(output),
         //Get File directly from youtube, but have timeline error in Quicktime
-        format: "worstaudio[ext=m4a]",
+        format: "bestaudio[ext=m4a]",
 
         // Get file and convert using ffmpeg
         // extractAudio: true,

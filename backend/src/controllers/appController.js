@@ -8,7 +8,7 @@ const searchMock = async (req, res) => {
         const term = req.query.term;
         if (!term || term.length === 0) {
             return res.status(400).json({ error: "Missing term in Param Query!" });
-
+        }
         // Response
         var matchedTranscriptIndxes = [];
         mockData.transcription.forEach((item, index) => {
@@ -51,7 +51,7 @@ const search = async (req, res) => {
             .exec();
         let videoIdSet = new Set();
         let videoList = [];
-        // Get video and map search transcript to correct video 
+        // Get video and map search transcript to correct video
         for (const v of search) {
             let vidId = v.video.toString();
             if (!videoIdSet.has(vidId)) {
