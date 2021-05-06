@@ -22,6 +22,21 @@ const isAuthenticated = function (req, res, next) {
     }
 };
 
+const loginRequired = async (req, res, next) => {
+    try {
+        if (req.user) {
+            let foundUser = await User.findOne({ email: req.user.email }).exec();
+            req.user._id = foundUser._id;
+            next();
+        } else {
+            return res.staus(401).json({ message: "Unauthorized user! Please retry with new token!" });
+        }
+    } catch (error) {
+        return res.status(400).json(error);
+    }
+};
+
 module.exports = {
     isAuthenticated,
+    loginRequired,
 };

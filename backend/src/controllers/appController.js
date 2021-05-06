@@ -81,6 +81,7 @@ const search = async (req, res) => {
             if (foundUser) {
                 let sh = new SearchHistory({ term, searchResult: resData, user: foundUser._id });
                 await sh.save();
+                resData = { logged_in_user: foundUser, ...resData };
                 console.log("Found user! Saved search query for user into db!");
             }
         }
