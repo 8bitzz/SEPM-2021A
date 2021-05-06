@@ -141,10 +141,12 @@ const SearchResult = () => {
     event.preventDefault();
   }
 
+  const username = localStorage.getItem("username");
+
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <NavBar searchTerm={searchTerm} onSearch={handleSearch} onSubmit={handleSubmit}/>
+      <NavBar searchTerm={searchTerm} onSearch={handleSearch} onSubmit={handleSubmit} username={username}/>
       <Drawer
         className={classes.drawer}
         variant="permanent"
@@ -179,7 +181,7 @@ const SearchResult = () => {
         { videos.isLoading 
         ? <div className={classes.progress}><CircularProgress /></div>
         : <Video 
-            searchTerm={searchTerm} 
+            keyWord={searchTerm} 
             videoUrl={videos.data.videoURL} 
             noVideos={videos.data.numberOfMatchedVideos}
             transcriptList={videos.data.originalTranscription}

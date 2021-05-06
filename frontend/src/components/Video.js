@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme) =>
     })
 );
 
-const Video = ({searchTerm, videoUrl, noVideos, transcriptList, transcriptIndex}) => {
+const Video = ({keyWord, videoUrl, noVideos, transcriptList, transcriptIndex}) => {
     const classes = useStyles();
 
     const [count, setCount] = React.useState(1);
@@ -76,19 +76,12 @@ const Video = ({searchTerm, videoUrl, noVideos, transcriptList, transcriptIndex}
     const videoTrans = transcriptList?.map((transcript, index) => (
         <li key={index}>
             <Highlighter
-                searchWords={[searchTerm]}
+                searchWords={[keyWord]}
                 autoEscape={true}
                 textToHighlight={transcript.transcript}
             />
-            {/* <Typography variant="body1">
-                {transcript.transcript}
-            </Typography> */}
         </li>
     )) ?? []; // Use `map(() => ())` instead of `map(() => {})` to fix bug "Expected to return a value in arrow function"
-
-    const highlightKeywords = () => {
-
-    }
 
     return (
         <>  
@@ -150,7 +143,7 @@ const Video = ({searchTerm, videoUrl, noVideos, transcriptList, transcriptIndex}
               </Typography>
             </div>
             <div>
-              <p> "<b>{searchTerm}</b>" </p>
+              <p> "<b>{keyWord}</b>" </p>
             </div>
             <div>
             <IconButton
