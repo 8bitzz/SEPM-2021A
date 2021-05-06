@@ -38,8 +38,6 @@ app.get("/", function (req, res) {
     res.send(`Audio Process Restful API is running!`);
 });
 
-const Transcript = require("./src/models/transcript");
-
 // Express App initialize
 app.listen(PORT, function () {
     console.log(`Your server is running on port ${PORT}. ENV CONFIG: ${process.env.ENV_TYPE}`);
