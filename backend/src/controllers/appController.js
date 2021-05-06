@@ -8,7 +8,6 @@ const searchMock = async (req, res) => {
         const term = req.query.term;
         if (!term || term.length === 0) {
             return res.status(400).json({ error: "Missing term in Param Query!" });
-        }
 
         // Response
         var matchedTranscriptIndxes = [];
