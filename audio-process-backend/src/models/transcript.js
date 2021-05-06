@@ -17,5 +17,6 @@ var TranscriptSchema = new mongoose.Schema({
     video: { type: mongoose.Schema.Types.ObjectId, ref: "Video" },
     order: Number,
 });
+TranscriptSchema.index({transcript: "text"});
 
 module.exports = mongoose.model("Transcript", TranscriptSchema);
