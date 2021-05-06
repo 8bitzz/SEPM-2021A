@@ -12,7 +12,6 @@ const appRoutes = require("./src/routes/appRoutes");
 
 // Import authentication route
 var { isAuthenticated } = require("./src/controllers/userControllers");
-var { searchAPI } = require("./src/controllers/appController");
 
 // App config
 var app = express();
@@ -48,19 +47,9 @@ app.use(isAuthenticated);
 // Routes
 app.use("/app", appRoutes);
 
-// Test Authentication
-app.get("/authtest", (req, res) => {
-    res.json(req.user ? req.user : { message: "No User Found" });
-});
-
-//
+// Default route
 app.get("/", function (req, res) {
     res.send(`Restful API is running on port ${PORT}!`);
-});
-
-// Default routes
-app.get("/env-config", function (req, res) {
-    res.send(`${JSON.stringify(process.env)}`);
 });
 
 // Express App initialize
