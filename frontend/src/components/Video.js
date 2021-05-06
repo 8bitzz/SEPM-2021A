@@ -11,6 +11,7 @@ import LastPageIcon from "@material-ui/icons/LastPage";
 import IconButton from "@material-ui/core/IconButton";
 
 import SaveButton from "./SaveButton";
+import Highlighter from "react-highlight-words";
 
 
 const StyledBadge = withStyles((theme) => ({
@@ -68,17 +69,26 @@ const Video = ({searchTerm, videoUrl, noVideos, transcriptList, transcriptIndex}
     const totalPage = noVideos;
 
     const [word, setWord] = React.useState(1);
-    const totalWord = transcriptIndex?.length ?? 0; // Fix bug transcriptIndex undefined
+    const totalWord = transcriptIndex?.length ?? 0; // Use ?? to fix bug undefined
 
     console.log(transcriptList);
 
-    const videoTrans = transcriptList?.map((transcript, index) => 
-        (<li key={index}>
-            <Typography variant="body2">
+    const videoTrans = transcriptList?.map((transcript, index) => (
+        <li key={index}>
+            <Highlighter
+                searchWords={[searchTerm]}
+                autoEscape={true}
+                textToHighlight={transcript.transcript}
+            />
+            {/* <Typography variant="body1">
                 {transcript.transcript}
-            </Typography>
-        </li>)
-    ) ?? [];
+            </Typography> */}
+        </li>
+    )) ?? []; // Use `map(() => ())` instead of `map(() => {})` to fix bug "Expected to return a value in arrow function"
+
+    const highlightKeywords = () => {
+
+    }
 
     return (
         <>  
@@ -126,7 +136,7 @@ const Video = ({searchTerm, videoUrl, noVideos, transcriptList, transcriptIndex}
                     height: "100%"
                 }}
                 src={videoUrl}
-                frameborder="0"
+                frameBorder="0"
             >
             </iframe>
         </div>
