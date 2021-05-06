@@ -71,8 +71,6 @@ const Video = ({keyWord, videoUrl, noVideos, transcriptList, transcriptIndex}) =
     const [word, setWord] = React.useState(1);
     const totalWord = transcriptIndex?.length ?? 0; // Use ?? to fix bug undefined
 
-    console.log(transcriptList);
-
     const videoTrans = transcriptList?.map((transcript, index) => (
         <li key={index}>
             <Highlighter

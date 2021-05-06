@@ -146,17 +146,19 @@ const NavBarNonAuth = (props) => {
             <div className={classes.searchIcon}>
               <SearchIcon />
             </div>
-            <InputBase
-              placeholder="Search…"
-              inputProps={{ "aria-label": "search" }}
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              value={props.searchTerm}
-              onChange={props.onSearch}
-              autoFocus
-            />
+            <form onSubmit={props.onSubmit}>
+              <InputBase
+                placeholder="Search…"
+                inputProps={{ "aria-label": "search" }}
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+                value={props.searchTerm}
+                onChange={props.onSearch}
+                autoFocus
+              />
+            </form>
           </div>
           <div>
             <LinkWrap to="/signin">

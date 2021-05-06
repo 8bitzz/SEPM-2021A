@@ -92,10 +92,10 @@ const videosReducer = (state, action) => {
 const SearchResult = () => {
   const classes = useStyles();
 
-  // Set the initial state of searchTerm as the URL param
+  // Set the initial state of searchTerm as the URL param s
   const search = useLocation().search;
   const query = new URLSearchParams(search).get('term');
-  const [searchTerm, setSearchTerm] = React.useState(query);
+  const [searchTerm, setSearchTerm] = React.useState(query || " ");
 
   // Use Reducer to handle states related to asynchronous data
   const [videos, dispatchVideos] = React.useReducer(
@@ -137,16 +137,17 @@ const SearchResult = () => {
   };
   
   const handleSubmit = (event) => {
-    setUrl(`${API_ENDPOINT}${searchTerm}`);
+    if (searchTerm) {
+      setUrl(`${API_ENDPOINT}${searchTerm}`);
+    }
+    
     event.preventDefault();
   }
-
-  const username = localStorage.getItem("username");
 
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <NavBar searchTerm={searchTerm} onSearch={handleSearch} onSubmit={handleSubmit} username={username}/>
+      <NavBar searchTerm={searchTerm} onSearch={handleSearch} onSubmit={handleSubmit}/>
       <Drawer
         className={classes.drawer}
         variant="permanent"
@@ -176,12 +177,13 @@ const SearchResult = () => {
       </Drawer>
       <main className={classes.content}>
         <Toolbar />
-        { videos.isError && <div className={classes.error}><Typography>Something went wrong ... </Typography></div> }
 
-        { videos.isLoading 
-        ? <div className={classes.progress}><CircularProgress /></div>
+        { videos.isLoading && <div className={classes.progress}><CircularProgress /></div> }
+
+        { videos.isError 
+        ? <div className={classes.error}><Typography>Something went wrong ... </Typography></div> 
         : <Video 
-            keyWord={searchTerm} 
+            keyWord={searchTerm}  
             videoUrl={videos.data.videoURL} 
             noVideos={videos.data.numberOfMatchedVideos}
             transcriptList={videos.data.originalTranscription}
