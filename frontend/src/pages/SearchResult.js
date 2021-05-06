@@ -174,7 +174,6 @@ const SearchResult = () => {
       </Drawer>
       <main className={classes.content}>
         <Toolbar />
-        <Typography variant="body1">Searching for: {searchTerm}</Typography>
         { videos.isError && <div className={classes.error}><Typography>Something went wrong ... </Typography></div> }
 
         { videos.isLoading 
@@ -183,7 +182,7 @@ const SearchResult = () => {
             searchTerm={searchTerm} 
             videoUrl={videos.data.videoURL} 
             noVideos={videos.data.numberOfMatchedVideos}
-            transcript={videos.data.originalTranscription}
+            transcriptList={videos.data.originalTranscription}
             transcriptIndex={videos.data.matchingTranscriptionIndexs}
           /> 
         }

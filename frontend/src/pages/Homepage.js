@@ -4,7 +4,6 @@ import HomeNavBar from '../components/HomeNavBar';
 import cover from '../images/cover.png';
 import EduSearchBar from '../components/EduSearchBar';
 import EduSearchButton from '../components/EduSearchButton';
-import { Link } from 'react-router-dom';
 import { useHistory } from "react-router-dom"
 
 const Homepage = () => {
@@ -59,10 +58,6 @@ const LogoWrapper = styled.div`
   margin-top: 40px;
   height:200px;
   text-align: center;
-`;
-
-const LinkWrapper = styled(Link)`
-  text-decoration: none;
 `;
 
 export default Homepage;

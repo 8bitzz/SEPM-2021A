@@ -55,14 +55,13 @@ const useStyles = makeStyles((theme) =>
             paddingLeft: theme.spacing(5),
             position: "relative",
             paddingBottom: "56.25%" /* 16:9 */,
-            paddingTop: 25,
             height: 0
         },
 
     })
 );
 
-const Video = ({searchTerm, videoUrl, noVideos, transcript, transcriptIndex}) => {
+const Video = ({searchTerm, videoUrl, noVideos, transcriptList, transcriptIndex}) => {
     const classes = useStyles();
 
     const [count, setCount] = React.useState(1);
@@ -70,6 +69,16 @@ const Video = ({searchTerm, videoUrl, noVideos, transcript, transcriptIndex}) =>
 
     const [word, setWord] = React.useState(1);
     const totalWord = transcriptIndex?.length ?? 0; // Fix bug transcriptIndex undefined
+
+    console.log(transcriptList);
+
+    const videoTrans = transcriptList?.map((transcript, index) => 
+        (<li key={index}>
+            <Typography variant="body2">
+                {transcript.transcript}
+            </Typography>
+        </li>)
+    ) ?? [];
 
     return (
         <>  
@@ -149,7 +158,11 @@ const Video = ({searchTerm, videoUrl, noVideos, transcript, transcriptIndex}) =>
           </Toolbar>
         </div>
 
-        <div className={classes.transcript}></div>
+        <div className={classes.transcript}>
+            <ul>
+                {videoTrans}
+            </ul>
+        </div>
         </>
     )
 }
