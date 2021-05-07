@@ -9,6 +9,10 @@ var serviceAccount = require(process.cwd() + "/" + process.env.FIREBASE_FILE);
 
 // Import routes
 const appRoutes = require("./src/routes/appRoutes");
+const searchHistoryRoutes = require("./src/routes/searchHistoryRoutes");
+const savedVideoRoutes = require("./src/routes/savedVideoRoutes");
+const videoRoutes = require("./src/routes/videoRoutes");
+const noteRoutes = require("./src/routes/noteRoutes");
 
 // Import authentication route
 var { isAuthenticated } = require("./src/controllers/userControllers");
@@ -46,6 +50,10 @@ app.use(isAuthenticated);
 
 // Routes
 app.use("/app", appRoutes);
+app.use("/search-history", searchHistoryRoutes);
+app.use("/saved-video", savedVideoRoutes);
+app.use("/video", videoRoutes);
+app.use("/note", noteRoutes);
 
 // Default route
 app.get("/", function (req, res) {

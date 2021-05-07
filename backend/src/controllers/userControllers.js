@@ -29,7 +29,7 @@ const loginRequired = async (req, res, next) => {
             req.user._id = foundUser._id;
             next();
         } else {
-            return res.staus(401).json({ message: "Unauthorized user! Please retry with new token!" });
+            return res.status(401).json({ message: "Unauthorized user!" });
         }
     } catch (error) {
         return res.status(400).json(error);
