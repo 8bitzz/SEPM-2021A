@@ -1,6 +1,8 @@
 const Transcript = require("../models/transcript");
 var mockData = require("../mock-data/response.json");
 const Video = require("../models/video");
+const User = require("../models/user");
+const SearchHistory = require("../models/searchHistory");
 
 const searchMock = async (req, res) => {
     try {
@@ -68,12 +70,22 @@ const search = async (req, res) => {
                 videoList[vidIndex].searchTranscript = [...videoList[vidIndex].searchTranscript, v._id];
             }
         }
-        return res.json({
+        let resData = {
             term,
             video_count: videoList.length,
             search_transcript_count: search.length,
             video_list_result: videoList,
-        });
+        };
+        if (req.user) {
+            let foundUser = await User.findOne({ email: req.user.email }).exec();
+            if (foundUser) {
+                let sh = new SearchHistory({ term, searchResult: resData, user: foundUser._id });
+                await sh.save();
+                resData = { logged_in_user: foundUser, ...resData };
+                console.log("Found user! Saved search query for user into db!");
+            }
+        }
+        return res.json(resData);
     } catch (error) {
         return res.status(400).json({ error });
     }
