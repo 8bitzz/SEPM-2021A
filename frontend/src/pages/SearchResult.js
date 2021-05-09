@@ -45,7 +45,7 @@ const StyledBadge = withStyles((theme) => ({
   },
 }))(Badge);
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
       display: "flex",
@@ -150,14 +150,14 @@ const SearchResult = () => {
         <Toolbar />
         <div className={classes.drawerContainer}>
           <List>
-            <ListItem button>
+            <ListItem button onClick={event =>  window.location.href='/savedclips'}>
               <ListItemIcon>
                 <FavoriteIcon />
               </ListItemIcon>
               <ListItemText>Saved Clips</ListItemText>
             </ListItem>
             <Divider />
-            <ListItem button>
+            <ListItem button button onClick={event =>  window.location.href='/notes'}>
               <ListItemIcon>
                 <NoteAddIcon />
               </ListItemIcon>
