@@ -1,0 +1,20 @@
+FROM node:14.16
+
+WORKDIR /app
+
+RUN npm install nodemon -g
+
+RUN apt update
+
+RUN apt install ffmpeg -y
+
+RUN ffmpeg -version
+
+COPY ./package*.json ./
+
+RUN npm install
+
+COPY . .
+
+CMD ["nodemon"]
+
