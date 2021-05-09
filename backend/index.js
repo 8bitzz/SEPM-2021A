@@ -9,10 +9,13 @@ var serviceAccount = require(process.cwd() + "/" + process.env.FIREBASE_FILE);
 
 // Import routes
 const appRoutes = require("./src/routes/appRoutes");
+const searchHistoryRoutes = require("./src/routes/searchHistoryRoutes");
+const savedVideoRoutes = require("./src/routes/savedVideoRoutes");
+const videoRoutes = require("./src/routes/videoRoutes");
+const noteRoutes = require("./src/routes/noteRoutes");
 
 // Import authentication route
 var { isAuthenticated } = require("./src/controllers/userControllers");
-var { searchAPI } = require("./src/controllers/appController");
 
 // App config
 var app = express();
@@ -47,20 +50,14 @@ app.use(isAuthenticated);
 
 // Routes
 app.use("/app", appRoutes);
+app.use("/search-history", searchHistoryRoutes);
+app.use("/saved-video", savedVideoRoutes);
+app.use("/video", videoRoutes);
+app.use("/note", noteRoutes);
 
-// Test Authentication
-app.get("/authtest", (req, res) => {
-    res.json(req.user ? req.user : { message: "No User Found" });
-});
-
-//
+// Default route
 app.get("/", function (req, res) {
     res.send(`Restful API is running on port ${PORT}!`);
-});
-
-// Default routes
-app.get("/env-config", function (req, res) {
-    res.send(`${JSON.stringify(process.env)}`);
 });
 
 // Express App initialize

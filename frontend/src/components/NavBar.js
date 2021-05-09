@@ -1,5 +1,5 @@
 import React from "react";
-import { createStyles, Theme, makeStyles, fade } from "@material-ui/core/styles";
+import { createStyles, makeStyles, fade } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
@@ -79,10 +79,10 @@ const LinkWrap = styled(Link)`
   color: #ffffff;
 `;
 
-const NavBar = ({searchTerm, onSearch}) => {
+const NavBar = ({searchTerm, onSearch, onSubmit}) => {
   return (
     <AuthUserContext.Consumer>
-      {(authUser) => (authUser ? <NavBarAuth searchTerm={searchTerm} onSearch={onSearch} /> : <NavBarNonAuth searchTerm={searchTerm} onSearch={onSearch} />)}
+      {(authUser) => (authUser ? <NavBarAuth searchTerm={searchTerm} onSearch={onSearch} onSubmit={onSubmit}/> : <NavBarNonAuth searchTerm={searchTerm} onSearch={onSearch} onSubmit={onSubmit}/>)}
     </AuthUserContext.Consumer>
   );
 };
@@ -103,17 +103,20 @@ const NavBarAuth = (props) => {
             <div className={classes.searchIcon}>
               <SearchIcon />
             </div>
-            <InputBase
-              placeholder="Search…"
-              inputProps={{ "aria-label": "search" }}
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              value={props.searchTerm}
-              onChange={props.onSearch}
-              autoFocus
-            />
+            <form onSubmit={props.onSubmit}>
+              <InputBase
+                placeholder="Search…"
+                inputProps={{ "aria-label": "search" }}
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+                value={props.searchTerm}
+                onChange={props.onSearch}
+                autoFocus
+              />
+            </form>
+            
           </div>
           <div>
             <SignOutButton />
@@ -143,17 +146,19 @@ const NavBarNonAuth = (props) => {
             <div className={classes.searchIcon}>
               <SearchIcon />
             </div>
-            <InputBase
-              placeholder="Search…"
-              inputProps={{ "aria-label": "search" }}
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              value={props.searchTerm}
-              onChange={props.onSearch}
-              autoFocus
-            />
+            <form onSubmit={props.onSubmit}>
+              <InputBase
+                placeholder="Search…"
+                inputProps={{ "aria-label": "search" }}
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+                value={props.searchTerm}
+                onChange={props.onSearch}
+                autoFocus
+              />
+            </form>
           </div>
           <div>
             <LinkWrap to="/signin">
