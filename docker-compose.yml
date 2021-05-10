@@ -1,0 +1,29 @@
+version: '3'
+services: 
+    audio-process:
+        build:
+            context: ./audio-process-backend
+            dockerfile: Dockerfile.dev
+        ports:
+            - "7000:7000"
+        volumes:
+            - /app/node_modules 
+            - ./audio-process-backend:/app
+    backend:
+        build:
+            context: ./backend
+            dockerfile: Dockerfile.dev
+        ports:
+            - "7001:7001"
+        volumes:
+            - /app/node_modules 
+            - ./backend:/app
+    frontend:
+        build:
+            context: ./frontend
+            dockerfile: Dockerfile.dev
+        ports:
+            - "3000:3000"
+        volumes:
+            - /app/node_modules 
+            - ./frontend:/app
