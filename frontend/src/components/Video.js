@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) =>
 const Video = ({keyWord, item}) => {
     const classes = useStyles();
 
-    const [word, setWord] = React.useState(1);
+    const [word, setWord] = React.useState(0);
     const totalWord = item.searchTranscript?.length ?? 0;
     const control = true;
     const baseUrl = 'https://youtube.com/embed/';
@@ -63,8 +63,13 @@ const Video = ({keyWord, item}) => {
 
     }
     const handleNextButtonClicked = () => {
-      // Log transID based on word count
-      const transID = searchTranscriptList[word];
+      if ((word + 1) >= totalWord) {
+        return;
+      } 
+      var newWord = word + 1;
+      console.log(newWord);
+      let transID = searchTranscriptList[newWord];
+      
       console.log(transID);
       const result = transcriptList.find(transcript => {
         return transcript._id === transID;
@@ -72,11 +77,27 @@ const Video = ({keyWord, item}) => {
       console.log(result);
       const transText = result.text;
       setVideoTranscript(transText);
-      setWord(word < totalWord? word + 1 : word);
+      setWord(newWord);
     }
 
     const handleBeforeButtonClicked = () => {
-      setWord(word > 1 ? word - 1 : word);
+      console.log(word);
+      if ((word - 1) < 0) {
+        return;
+      } 
+      var newWord = word - 1;
+      console.log(newWord);
+      let transID = searchTranscriptList[newWord];
+      
+      console.log(transID);
+      const result = transcriptList.find(transcript => {
+        return transcript._id === transID;
+      });
+      console.log(result);
+      const transText = result.text;
+      setVideoTranscript(transText);
+
+      setWord(newWord);
     }
 
     return (
@@ -102,9 +123,9 @@ const Video = ({keyWord, item}) => {
           <Toolbar className={classes.keywordsBar}>
             <div>
             <Typography>
-                {" "}
-                {word}/{totalWord}
-              </Typography>
+              {" "}
+              {word + 1}/{totalWord}
+            </Typography>
             </div>
             <div>
               <p> "<b>{keyWord}</b>" </p>
@@ -112,11 +133,13 @@ const Video = ({keyWord, item}) => {
             <div>
             <IconButton
                 onClick={handleBeforeButtonClicked}
+                disabled={word <= 0}
               >
                 <NavigateBeforeOutlinedIcon />
               </IconButton>
               <IconButton
                 onClick={handleNextButtonClicked}
+                disabled={word >= totalWord - 1}
               >
                 <NavigateNextOutlinedIcon />
               </IconButton>
