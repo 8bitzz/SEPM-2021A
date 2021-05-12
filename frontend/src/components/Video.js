@@ -40,9 +40,11 @@ const Video = ({keyWord, item}) => {
     const [word, setWord] = React.useState(0);
     const totalWord = item.searchTranscript?.length ?? 0;
     const control = true;
-    const baseUrl = 'https://youtube.com/embed/';
-    const videoUrl = `${baseUrl}${item.id}`;
-    
+    const playing = true;
+
+    const [startTime, setStartTime] = React.useState(33);
+    const videoUrl = `https://www.youtube.com/embed/${item.id}?t=${startTime}`;
+
     const transcriptList = item.transcriptList;
     const searchTranscriptList = item.searchTranscript;
 
@@ -52,12 +54,8 @@ const Video = ({keyWord, item}) => {
       const playedSeconds = e.playedSeconds;
 
       transcriptList?.forEach(transcript => {
-        const startTime = transcript.startTime;
-        const endTime = transcript.endTime;
-        const text = transcript.text;
-
-        if (playedSeconds >= startTime & playedSeconds < endTime) {
-          setVideoTranscript(text);
+        if (playedSeconds >= transcript.startTime & playedSeconds < transcript.endTime) {
+          setVideoTranscript(transcript.text);
         }
       })
 
@@ -66,38 +64,32 @@ const Video = ({keyWord, item}) => {
       if ((word + 1) >= totalWord) {
         return;
       } 
-      var newWord = word + 1;
-      console.log(newWord);
-      let transID = searchTranscriptList[newWord];
+      var nextWord = word + 1;
+      let nextTranscriptID = searchTranscriptList[nextWord];
       
-      console.log(transID);
-      const result = transcriptList.find(transcript => {
-        return transcript._id === transID;
+      const nextTranscript = transcriptList.find(transcript => {
+        return transcript._id === nextTranscriptID;
       });
-      console.log(result);
-      const transText = result.text;
-      setVideoTranscript(transText);
-      setWord(newWord);
+
+      setVideoTranscript(nextTranscript.text);
+      setStartTime(nextTranscript.startTime);
+      setWord(nextWord);
     }
 
     const handleBeforeButtonClicked = () => {
-      console.log(word);
       if ((word - 1) < 0) {
         return;
       } 
-      var newWord = word - 1;
-      console.log(newWord);
-      let transID = searchTranscriptList[newWord];
+      var previousWord = word - 1;
+      let prevTranscriptID = searchTranscriptList[previousWord];
       
-      console.log(transID);
-      const result = transcriptList.find(transcript => {
-        return transcript._id === transID;
+      const prevTranscript = transcriptList.find(transcript => {
+        return transcript._id === prevTranscriptID;
       });
-      console.log(result);
-      const transText = result.text;
-      setVideoTranscript(transText);
 
-      setWord(newWord);
+      setVideoTranscript(prevTranscript.text);
+      setStartTime(prevTranscript.startTime);
+      setWord(previousWord);
     }
 
     return (
@@ -115,6 +107,7 @@ const Video = ({keyWord, item}) => {
               width='100%'
               height='100%'
               controls={control}
+              playing={playing}
               onProgress={(e) => checkCurrentTime(e)}
             />
         </div>
