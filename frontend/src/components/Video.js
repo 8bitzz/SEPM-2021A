@@ -38,6 +38,7 @@ const Video = ({keyWord, item}) => {
 
     const [word, setWord] = React.useState(1);
     const totalWord = item.searchTranscript?.length ?? 0;
+    const control = true;
     
     const transcriptList = item.transcriptList;
     const baseUrl = 'https://youtube.com/embed/';
@@ -55,17 +56,10 @@ const Video = ({keyWord, item}) => {
         </li>
     )) ?? []; 
 
-    // const opts = {
-    //   position: "absolute",
-    //   top: 0,
-    //   left: 0,
-    //   height: '590px',
-    //   width: '100%',
-    //   playerVars: {
-    //     // https://developers.google.com/youtube/player_parameters
-    //     autoplay: 1,
-    //   },
-    // };
+    const checkCurrentTime = (e) => {
+      const playedSeconds = e.playedSeconds;
+      console.log(playedSeconds);
+    }
 
     return (
         <>  
@@ -81,7 +75,8 @@ const Video = ({keyWord, item}) => {
               }}
               width='100%'
               height='100%'
-              controls="true"
+              controls={control}
+              onProgress={(e) => checkCurrentTime(e)}
             />
         </div>
 
