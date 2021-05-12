@@ -7,7 +7,7 @@ import NavigateNextOutlinedIcon from "@material-ui/icons/NavigateNextOutlined";
 import IconButton from "@material-ui/core/IconButton";
 
 import Highlighter from "react-highlight-words";
-import YouTube from "react-youtube";
+import ReactPlayer from 'react-player/youtube'
 
 const useStyles = makeStyles((theme) =>
     createStyles({
@@ -25,6 +25,9 @@ const useStyles = makeStyles((theme) =>
             marginTop: theme.spacing(1),
             marginLeft: theme.spacing(5),
             position: "relative",
+            height: 0,
+            paddingBottom: "56%",
+            marginBottom: '10px',
         },
 
     })
@@ -37,6 +40,8 @@ const Video = ({keyWord, item}) => {
     const totalWord = item.searchTranscript?.length ?? 0;
     
     const transcriptList = item.transcriptList;
+    const baseUrl = 'https://youtube.com/embed/';
+    const videoUrl = `${baseUrl}${item.id}`;
 
     const videoTrans = transcriptList?.map((transcript) => (
         <li key={transcript._id}>
@@ -50,26 +55,33 @@ const Video = ({keyWord, item}) => {
         </li>
     )) ?? []; 
 
-    const opts = {
-      position: "absolute",
-      top: 0,
-      left: 0,
-      height: '590px',
-      width: '100%',
-      playerVars: {
-        // https://developers.google.com/youtube/player_parameters
-        autoplay: 1,
-      },
-    };
+    // const opts = {
+    //   position: "absolute",
+    //   top: 0,
+    //   left: 0,
+    //   height: '590px',
+    //   width: '100%',
+    //   playerVars: {
+    //     // https://developers.google.com/youtube/player_parameters
+    //     autoplay: 1,
+    //   },
+    // };
 
     return (
         <>  
         <div className={classes.youtubevideo}>
-            <YouTube
-              videoId={item.id}
-              opts={opts}
+            <ReactPlayer
+              url={videoUrl}
               title={item.title}
               frameBorder="0"
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+              }}
+              width='100%'
+              height='100%'
+              controls="true"
             />
         </div>
 
