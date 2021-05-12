@@ -21,7 +21,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import axios from "axios";
 
-const logoNote = "https://cdn1.iconfinder.com/data/icons/galaxy-open-line-i/200/memo-512.png";
+
 
 const drawerWidth = 250;
 const useStyles = makeStyles((theme) =>
@@ -45,11 +45,11 @@ const useStyles = makeStyles((theme) =>
             padding: theme.spacing(2, 16, 2, 14),
         },
         title: {
-            paddingTop: 20,
-            paddingBottom: 60,
+            paddingTop: 40,
+            paddingBottom: 20,
 
         },
-        heading: {
+        note: {
             paddingTop: 20,
             paddingBottom: 20,
         },
@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) =>
     })
 );
 
-const Notes = () => {
+const NoteDetail = () => {
     const classes = useStyles();
     const [data, setData] = React.useState([]);
 
@@ -109,51 +109,39 @@ const Notes = () => {
 
                 {
                     data.length > 0 && data.map(v =>
-                        
-                        <Card>
-                            <CardActionArea onClick={event => window.location.href = '/notedetail'}>
-                                <CardContent>
-                                    <Grid 
-                                        container spacing={1}
-                                        direction="row"
-                                        justify="flex-start"
-                                        alignItems="stretch">
-                                        <Grid item xs={2}>
-                                            <CardMedia>
-                                                <a>
-                                                    <img style={{ width: "90%" }} src={v.video.thumbnail}></img>
-                                                </a>
-                                            </CardMedia>
-                                        </Grid>
-                                        <Grid item >
-                                            <div>
-                                                <Typography noWrap><b>{v.video.title}</b></Typography>
-                                                <Typography variant="subtitle1">{data.length} notes</Typography>
-                                            </div>
-                                        </Grid>
-                                    </Grid>
-                                </CardContent>
-                            </CardActionArea>
-                        </Card>
+                        <div>
+                            <Typography className={classes.title}><b>{v.video.title}</b></Typography>
+                            <Divider />
+                            {/* <Grid
+                                cointainer
+                                direction="row"
+                                justify="flex-start"
+                                alignItems="center"
+                            >
+                                <Grid item xs={1}>
+                                    <Typography>{v.video_timeline}</Typography>
+                                </Grid>
+                                <Divider orientation="vertical" />
+                                <Grid item>
+                                    <Typography>{v.note}</Typography>
+                                </Grid>
+                            </Grid> */}
 
+                            <Divider />
+                            <div className={classes.note}>
+                                <ListItem>
+                                    <ListItemText><b>{v.video_timeline} s</b></ListItemText>
+                                    <Divider orientation="vertical" />
+                                    <ListItemText>{v.note}</ListItemText>
+                                </ListItem>
+                            </div>
+
+                        </div>
                     )
                 }
-                {
-                    data.length == 0 &&
-                    <div style={{ textAlign: "center" }}>
-                       
-                       <img src="http://simpleicon.com/wp-content/uploads/note-2-256x256.png"></img>
-                        <Typography >No Notes Found</Typography>
-                    </div>
-                }
-
-
-
-
-
             </main>
         </div>
     );
 }
 
-export default Notes;
+export default NoteDetail;

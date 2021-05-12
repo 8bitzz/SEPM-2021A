@@ -22,195 +22,173 @@ import IconButton from "@material-ui/core/IconButton";
 import Button from '@material-ui/core/Button';
 import NavBar from '../components/NavBar';
 import { mergeClasses } from '@material-ui/styles';
+import axios from "axios";
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
 
 const drawerWidth = 250;
 const useStyles = makeStyles((theme) =>
-  createStyles({
-    root: {
-        display: "flex",
-        backgroundColor: "#fff",
-    },
-    drawer: {
-        width: drawerWidth,
-        flexShrink: 0,
-    },
-    drawerPaper: {
-        width: drawerWidth,
-    },
-    drawerContainer: {
-        overflow: "auto",
-    },
-    content: {
-        flexGrow: 1,
-        padding: theme.spacing(2, 16, 2, 14),
-    },
-    title : {
-        paddingTop: 20,
-        paddingBottom: 60,
-        
-    },
-    heading: {
-        paddingTop: 10,
-        paddingBottom: 20,
-    },
-    clipBar: {
-        justifyContent: 'space-between',
-        paddingTop: 20,
-        paddingBottom: 20,
-    },
-    introImg: {
-        maxWidth: 100,
-    }
-  })
+    createStyles({
+        root: {
+            display: "flex",
+            backgroundColor: "#fff",
+        },
+        drawer: {
+            width: drawerWidth,
+            flexShrink: 0,
+        },
+        drawerPaper: {
+            width: drawerWidth,
+        },
+        drawerContainer: {
+            overflow: "auto",
+        },
+        content: {
+            flexGrow: 1,
+            padding: theme.spacing(2, 16, 2, 14),
+        },
+        title: {
+            paddingTop: 20,
+            paddingBottom: 60,
+
+        },
+        heading: {
+            paddingTop: 10,
+            paddingBottom: 20,
+        },
+        clipBar: {
+            justifyContent: 'space-between',
+            paddingTop: 20,
+            paddingBottom: 20,
+        },
+        introImg: {
+            maxWidth: 100,
+        }
+    })
 );
 
-// constructor(props) {
-//     super(props);
-//     this.next = this.next.bind(this);
-//     this.previous = this.previous.bind(this);
-// };
-// const next() = {
-//     this.slider.slickNext();
-// };
-// previous() {
-//     this.slider.slickPrev();
-// }
+
+
+
 
 const SavedClips = () => {
     const classes = useStyles();
+    const [data, setData] = React.useState([]);
 
-    
+    axios
+        .get("http://localhost:7001/saved-video", { headers: { 'Authorization': `JWT ${localStorage.getItem("idtoken")}` } })
+        .then(result => {
+            setData(result.data);
+        })
+        .catch((error) =>
+            console.log("No data")
+            // {alert("Token sai roi!")}
+        );
 
     return (
         <div className={classes.root}>
             <CssBaseline />
-                <NavBar />
-                <Drawer
-                    className={classes.drawer}
-                    variant="permanent"
-                    classes={{
+            <NavBar />
+            <Drawer
+                className={classes.drawer}
+                variant="permanent"
+                classes={{
                     paper: classes.drawerPaper,
-                    }}
-                >
-                    <Toolbar />
-                    <div className={classes.drawerContainer}>
+                }}
+            >
+                <Toolbar />
+                <div className={classes.drawerContainer}>
                     <List>
-                        <ListItem button onClick={event =>  window.location.href='/savedclips'}>
-                        <ListItemIcon>
-                            <FavoriteIcon />
-                        </ListItemIcon>
-                        <ListItemText>Saved Clips</ListItemText>
+                        <ListItem button onClick={event => window.location.href = '/savedclips'}>
+                            <ListItemIcon>
+                                <FavoriteIcon />
+                            </ListItemIcon>
+                            <ListItemText>Saved Clips</ListItemText>
                         </ListItem>
                         <Divider />
-                        <ListItem button onClick={event =>  window.location.href='/notes'}>
-                        <ListItemIcon>
-                            <NoteAddIcon />
-                        </ListItemIcon>
-                        <ListItemText>Notes</ListItemText>
+                        <ListItem button onClick={event => window.location.href = '/notes'}>
+                            <ListItemIcon>
+                                <NoteAddIcon />
+                            </ListItemIcon>
+                            <ListItemText>Notes</ListItemText>
                         </ListItem>
                         <Divider />
                     </List>
-                    </div>
-                </Drawer>
-            
+                </div>
+            </Drawer>
+
             <main className={classes.content}>
                 <Toolbar />
                 <div style={{ textAlign: "center" }}><Typography className={classes.title} variant="h4">Saved Clips</Typography></div>
-                <Divider />
-                <div className={classes.clipBar}>
-                <Typography className={classes.heading}><b>Computer Science</b></Typography>
-                    
-                    {/* <IconButton><NavigateBeforeOutlinedIcon /></IconButton> */}
-                    <Grid container 
-                        spacing={3} 
-                        direction="row"
-                        justify="space-between"
-                        alignItems="stretch"
-                    >
-                        <Button><NavigateBeforeOutlinedIcon /></Button>
-                    {/* <Grid item xs={1}><IconButton><NavigateBeforeOutlinedIcon /></IconButton></Grid> */}
-                        <Grid item xs={4} zeroMinWidth >
-                            <a  href="https://www.youtube.com/watch?v=wfLISAzXYns">
-                                <img style={{width: "100%"}} src="https://i.ytimg.com/vi/wfLISAzXYns/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAEqL3mUkDt91Xz_6buj7r3MJtjBQ"   ></img>
-                            </a>
-                            <div>
-                                <Typography >Safety guideline for COVID-19: Analysis of superspreading events</Typography>
-                            </div>
-                        </Grid>
-                        <Button component="span"><NavigateNextOutlinedIcon /></Button>
-                     {/* <Grid item xs={1}><IconButton><NavigateNextOutlinedIcon /></IconButton></Grid> */}
-                    </Grid>
-                    {/* <IconButton><NavigateNextOutlinedIcon /></IconButton> */}
-                    </div>
-                <Divider />
 
-                <div className={classes.clipBar}>
-                    <Typography className={classes.heading}><b>Engineering</b></Typography>
+                {/* Style 1 */}
+                {/* <div className={classes.clipBar}>
                     <Grid container 
                         spacing={2} 
                         direction="row"
                         justify="space-between"
                         alignItems="stretch"
                     >
-                        <IconButton><NavigateBeforeOutlinedIcon /></IconButton>
-                        <Grid item xs={4} zeroMinWidth>
-                            <a href="https://www.youtube.com/watch?v=wfLISAzXYns">
-                                <img style={{width: "100%"}} src="https://i.ytimg.com/vi/wfLISAzXYns/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAEqL3mUkDt91Xz_6buj7r3MJtjBQ"></img>
-                            </a>
-                            <div>
-                                <Typography noWrap>Safety guideline for COVID-19: Analysis of superspreading events</Typography>
-                            </div>
-                        </Grid>
-                        <Grid item xs={4} zeroMinWidth>
-                            <a href="https://www.youtube.com/watch?v=wfLISAzXYns">
-                                <img style={{width: "100%"}} src="https://i.ytimg.com/vi/wfLISAzXYns/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAEqL3mUkDt91Xz_6buj7r3MJtjBQ"></img>
-                            </a>
-                            <div>
-                                <Typography noWrap>Safety guideline for COVID-19: Analysis of superspreading events</Typography>
-                            </div>
-                        </Grid>
-                        
-                        <IconButton><NavigateNextOutlinedIcon /></IconButton>
-                    </Grid>
-                </div>
-                <Divider />
+                        {
+                            data.length > 0 && data.map(v => 
+                                <Grid item xs={4} sm={4} zeroMinWidth>
+                                    <a href={"https://www.youtube.com/watch?v=" + v.video.id}>
+                                        <img style={{width: "100%"}} src={v.video.thumbnail}></img>
+                                    </a>
+                                    <div>
+                                        <Typography noWrap>{v.video.title}</Typography>
+                                    </div>
+                                </Grid>
+                            )
+                        }
+                        {
+                            data.length == 0 && 
+                            <div style={{ textAlign: "center" }}>
+                                <Typography >No video</Typography> 
+                            </div> 
+                        }             
+                    </Grid>                  
+                </div> */}
 
+                {/* Style 2 */}
                 <div className={classes.clipBar}>
-                <Typography className={classes.heading}><b>Humanities & Social Sciences</b></Typography>
-                <Grid container 
-                        spacing={2} 
+                    <Grid container
+                        spacing={2}
                         direction="row"
-                        justify="space-between"
+                        justify="flex-start"
                         alignItems="stretch"
                     >
-                        <IconButton><NavigateBeforeOutlinedIcon /></IconButton>
-                        <Grid item xs={3} zeroMinWidth>
-                            <a href="https://www.youtube.com/watch?v=wfLISAzXYns">
-                                <img style={{width: "100%"}} src="https://i.ytimg.com/vi/wfLISAzXYns/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAEqL3mUkDt91Xz_6buj7r3MJtjBQ"></img>
-                            </a>
-                            <div>
-                                <Typography noWrap>Safety guideline for COVID-19: Analysis of superspreading events</Typography>
-                            </div>
-                        </Grid>
-                        <Grid item xs={3} zeroMinWidth>
-                            <a href="https://www.youtube.com/watch?v=wfLISAzXYns">
-                                <img style={{width: "100%"}} src="https://i.ytimg.com/vi/wfLISAzXYns/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAEqL3mUkDt91Xz_6buj7r3MJtjBQ"></img>
-                            </a>
-                            <div>
-                                <Typography noWrap>Safety guideline for COVID-19: Analysis of superspreading events</Typography>
-                            </div>
-                        </Grid>
-                        <Grid item xs={3} zeroMinWidth>
-                            <a href="https://www.youtube.com/watch?v=wfLISAzXYns">
-                                <img style={{width: "100%"}} src="https://i.ytimg.com/vi/wfLISAzXYns/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAEqL3mUkDt91Xz_6buj7r3MJtjBQ"></img>
-                            </a>
-                            <div>
-                                <Typography noWrap>Safety guideline for COVID-19: Analysis of superspreading events</Typography>
-                            </div>
-                        </Grid>
-                        
-                        <IconButton><NavigateNextOutlinedIcon /></IconButton>
+                        {
+                            data.length > 0 && data.map(v =>
+
+                                <Grid item xs={4} sm={4} zeroMinWidth>
+                                    <Card border="dark" style={{ width: '18rem' }}>
+                                        <CardActionArea href={"https://www.youtube.com/watch?v=" + v.video.id}>
+                                            <CardMedia>
+                                                <img style={{ width: "100%" }} src={v.video.thumbnail}></img>
+                                            </CardMedia>
+                                            <CardContent>
+                                                <div>
+                                                    <Typography noWrap><b>{v.video.title}</b></Typography>
+                                                </div>
+                                            </CardContent>
+                                        </CardActionArea>
+                                    </Card>
+                                </Grid>
+
+                            )
+                        }
                     </Grid>
+                    {
+                        data.length == 0 &&
+                        <div style={{ textAlign: "center" }}>
+                            <Typography >No Videos Found</Typography>
+                        </div>
+                    }
+
                 </div>
 
 
