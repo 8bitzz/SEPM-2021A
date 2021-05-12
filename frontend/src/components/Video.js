@@ -44,11 +44,13 @@ const Video = ({keyWord, item}) => {
 
     const videoTrans = transcriptList?.map((transcript) => (
         <li key={transcript._id}>
-            <Highlighter
-                searchWords={[keyWord]}
-                autoEscape={true}
-                textToHighlight={transcript.text}
-            />
+            <Typography variant="h6">
+              <Highlighter
+                  searchWords={[keyWord]}
+                  autoEscape={true}
+                  textToHighlight={transcript.text}
+              />
+            </Typography>
         </li>
     )) ?? []; 
 
