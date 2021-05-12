@@ -50,8 +50,8 @@ const useStyles = makeStyles((theme) =>
 
         },
         heading: {
-            paddingTop: 20,
-            paddingBottom: 20,
+            paddingTop: 10,
+            paddingBottom: 5,
         },
 
     })
@@ -59,12 +59,30 @@ const useStyles = makeStyles((theme) =>
 
 const Notes = () => {
     const classes = useStyles();
-    const [data, setData] = React.useState([]);
+    const [data, setData] = React.useState({});
 
     axios
         .get("http://localhost:7001/note", { headers: { 'Authorization': `JWT ${localStorage.getItem("idtoken")}` } })
         .then(result => {
-            setData(result.data);
+            let data = result.data;
+            let set = [];
+            let count = {};
+            data.forEach(v => {
+                if (count[v.video._id]){
+                    count[v.video._id] = count[v.video._id] + 1;
+                }
+                else {
+                    count[v.video._id] = 1;
+                    set.push(v.video);
+                }
+            })
+            console.log(count);
+            set = set.map(v => {
+                v.video_count = count[v._id];
+                return v;
+            })
+            console.log(set);
+            setData(set);
         })
         .catch((error) =>
             console.log("No data")
@@ -108,42 +126,41 @@ const Notes = () => {
                 <div style={{ textAlign: "center" }}><Typography className={classes.title} variant="h4">Notes</Typography></div>
 
                 {
-                    data.length > 0 && data.map(v =>
-                        
-                        <Card>
-                            <CardActionArea onClick={event => window.location.href = '/notedetail'}>
+                    data.length > 0 && data.map(v =>   
+                        <div className={classes.heading} >                 
+                        <Card >
+                            <CardActionArea onClick={event => window.location.href = `/notedetail?note_id=${v._id}`}>
                                 <CardContent>
                                     <Grid 
                                         container spacing={1}
                                         direction="row"
                                         justify="flex-start"
-                                        alignItems="stretch">
+                                        alignItems="center">
                                         <Grid item xs={2}>
                                             <CardMedia>
                                                 <a>
-                                                    <img style={{ width: "90%" }} src={v.video.thumbnail}></img>
+                                                    <img style={{ width: "90%" }} src={v.thumbnail}></img>
                                                 </a>
                                             </CardMedia>
                                         </Grid>
-                                        <Grid item >
+                                        <Grid item xs={10}>
                                             <div>
-                                                <Typography noWrap><b>{v.video.title}</b></Typography>
-                                                <Typography variant="subtitle1">{data.length} notes</Typography>
+                                                <Typography noWrap><b>{v.title}</b></Typography>
+                                                <Typography variant="subtitle1">{v.video_count} notes</Typography>
                                             </div>
                                         </Grid>
                                     </Grid>
                                 </CardContent>
                             </CardActionArea>
                         </Card>
-
+                        </div>   
                     )
                 }
                 {
                     data.length == 0 &&
                     <div style={{ textAlign: "center" }}>
-                       
                        <img src="http://simpleicon.com/wp-content/uploads/note-2-256x256.png"></img>
-                        <Typography >No Notes Found</Typography>
+                        <Typography ><b>No Notes Found</b></Typography>
                     </div>
                 }
 

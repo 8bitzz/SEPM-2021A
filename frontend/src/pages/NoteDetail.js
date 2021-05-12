@@ -20,6 +20,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import axios from "axios";
+import { useLocation } from "react-router-dom";
 
 
 
@@ -52,6 +53,7 @@ const useStyles = makeStyles((theme) =>
         note: {
             paddingTop: 20,
             paddingBottom: 20,
+            marginLeft: 10,
         },
 
     })
@@ -61,10 +63,13 @@ const NoteDetail = () => {
     const classes = useStyles();
     const [data, setData] = React.useState([]);
 
+    const search = useLocation().search;
+    const query = new URLSearchParams(search).get('note_id');
+
     axios
         .get("http://localhost:7001/note", { headers: { 'Authorization': `JWT ${localStorage.getItem("idtoken")}` } })
         .then(result => {
-            setData(result.data);
+            setData(result.data.filter(v => v.video._id === query));
         })
         .catch((error) =>
             console.log("No data")
@@ -107,34 +112,45 @@ const NoteDetail = () => {
                 <Toolbar />
                 <div style={{ textAlign: "center" }}><Typography className={classes.title} variant="h4">Notes</Typography></div>
 
+
+                <div>
+                    <Typography className={classes.title}><b>{data[0] && data[0].video.title}</b></Typography>
+                </div>
+
+                <div className={classes.note}>
+                    <Grid container spacing={2}>
+                        <Grid item xs={2}>
+                            <Typography><b>Timeline</b></Typography>
+                        </Grid>
+                        <Grid item xs={8}>
+                            <Typography><b>Note detail</b></Typography>
+                        </Grid>
+                        <Grid item xs={2}>
+                            <Typography><b>Date created</b></Typography>
+                        </Grid>
+                    </Grid>
+                </div>
+
                 {
                     data.length > 0 && data.map(v =>
                         <div>
-                            <Typography className={classes.title}><b>{v.video.title}</b></Typography>
                             <Divider />
-                            {/* <Grid
-                                cointainer
-                                direction="row"
-                                justify="flex-start"
-                                alignItems="center"
-                            >
-                                <Grid item xs={1}>
-                                    <Typography>{v.video_timeline}</Typography>
-                                </Grid>
-                                <Divider orientation="vertical" />
-                                <Grid item>
-                                    <Typography>{v.note}</Typography>
-                                </Grid>
-                            </Grid> */}
 
                             <Divider />
                             <div className={classes.note}>
-                                <ListItem>
-                                    <ListItemText><b>{v.video_timeline} s</b></ListItemText>
-                                    <Divider orientation="vertical" />
-                                    <ListItemText>{v.note}</ListItemText>
-                                </ListItem>
+                                <Grid container spacing={2}>
+                                    <Grid item xs={2}>
+                                        <Typography><b>{v.video_timeline} s</b></Typography>
+                                    </Grid>
+                                    <Grid item xs={8}>
+                                        <Typography>{v.note}</Typography>
+                                    </Grid>
+                                    <Grid item xs={2}>
+                                        <Typography>{new Date(v.create_date).toLocaleDateString()}</Typography>
+                                    </Grid>
+                                </Grid>
                             </div>
+
 
                         </div>
                     )

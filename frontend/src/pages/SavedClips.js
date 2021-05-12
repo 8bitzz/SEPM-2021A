@@ -66,7 +66,10 @@ const useStyles = makeStyles((theme) =>
         },
         introImg: {
             maxWidth: 100,
-        }
+        },
+        img: {
+            paddingTop: 20,
+        },
     })
 );
 
@@ -185,7 +188,9 @@ const SavedClips = () => {
                     {
                         data.length == 0 &&
                         <div style={{ textAlign: "center" }}>
-                            <Typography >No Videos Found</Typography>
+                            <img width="25%" src="http://simpleicon.com/wp-content/uploads/movie-1-256x256.png"></img>
+                            
+                            <Typography className={classes.img}><b>No Videos Found</b></Typography>
                         </div>
                     }
 
