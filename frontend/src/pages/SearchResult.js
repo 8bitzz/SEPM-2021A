@@ -12,7 +12,6 @@ import ListItemText from "@material-ui/core/ListItemText";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import NoteAddIcon from '@material-ui/icons/NoteAdd';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
 import Badge from '@material-ui/core/Badge';
 import NoteAddOutlinedIcon from "@material-ui/icons/NoteAddOutlined";
 import NavigateBeforeOutlinedIcon from "@material-ui/icons/NavigateBeforeOutlined";
@@ -21,14 +20,12 @@ import FirstPageIcon from "@material-ui/icons/FirstPage";
 import LastPageIcon from "@material-ui/icons/LastPage";
 import IconButton from "@material-ui/core/IconButton";
 
-import SaveButton from "../components/SaveButton";
-import Highlighter from "react-highlight-words";
-
 import axios from 'axios';
 import { useLocation } from "react-router-dom";
 
 import Video from "../components/Video";
 import NavBar from "../components/NavBar";
+import SaveButton from "../components/SaveButton";
 
 const drawerWidth = 250;
 
@@ -233,7 +230,6 @@ const Videos = ({list, searchTerm}) => {
 
   return(
     <div>
-      <h1>Total clips: {videosCount}</h1>
       <div>
           <Toolbar className={classes.functionBar}>
             <div>

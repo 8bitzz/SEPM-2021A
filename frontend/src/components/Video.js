@@ -7,6 +7,7 @@ import NavigateNextOutlinedIcon from "@material-ui/icons/NavigateNextOutlined";
 import IconButton from "@material-ui/core/IconButton";
 
 import Highlighter from "react-highlight-words";
+import YouTube from "react-youtube";
 
 const useStyles = makeStyles((theme) =>
     createStyles({
@@ -21,11 +22,9 @@ const useStyles = makeStyles((theme) =>
             borderRadius: "10px",  
         },
         youtubevideo: {
-            paddingTop: theme.spacing(1),
-            paddingLeft: theme.spacing(5),
+            marginTop: theme.spacing(1),
+            marginLeft: theme.spacing(5),
             position: "relative",
-            paddingBottom: "56.25%" /* 16:9 */,
-            height: 0
         },
 
     })
@@ -38,13 +37,10 @@ const Video = ({keyWord, item}) => {
     const totalWord = item.searchTranscript?.length ?? 0;
     
     const transcriptList = item.transcriptList;
-    const baseUrl = 'https://youtube.com/embed/';
-    const videoUrl = `${baseUrl}${item.id}`;
-    const videoTitle = item.title;
 
     const videoTrans = transcriptList?.map((transcript) => (
         <li key={transcript._id}>
-            <Typography variant="h6">
+            <Typography variant="h5">
               <Highlighter
                   searchWords={[keyWord]}
                   autoEscape={true}
@@ -54,22 +50,27 @@ const Video = ({keyWord, item}) => {
         </li>
     )) ?? []; 
 
+    const opts = {
+      position: "absolute",
+      top: 0,
+      left: 0,
+      height: '590px',
+      width: '100%',
+      playerVars: {
+        // https://developers.google.com/youtube/player_parameters
+        autoplay: 1,
+      },
+    };
+
     return (
         <>  
         <div className={classes.youtubevideo}>
-            <iframe 
-                style={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    width: "100%",
-                    height: "100%"
-                }}
-                src={videoUrl}
-                title={videoTitle}
-                frameBorder="0"
-            >
-            </iframe>
+            <YouTube
+              videoId={item.id}
+              opts={opts}
+              title={item.title}
+              frameBorder="0"
+            />
         </div>
 
         <div className={classes.transcript}>
