@@ -69,10 +69,12 @@ const Video = ({keyWord, item}) => {
     const totalPage = 3;
 
     const [word, setWord] = React.useState(1);
-    const totalWord = 3;
+    const totalWord = item.searchTranscript?.length || 0;
     
     const transcriptList = item.transcriptList;
-    const videoUrl = 'https://youtube.com/embed/${item.id}';
+    const baseUrl = 'https://youtube.com/embed/';
+    const videoUrl = `${baseUrl}${item.id}`;
+    const videoTitle = item.title;
 
     const videoTrans = transcriptList?.map((transcript) => (
         <li key={transcript._id}>
@@ -130,6 +132,7 @@ const Video = ({keyWord, item}) => {
                     height: "100%"
                 }}
                 src={videoUrl}
+                title={videoTitle}
                 frameBorder="0"
             >
             </iframe>

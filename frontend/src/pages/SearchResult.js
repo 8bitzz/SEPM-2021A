@@ -76,7 +76,7 @@ const videosReducer = (state, action) => {
         ...state,
         isLoading: false,
         isError: false,
-        data: action.payload, 
+        data: action.payload.video_list_result, 
       };
     case 'VIDEOS_FETCH_FAILURE':
       return {
@@ -119,7 +119,7 @@ const SearchResult = () => {
       .then(result => {
         dispatchVideos({
           type: 'VIDEOS_FETCH_SUCCESS',
-          payload: result.data.video_list_result,
+          payload: result.data,
         });
       })
       .catch(() =>
