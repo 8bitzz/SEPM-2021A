@@ -1,5 +1,5 @@
 import React from "react";
-import { createStyles, makeStyles } from "@material-ui/core/styles";
+import { createStyles, makeStyles, withStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -12,6 +12,17 @@ import ListItemText from "@material-ui/core/ListItemText";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import NoteAddIcon from '@material-ui/icons/NoteAdd';
 import CircularProgress from '@material-ui/core/CircularProgress';
+
+import Badge from '@material-ui/core/Badge';
+import NoteAddOutlinedIcon from "@material-ui/icons/NoteAddOutlined";
+import NavigateBeforeOutlinedIcon from "@material-ui/icons/NavigateBeforeOutlined";
+import NavigateNextOutlinedIcon from "@material-ui/icons/NavigateNextOutlined";
+import FirstPageIcon from "@material-ui/icons/FirstPage";
+import LastPageIcon from "@material-ui/icons/LastPage";
+import IconButton from "@material-ui/core/IconButton";
+
+import SaveButton from "../components/SaveButton";
+import Highlighter from "react-highlight-words";
 
 import axios from 'axios';
 import { useLocation } from "react-router-dom";
@@ -57,8 +68,17 @@ const useStyles = makeStyles((theme) =>
     error: {
       textAlign: "center",
       color: "red",
-    }
-  })
+    },
+    functionBar: {
+      paddingLeft: theme.spacing(5),
+      justifyContent: "space-between",
+    },
+    clipBar: {
+        display: "flex",
+        alignItems: "center",
+    },
+    countClip: {},
+    })
 );
 
 const API_ENDPOINT = 'http://localhost:7001/app/search?term=';
@@ -192,13 +212,72 @@ const SearchResult = () => {
   );
 };
 
-const Videos = ({list, searchTerm}) => 
-  list.map((item) => (
-      <Video 
-        key={item.id}
-        item={item}
-        keyWord={searchTerm}  
-      />
-  ));
+const StyledBadge = withStyles((theme) => ({
+  badge: {
+    right: 5,
+    top: 13,
+    border: `2px solid ${theme.palette.background.paper}`,
+    padding: '0 4px',
+    backgroundColor: '#4ca790',
+    color: 'white',
+  },
+}))(Badge);
+
+const Videos = ({list, searchTerm}) => {
+  const classes = useStyles();
+
+  const videosCount = list?.length ?? 0;
+
+  const [count, setCount] = React.useState(1);
+  const totalPage = videosCount;
+
+  return(
+    <div>
+      <h1>Total clips: {videosCount}</h1>
+      <div>
+          <Toolbar className={classes.functionBar}>
+            <div>
+              <SaveButton />
+              <StyledBadge badgeContent={1} max={9} >
+                <IconButton><NoteAddOutlinedIcon/></IconButton>
+              </StyledBadge>
+            </div>
+
+            <div className={classes.clipBar}>
+              <IconButton onClick={() => setCount(1)}>
+                <FirstPageIcon />
+              </IconButton>
+              <IconButton
+                onClick={() => setCount(count > 1 ? count - 1 : count)}
+              >
+                <NavigateBeforeOutlinedIcon />
+              </IconButton>
+              <Typography className={classes.countClip}>
+                {" "}
+                {count}/{totalPage}
+              </Typography>
+              <IconButton
+                onClick={() => setCount(count < totalPage ? count + 1 : count)}
+              >
+                <NavigateNextOutlinedIcon />
+              </IconButton>
+              <IconButton onClick={() => setCount(totalPage)}>
+                <LastPageIcon />
+              </IconButton>
+            </div>
+          </Toolbar>
+        </div>
+      {
+        list.map((item) => (
+          <Video 
+            key={item.id}
+            item={item}
+            keyWord={searchTerm}  
+          />
+        ))
+      }
+    </div>
+  );
+}
 
 export default SearchResult;
