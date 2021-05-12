@@ -44,6 +44,8 @@ const Video = ({keyWord, item}) => {
     const baseUrl = 'https://youtube.com/embed/';
     const videoUrl = `${baseUrl}${item.id}`;
 
+    const [trans, setTrans] = React.useState("");
+
     const videoTrans = transcriptList?.map((transcript) => (
         <li key={transcript._id}>
             <Typography variant="h5">
@@ -66,12 +68,11 @@ const Video = ({keyWord, item}) => {
 
         if (playedSeconds >= startTime & playedSeconds < endTime) {
           console.log(text);
+          setTrans(text);
         }
       })
 
     }
-
-    
 
     return (
         <>  
@@ -120,9 +121,13 @@ const Video = ({keyWord, item}) => {
         </div>
 
         <div className={classes.transcript}>
-            <ul>
-                {videoTrans}
-            </ul>
+          <Typography variant="h5">
+            <Highlighter
+                searchWords={[keyWord]}
+                autoEscape={true}
+                textToHighlight={trans}
+            />
+          </Typography>
         </div>
         </>
     )
