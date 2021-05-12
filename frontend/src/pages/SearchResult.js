@@ -100,7 +100,7 @@ const SearchResult = () => {
   // Use Reducer to handle states related to asynchronous data
   const [videos, dispatchVideos] = React.useReducer(
     videosReducer,
-    { data: {}, 
+    { data: [], 
       isLoading: false, 
       isError: false 
     }
@@ -108,7 +108,7 @@ const SearchResult = () => {
 
   // Introduce URL state to trigger the side-effect for fetching data if only user submit searchTerm
   const [url, setUrl] = React.useState(
-    `${API_ENDPOINT}${searchTerm}`
+    `${API_ENDPOINT}${searchTerm}&isExact=true`
   );
   
   const handleFetchVideos = React.useCallback(() => {
@@ -119,7 +119,7 @@ const SearchResult = () => {
       .then(result => {
         dispatchVideos({
           type: 'VIDEOS_FETCH_SUCCESS',
-          payload: result.data,
+          payload: result.data.video_list_result,
         });
       })
       .catch(() =>
@@ -138,7 +138,7 @@ const SearchResult = () => {
   
   const handleSubmit = (event) => {
     if (searchTerm) {
-      setUrl(`${API_ENDPOINT}${searchTerm}`);
+      setUrl(`${API_ENDPOINT}${searchTerm}&isExact=true`);
     }
     
     event.preventDefault();
@@ -178,21 +178,27 @@ const SearchResult = () => {
       <main className={classes.content}>
         <Toolbar />
 
-        { videos.isLoading && <div className={classes.progress}><CircularProgress /></div> }
+        { videos.isError && <div className={classes.error}><Typography>Something went wrong ... </Typography></div> }
 
-        { videos.isError 
-        ? <div className={classes.error}><Typography>Something went wrong ... </Typography></div> 
-        : <Video 
-            keyWord={searchTerm}  
-            videoUrl={videos.data.videoURL} 
-            noVideos={videos.data.numberOfMatchedVideos}
-            transcriptList={videos.data.originalTranscription}
-            transcriptIndex={videos.data.matchingTranscriptionIndexs}
-          /> 
+        { videos.isLoading 
+        ? <div className={classes.progress}><CircularProgress /></div>  
+        : <Videos 
+            searchTerm={searchTerm}
+            list={videos.data}
+         /> 
         }
       </main>
     </div>
   );
 };
+
+const Videos = ({list, searchTerm}) => 
+  list.map((item) => (
+      <Video 
+        key={item.id}
+        item={item}
+        keyWord={searchTerm}  
+      />
+  ));
 
 export default SearchResult;

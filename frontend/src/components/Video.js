@@ -62,24 +62,27 @@ const useStyles = makeStyles((theme) =>
     })
 );
 
-const Video = ({keyWord, videoUrl, noVideos, transcriptList, transcriptIndex}) => {
+const Video = ({keyWord, item}) => {
     const classes = useStyles();
 
     const [count, setCount] = React.useState(1);
-    const totalPage = noVideos;
+    const totalPage = 3;
 
     const [word, setWord] = React.useState(1);
-    const totalWord = transcriptIndex?.length ?? 0; // Use ?? to fix bug undefined
+    const totalWord = 3;
+    
+    const transcriptList = item.transcriptList;
+    const videoUrl = 'https://youtube.com/embed/${item.id}';
 
-    const videoTrans = transcriptList?.map((transcript, index) => (
-        <li key={index}>
+    const videoTrans = transcriptList?.map((transcript) => (
+        <li key={transcript._id}>
             <Highlighter
                 searchWords={[keyWord]}
                 autoEscape={true}
-                textToHighlight={transcript.transcript}
+                textToHighlight={transcript.text}
             />
         </li>
-    )) ?? []; // Use `map(() => ())` instead of `map(() => {})` to fix bug "Expected to return a value in arrow function"
+    )) ?? []; 
 
     return (
         <>  
