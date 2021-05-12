@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme) =>
         transcript: {
             paddingTop: theme.spacing(2),
             paddingLeft: theme.spacing(5),
+            textAlign: "center",
         },
         keywordsBar: {
             paddingLeft: theme.spacing(5),
@@ -39,24 +40,13 @@ const Video = ({keyWord, item}) => {
     const [word, setWord] = React.useState(1);
     const totalWord = item.searchTranscript?.length ?? 0;
     const control = true;
-    
-    const transcriptList = item.transcriptList;
     const baseUrl = 'https://youtube.com/embed/';
     const videoUrl = `${baseUrl}${item.id}`;
+    
+    const transcriptList = item.transcriptList;
+    const searchTranscriptList = item.searchTranscript;
 
-    const [trans, setTrans] = React.useState("");
-
-    const videoTrans = transcriptList?.map((transcript) => (
-        <li key={transcript._id}>
-            <Typography variant="h5">
-              <Highlighter
-                  searchWords={[keyWord]}
-                  autoEscape={true}
-                  textToHighlight={transcript.text}
-              />
-            </Typography>
-        </li>
-    )) ?? []; 
+    const [videoTranscript, setVideoTranscript] = React.useState("");
 
     const checkCurrentTime = (e) => {
       const playedSeconds = e.playedSeconds;
@@ -67,11 +57,26 @@ const Video = ({keyWord, item}) => {
         const text = transcript.text;
 
         if (playedSeconds >= startTime & playedSeconds < endTime) {
-          console.log(text);
-          setTrans(text);
+          setVideoTranscript(text);
         }
       })
 
+    }
+    const handleNextButtonClicked = () => {
+      // Log transID based on word count
+      const transID = searchTranscriptList[word];
+      console.log(transID);
+      const result = transcriptList.find(transcript => {
+        return transcript._id === transID;
+      });
+      console.log(result);
+      const transText = result.text;
+      setVideoTranscript(transText);
+      setWord(word < totalWord? word + 1 : word);
+    }
+
+    const handleBeforeButtonClicked = () => {
+      setWord(word > 1 ? word - 1 : word);
     }
 
     return (
@@ -106,12 +111,12 @@ const Video = ({keyWord, item}) => {
             </div>
             <div>
             <IconButton
-                onClick={() => setWord(word > 1 ? word - 1 : word)}
+                onClick={handleBeforeButtonClicked}
               >
                 <NavigateBeforeOutlinedIcon />
               </IconButton>
               <IconButton
-                onClick={() => setWord(word < totalWord? word + 1 : word)}
+                onClick={handleNextButtonClicked}
               >
                 <NavigateNextOutlinedIcon />
               </IconButton>
@@ -125,7 +130,7 @@ const Video = ({keyWord, item}) => {
             <Highlighter
                 searchWords={[keyWord]}
                 autoEscape={true}
-                textToHighlight={trans}
+                textToHighlight={videoTranscript}
             />
           </Typography>
         </div>
