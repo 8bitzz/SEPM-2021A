@@ -58,8 +58,20 @@ const Video = ({keyWord, item}) => {
 
     const checkCurrentTime = (e) => {
       const playedSeconds = e.playedSeconds;
-      console.log(playedSeconds);
+
+      transcriptList?.forEach(transcript => {
+        const startTime = transcript.startTime;
+        const endTime = transcript.endTime;
+        const text = transcript.text;
+
+        if (playedSeconds >= startTime & playedSeconds < endTime) {
+          console.log(text);
+        }
+      })
+
     }
+
+    
 
     return (
         <>  
