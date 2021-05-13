@@ -201,7 +201,7 @@ const SearchResult = () => {
         ? <div className={classes.progress}><CircularProgress /></div>  
         : <Videos 
             searchTerm={searchTerm}
-            list={videos.data}
+            videosList={videos.data}
          /> 
         }
       </main>
@@ -220,57 +220,67 @@ const StyledBadge = withStyles((theme) => ({
   },
 }))(Badge);
 
-const Videos = ({list, searchTerm}) => {
+const Videos = ({videosList, searchTerm}) => {
   const classes = useStyles();
 
-  const videosCount = list?.length ?? 0;
+  const totalVideos = videosList?.length ?? 0;
+  const [count, setCount] = React.useState(0);
 
-  const [count, setCount] = React.useState(1);
-  const totalPage = videosCount;
+  const handleNextButtonClicked = () => {
+
+  }
+
+  const handlePreviousButtonClicked = () => {
+
+  }
 
   return(
     <div>
-      <div>
-          <Toolbar className={classes.functionBar}>
-            <div>
-              <SaveButton />
-              <StyledBadge badgeContent={1} max={9} >
-                <IconButton><NoteAddOutlinedIcon/></IconButton>
-              </StyledBadge>
-            </div>
+      { totalVideos > 0
+      ? <div>
+          <div>
+              <Toolbar className={classes.functionBar}>
+                <div>
+                  <SaveButton />
+                  <StyledBadge badgeContent={1} max={9} >
+                    <IconButton><NoteAddOutlinedIcon/></IconButton>
+                  </StyledBadge>
+                </div>
 
-            <div className={classes.clipBar}>
-              <IconButton onClick={() => setCount(1)}>
-                <FirstPageIcon />
-              </IconButton>
-              <IconButton
-                onClick={() => setCount(count > 1 ? count - 1 : count)}
-              >
-                <NavigateBeforeOutlinedIcon />
-              </IconButton>
-              <Typography className={classes.countClip}>
-                {" "}
-                {count}/{totalPage}
-              </Typography>
-              <IconButton
-                onClick={() => setCount(count < totalPage ? count + 1 : count)}
-              >
-                <NavigateNextOutlinedIcon />
-              </IconButton>
-              <IconButton onClick={() => setCount(totalPage)}>
-                <LastPageIcon />
-              </IconButton>
+                <div className={classes.clipBar}>
+                  <IconButton onClick={() => setCount(0)}>
+                    <FirstPageIcon />
+                  </IconButton>
+                  <IconButton
+                    onClick={handlePreviousButtonClicked}
+                  >
+                    <NavigateBeforeOutlinedIcon />
+                  </IconButton>
+                  <Typography className={classes.countClip}>
+                    {" "}
+                    {count + 1}/{totalVideos}
+                  </Typography>
+                  <IconButton
+                    onClick={handleNextButtonClicked}
+                  >
+                    <NavigateNextOutlinedIcon />
+                  </IconButton>
+                  <IconButton onClick={() => setCount(totalVideos)}>
+                    <LastPageIcon />
+                  </IconButton>
+                </div>
+              </Toolbar>
             </div>
-          </Toolbar>
+          {videosList.map((video) => (
+              <Video 
+                key={video.id}
+                video={video}
+                keyWord={searchTerm}  
+              />
+            ))
+          }
         </div>
-      {
-        list.map((video) => (
-          <Video 
-            key={video.id}
-            video={video}
-            keyWord={searchTerm}  
-          />
-        ))
+      : <div className={classes.error}><Typography>No videos found ... </Typography></div>
       }
     </div>
   );
