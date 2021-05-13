@@ -34,21 +34,35 @@ const useStyles = makeStyles((theme) =>
     })
 );
 
-const Video = ({keyWord, item}) => {
+const Video = ({keyWord, video}) => {
     const classes = useStyles();
 
-    const [word, setWord] = React.useState(0);
-    const totalWord = item.searchTranscript?.length ?? 0;
+    const totalWord = video.searchTranscript?.length ?? 0;
+    const transcriptList = video.transcriptList;
+    const searchTranscriptList = video.searchTranscript;
+
+    const INIT_START_TIME = () => {
+      const firstTranscript = transcriptList.find(transcript => {
+        return transcript._id === searchTranscriptList[0];
+      });
+
+      return firstTranscript.startTime;
+    }
+    const INIT_TRANSCRIPT = () => {
+      const firstTranscript = transcriptList.find(transcript => {
+        return transcript._id === searchTranscriptList[0];
+      });
+
+      return firstTranscript.text;
+    }
+
     const control = true;
-    const playing = true;
+    const playing = false;
 
-    const [startTime, setStartTime] = React.useState(33);
-    const videoUrl = `https://www.youtube.com/embed/${item.id}?t=${startTime}`;
-
-    const transcriptList = item.transcriptList;
-    const searchTranscriptList = item.searchTranscript;
-
-    const [videoTranscript, setVideoTranscript] = React.useState("");
+    const [word, setWord] = React.useState(0);
+    const [startTime, setStartTime] = React.useState(INIT_START_TIME);
+    const [videoTranscript, setVideoTranscript] = React.useState(INIT_TRANSCRIPT);
+    const videoUrl = `https://www.youtube.com/embed/${video.id}?t=${startTime}`;
 
     const checkCurrentTime = (e) => {
       const playedSeconds = e.playedSeconds;
@@ -65,10 +79,9 @@ const Video = ({keyWord, item}) => {
         return;
       } 
       var nextWord = word + 1;
-      let nextTranscriptID = searchTranscriptList[nextWord];
-      
+    
       const nextTranscript = transcriptList.find(transcript => {
-        return transcript._id === nextTranscriptID;
+        return transcript._id === searchTranscriptList[nextWord];
       });
 
       setVideoTranscript(nextTranscript.text);
@@ -81,10 +94,9 @@ const Video = ({keyWord, item}) => {
         return;
       } 
       var previousWord = word - 1;
-      let prevTranscriptID = searchTranscriptList[previousWord];
       
       const prevTranscript = transcriptList.find(transcript => {
-        return transcript._id === prevTranscriptID;
+        return transcript._id === searchTranscriptList[previousWord];
       });
 
       setVideoTranscript(prevTranscript.text);
@@ -97,7 +109,7 @@ const Video = ({keyWord, item}) => {
         <div className={classes.youtubevideo}>
             <ReactPlayer
               url={videoUrl}
-              title={item.title}
+              title={video.title}
               frameBorder="0"
               style={{
                 position: "absolute",

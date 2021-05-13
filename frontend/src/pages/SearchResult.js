@@ -264,10 +264,10 @@ const Videos = ({list, searchTerm}) => {
           </Toolbar>
         </div>
       {
-        list.map((item) => (
+        list.map((video) => (
           <Video 
-            key={item.id}
-            item={item}
+            key={video.id}
+            video={video}
             keyWord={searchTerm}  
           />
         ))
