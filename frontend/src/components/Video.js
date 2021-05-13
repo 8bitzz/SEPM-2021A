@@ -34,23 +34,23 @@ const useStyles = makeStyles((theme) =>
     })
 );
 
-const Video = ({keyWord, video}) => {
+const Video = ({keyWord, video, count}) => {
     const classes = useStyles();
 
     const totalWord = video.searchTranscript?.length ?? 0;
-    const transcriptList = video.transcriptList;
-    const searchTranscriptList = video.searchTranscript;
+    const transcripts = video.transcriptList;
+    const keywordTranscripts = video.searchTranscript;
 
     const INIT_START_TIME = () => {
-      const firstTranscript = transcriptList.find(transcript => {
-        return transcript._id === searchTranscriptList[0];
+      const firstTranscript = transcripts.find(transcript => {
+        return transcript._id === keywordTranscripts[0];
       });
 
       return firstTranscript.startTime;
     }
     const INIT_TRANSCRIPT = () => {
-      const firstTranscript = transcriptList.find(transcript => {
-        return transcript._id === searchTranscriptList[0];
+      const firstTranscript = transcripts.find(transcript => {
+        return transcript._id === keywordTranscripts[0];
       });
 
       return firstTranscript.text;
@@ -59,7 +59,7 @@ const Video = ({keyWord, video}) => {
     const control = true;
     const playing = false;
 
-    const [word, setWord] = React.useState(0);
+    const [word, setWord] = React.useState(count);
     const [startTime, setStartTime] = React.useState(INIT_START_TIME);
     const [videoTranscript, setVideoTranscript] = React.useState(INIT_TRANSCRIPT);
     const videoUrl = `https://www.youtube.com/embed/${video.id}?t=${startTime}`;
@@ -67,7 +67,7 @@ const Video = ({keyWord, video}) => {
     const checkCurrentTime = (e) => {
       const playedSeconds = e.playedSeconds;
 
-      transcriptList?.forEach(transcript => {
+      transcripts?.forEach(transcript => {
         if (playedSeconds >= transcript.startTime & playedSeconds < transcript.endTime) {
           setVideoTranscript(transcript.text);
         }
@@ -78,35 +78,39 @@ const Video = ({keyWord, video}) => {
       if ((word + 1) >= totalWord) {
         return;
       } 
-      var nextWord = word + 1;
+      var nextIndex = word + 1;
     
-      const nextTranscript = transcriptList.find(transcript => {
-        return transcript._id === searchTranscriptList[nextWord];
+      const nextTranscript = transcripts.find(transcript => {
+        return transcript._id === keywordTranscripts[nextIndex];
       });
 
       setVideoTranscript(nextTranscript.text);
       setStartTime(nextTranscript.startTime);
-      setWord(nextWord);
+      setWord(nextIndex);
     }
 
     const handleBeforeButtonClicked = () => {
       if ((word - 1) < 0) {
         return;
       } 
-      var previousWord = word - 1;
+      var previousIndex = word - 1;
       
-      const prevTranscript = transcriptList.find(transcript => {
-        return transcript._id === searchTranscriptList[previousWord];
+      const prevTranscript = transcripts.find(transcript => {
+        return transcript._id === keywordTranscripts[previousIndex];
       });
 
       setVideoTranscript(prevTranscript.text);
       setStartTime(prevTranscript.startTime);
-      setWord(previousWord);
+      setWord(previousIndex);
     }
 
     return (
-        <>  
+        <> 
+        <div className={classes.transcript}>
+            <Typography variant="h5">{video.title}</Typography> 
+        </div>
         <div className={classes.youtubevideo}>
+            
             <ReactPlayer
               url={videoUrl}
               title={video.title}

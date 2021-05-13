@@ -222,16 +222,31 @@ const StyledBadge = withStyles((theme) => ({
 
 const Videos = ({videosList, searchTerm}) => {
   const classes = useStyles();
-
+  const INIT_COUNT = 0;
   const totalVideos = videosList?.length ?? 0;
-  const [count, setCount] = React.useState(0);
+  const [count, setCount] = React.useState(INIT_COUNT);
+  const [video, setVideo] = React.useState(videosList[0]);
 
   const handleNextButtonClicked = () => {
+    if ((count + 1) >= totalVideos) {
+      return;
+    }
 
+    var nextCount = count + 1;
+    const nextVideo = videosList[nextCount];
+    setVideo(nextVideo);
+    setCount(nextCount);
   }
 
   const handlePreviousButtonClicked = () => {
+    if ((count - 1) < 0) {
+      return;
+    }
 
+    var previousCount = count - 1;
+    const previousVideo = videosList[previousCount];
+    setVideo(previousVideo);
+    setCount(previousCount);
   }
 
   return(
@@ -271,14 +286,11 @@ const Videos = ({videosList, searchTerm}) => {
                 </div>
               </Toolbar>
             </div>
-          {videosList.map((video) => (
-              <Video 
-                key={video.id}
-                video={video}
-                keyWord={searchTerm}  
-              />
-            ))
-          }
+          <Video 
+            video={video}
+            keyWord={searchTerm}
+            count={INIT_COUNT} // Reset word
+          />
         </div>
       : <div className={classes.error}><Typography>No videos found ... </Typography></div>
       }
