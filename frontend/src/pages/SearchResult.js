@@ -1,5 +1,5 @@
 import React from "react";
-import { createStyles, makeStyles } from "@material-ui/core/styles";
+import { createStyles, makeStyles, withStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -12,12 +12,20 @@ import ListItemText from "@material-ui/core/ListItemText";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import NoteAddIcon from '@material-ui/icons/NoteAdd';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Badge from '@material-ui/core/Badge';
+import NoteAddOutlinedIcon from "@material-ui/icons/NoteAddOutlined";
+import NavigateBeforeOutlinedIcon from "@material-ui/icons/NavigateBeforeOutlined";
+import NavigateNextOutlinedIcon from "@material-ui/icons/NavigateNextOutlined";
+import FirstPageIcon from "@material-ui/icons/FirstPage";
+import LastPageIcon from "@material-ui/icons/LastPage";
+import IconButton from "@material-ui/core/IconButton";
 
 import axios from 'axios';
 import { useLocation } from "react-router-dom";
 
 import Video from "../components/Video";
 import NavBar from "../components/NavBar";
+import SaveButton from "../components/SaveButton";
 
 const drawerWidth = 250;
 
@@ -46,7 +54,7 @@ const useStyles = makeStyles((theme) =>
     },
     content: {
       flexGrow: 1,
-      padding: theme.spacing(2, 16, 2, 14),
+      padding: theme.spacing(2, 24, 2, 24),
     },
     progress: {
       display: "flex",
@@ -57,8 +65,17 @@ const useStyles = makeStyles((theme) =>
     error: {
       textAlign: "center",
       color: "red",
-    }
-  })
+    },
+    functionBar: {
+      paddingLeft: theme.spacing(5),
+      justifyContent: "space-between",
+    },
+    clipBar: {
+        display: "flex",
+        alignItems: "center",
+    },
+    countClip: {},
+    })
 );
 
 const API_ENDPOINT = 'http://localhost:7001/app/search?term=';
@@ -76,7 +93,7 @@ const videosReducer = (state, action) => {
         ...state,
         isLoading: false,
         isError: false,
-        data: action.payload, 
+        data: action.payload.video_list_result, 
       };
     case 'VIDEOS_FETCH_FAILURE':
       return {
@@ -100,7 +117,7 @@ const SearchResult = () => {
   // Use Reducer to handle states related to asynchronous data
   const [videos, dispatchVideos] = React.useReducer(
     videosReducer,
-    { data: {}, 
+    { data: [], 
       isLoading: false, 
       isError: false 
     }
@@ -108,7 +125,7 @@ const SearchResult = () => {
 
   // Introduce URL state to trigger the side-effect for fetching data if only user submit searchTerm
   const [url, setUrl] = React.useState(
-    `${API_ENDPOINT}${searchTerm}`
+    `${API_ENDPOINT}${searchTerm}&isExact=true`
   );
   
   const handleFetchVideos = React.useCallback(() => {
@@ -138,7 +155,7 @@ const SearchResult = () => {
   
   const handleSubmit = (event) => {
     if (searchTerm) {
-      setUrl(`${API_ENDPOINT}${searchTerm}`);
+      setUrl(`${API_ENDPOINT}${searchTerm}&isExact=true`);
     }
     
     event.preventDefault();
@@ -178,21 +195,107 @@ const SearchResult = () => {
       <main className={classes.content}>
         <Toolbar />
 
-        { videos.isLoading && <div className={classes.progress}><CircularProgress /></div> }
+        { videos.isError && <div className={classes.error}><Typography>Something went wrong ... </Typography></div> }
 
-        { videos.isError 
-        ? <div className={classes.error}><Typography>Something went wrong ... </Typography></div> 
-        : <Video 
-            keyWord={searchTerm}  
-            videoUrl={videos.data.videoURL} 
-            noVideos={videos.data.numberOfMatchedVideos}
-            transcriptList={videos.data.originalTranscription}
-            transcriptIndex={videos.data.matchingTranscriptionIndexs}
-          /> 
+        { videos.isLoading 
+        ? <div className={classes.progress}><CircularProgress /></div>  
+        : <Videos 
+            searchTerm={searchTerm}
+            videosList={videos.data}
+         /> 
         }
       </main>
     </div>
   );
 };
+
+const StyledBadge = withStyles((theme) => ({
+  badge: {
+    right: 5,
+    top: 13,
+    border: `2px solid ${theme.palette.background.paper}`,
+    padding: '0 4px',
+    backgroundColor: '#4ca790',
+    color: 'white',
+  },
+}))(Badge);
+
+const Videos = ({videosList, searchTerm}) => {
+  const classes = useStyles();
+  const INIT_COUNT = 0;
+  const totalVideos = videosList?.length ?? 0;
+  const [count, setCount] = React.useState(INIT_COUNT);
+  const [video, setVideo] = React.useState(videosList[0]);
+
+  const handleNextButtonClicked = () => {
+    if ((count + 1) >= totalVideos) {
+      return;
+    }
+
+    var nextCount = count + 1;
+    const nextVideo = videosList[nextCount];
+    setVideo(nextVideo);
+    setCount(nextCount);
+  }
+
+  const handlePreviousButtonClicked = () => {
+    if ((count - 1) < 0) {
+      return;
+    }
+
+    var previousCount = count - 1;
+    const previousVideo = videosList[previousCount];
+    setVideo(previousVideo);
+    setCount(previousCount);
+  }
+
+  return(
+    <div>
+      { totalVideos > 0
+      ? <div>
+          <div>
+              <Toolbar className={classes.functionBar}>
+                <div>
+                  <SaveButton />
+                  <StyledBadge badgeContent={1} max={9} >
+                    <IconButton><NoteAddOutlinedIcon/></IconButton>
+                  </StyledBadge>
+                </div>
+
+                <div className={classes.clipBar}>
+                  <IconButton onClick={() => setCount(0)}>
+                    <FirstPageIcon />
+                  </IconButton>
+                  <IconButton
+                    onClick={handlePreviousButtonClicked}
+                  >
+                    <NavigateBeforeOutlinedIcon />
+                  </IconButton>
+                  <Typography className={classes.countClip}>
+                    {" "}
+                    {count + 1}/{totalVideos}
+                  </Typography>
+                  <IconButton
+                    onClick={handleNextButtonClicked}
+                  >
+                    <NavigateNextOutlinedIcon />
+                  </IconButton>
+                  <IconButton onClick={() => setCount(totalVideos)}>
+                    <LastPageIcon />
+                  </IconButton>
+                </div>
+              </Toolbar>
+            </div>
+          <Video 
+            video={video}
+            keyWord={searchTerm}
+            count={INIT_COUNT} // Reset word count for next/previous videos
+          />
+        </div>
+      : <div className={classes.error}><Typography>No videos found ... </Typography></div>
+      }
+    </div>
+  );
+}
 
 export default SearchResult;
