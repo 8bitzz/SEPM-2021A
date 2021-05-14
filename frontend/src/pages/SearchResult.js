@@ -22,6 +22,7 @@ import IconButton from "@material-ui/core/IconButton";
 
 import axios from 'axios';
 import { useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom"
 
 import Video from "../components/Video";
 import NavBar from "../components/NavBar";
@@ -108,8 +109,9 @@ const videosReducer = (state, action) => {
 
 const SearchResult = () => {
   const classes = useStyles();
+  const history = useHistory();
 
-  // Set the initial state of searchTerm as the URL param s
+  // Set the initial state of searchTerm as the URL params
   const search = useLocation().search;
   const query = new URLSearchParams(search).get('term');
   const [searchTerm, setSearchTerm] = React.useState(query || " ");
@@ -154,8 +156,16 @@ const SearchResult = () => {
   };
   
   const handleSubmit = (event) => {
+    const params = new URLSearchParams();
+
     if (searchTerm) {
       setUrl(`${API_ENDPOINT}${searchTerm}&isExact=true`);
+      params.delete("term");
+      params.append("term", searchTerm);
+      history.push({
+        pathname: '/search',
+        search: params.toString()
+      })
     }
     
     event.preventDefault();
