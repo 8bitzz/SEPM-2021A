@@ -30,7 +30,6 @@ const useStyles = makeStyles((theme) =>
             paddingBottom: "56%",
             marginBottom: '10px',
         },
-
     })
 );
 
@@ -107,7 +106,7 @@ const Video = ({keyWord, video, count}) => {
     return (
         <> 
         <div className={classes.transcript}>
-            <Typography variant="h5">{video.title}</Typography> 
+            <Typography variant="body1">{video.title}</Typography> 
         </div>
         <div className={classes.youtubevideo}>
             
@@ -158,7 +157,7 @@ const Video = ({keyWord, video, count}) => {
         </div>
 
         <div className={classes.transcript}>
-          <Typography variant="h5">
+          <Typography variant="body1">
             <Highlighter
                 searchWords={[keyWord]}
                 autoEscape={true}

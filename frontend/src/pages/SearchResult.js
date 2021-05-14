@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) =>
     },
     content: {
       flexGrow: 1,
-      padding: theme.spacing(2, 16, 2, 14),
+      padding: theme.spacing(2, 24, 2, 24),
     },
     progress: {
       display: "flex",
@@ -289,7 +289,7 @@ const Videos = ({videosList, searchTerm}) => {
           <Video 
             video={video}
             keyWord={searchTerm}
-            count={INIT_COUNT} // Reset word
+            count={INIT_COUNT} // Reset word count for next/previous videos
           />
         </div>
       : <div className={classes.error}><Typography>No videos found ... </Typography></div>
