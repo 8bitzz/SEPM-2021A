@@ -69,7 +69,10 @@ const search = async (req, res) => {
                 let vidIndex = videoList.findIndex((e) => e._id.toString() == vidId);
                 videoList[vidIndex].searchTranscript = [...videoList[vidIndex].searchTranscript, v._id];
             }
-        }
+        } 
+        videoList = videoList.map(v => {
+            return sortSearchTranscript(v);
+        })
         let resData = {
             term,
             video_count: videoList.length,
@@ -90,6 +93,17 @@ const search = async (req, res) => {
         return res.status(400).json({ error });
     }
 };
+
+const sortSearchTranscript = (v) => {
+    let { transcriptList, searchTranscript } = v;
+    let newSearchTranscript = [];
+    for (const t of transcriptList) {
+        if(searchTranscript.findIndex((e) => e._id.toString() == t._id.toString()) !== -1) {
+            newSearchTranscript.push(t._id.toString());
+        }
+    }
+    return {...v, searchTranscript: newSearchTranscript};
+}
 
 module.exports = {
     search,
