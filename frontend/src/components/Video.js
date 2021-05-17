@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) =>
     })
 );
 
-const Video = ({keyWord, video, count}) => {
+const Video = ({keyWord, video}) => {
     const classes = useStyles();
 
     const totalWord = video.searchTranscript?.length ?? 0;
@@ -58,7 +58,7 @@ const Video = ({keyWord, video, count}) => {
     const control = true;
     const playing = false;
 
-    const [word, setWord] = React.useState(count);
+    const [word, setWord] = React.useState(0);
     const [startTime, setStartTime] = React.useState(INIT_START_TIME);
     const [videoTranscript, setVideoTranscript] = React.useState(INIT_TRANSCRIPT);
     const videoUrl = `https://www.youtube.com/embed/${video.id}?t=${startTime}`;

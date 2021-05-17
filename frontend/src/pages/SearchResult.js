@@ -159,7 +159,10 @@ const SearchResult = () => {
     const params = new URLSearchParams();
 
     if (searchTerm) {
+      // Update param on search API
       setUrl(`${API_ENDPOINT}${searchTerm}&isExact=true`);
+
+      // Update search param with new keyword
       params.delete("term");
       params.append("term", searchTerm);
       history.push({
@@ -232,31 +235,30 @@ const StyledBadge = withStyles((theme) => ({
 
 const Videos = ({videosList, searchTerm}) => {
   const classes = useStyles();
-  const INIT_COUNT = 0;
   const totalVideos = videosList?.length ?? 0;
-  const [count, setCount] = React.useState(INIT_COUNT);
+  const [videoCount, setVideoCount] = React.useState(0);
   const [video, setVideo] = React.useState(videosList[0]);
 
   const handleNextButtonClicked = () => {
-    if ((count + 1) >= totalVideos) {
+    if ((videoCount + 1) >= totalVideos) {
       return;
     }
 
-    var nextCount = count + 1;
+    var nextCount = videoCount + 1;
     const nextVideo = videosList[nextCount];
     setVideo(nextVideo);
-    setCount(nextCount);
+    setVideoCount(nextCount);
   }
 
   const handlePreviousButtonClicked = () => {
-    if ((count - 1) < 0) {
+    if ((videoCount - 1) < 0) {
       return;
     }
 
-    var previousCount = count - 1;
+    var previousCount = videoCount - 1;
     const previousVideo = videosList[previousCount];
     setVideo(previousVideo);
-    setCount(previousCount);
+    setVideoCount(previousCount);
   }
 
   return(
@@ -273,7 +275,7 @@ const Videos = ({videosList, searchTerm}) => {
                 </div>
 
                 <div className={classes.clipBar}>
-                  <IconButton onClick={() => setCount(0)}>
+                  <IconButton onClick={() => setVideoCount(0)}>
                     <FirstPageIcon />
                   </IconButton>
                   <IconButton
@@ -283,14 +285,14 @@ const Videos = ({videosList, searchTerm}) => {
                   </IconButton>
                   <Typography className={classes.countClip}>
                     {" "}
-                    {count + 1}/{totalVideos}
+                    {videoCount + 1}/{totalVideos}
                   </Typography>
                   <IconButton
                     onClick={handleNextButtonClicked}
                   >
                     <NavigateNextOutlinedIcon />
                   </IconButton>
-                  <IconButton onClick={() => setCount(totalVideos)}>
+                  <IconButton onClick={() => setVideoCount(totalVideos - 1)}>
                     <LastPageIcon />
                   </IconButton>
                 </div>
@@ -299,10 +301,9 @@ const Videos = ({videosList, searchTerm}) => {
           <Video 
             video={video}
             keyWord={searchTerm}
-            count={INIT_COUNT} // Reset word count for next/previous videos
           />
         </div>
-      : <div className={classes.error}><Typography>No videos found ... </Typography></div>
+      : <div className={classes.error}><Typography>No videos found... </Typography></div>
       }
     </div>
   );
