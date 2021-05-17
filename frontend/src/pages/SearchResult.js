@@ -80,7 +80,7 @@ const useStyles = makeStyles((theme) =>
 );
 
 // const API_ENDPOINT = 'http://localhost:7001/app/search?term=';
-const API_ENDPOINT = 'https://edusearch1-backend.herokuapp.com/app/search?term=';
+const API_ENDPOINT = `${process.env.REACT_APP_URL}/app/search?term=`;
 
 const videosReducer = (state, action) => {
   switch (action.type) {
