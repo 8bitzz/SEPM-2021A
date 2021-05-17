@@ -82,7 +82,7 @@ const SavedClips = () => {
     const [data, setData] = React.useState([]);
 
     axios
-        .get("http://localhost:7001/saved-video", { headers: { 'Authorization': `JWT ${localStorage.getItem("idtoken")}` } })
+        .get(`${process.env.REACT_APP_URL}/saved-video`, { headers: { 'Authorization': `JWT ${localStorage.getItem("idtoken")}` } })
         .then(result => {
             setData(result.data);
         })

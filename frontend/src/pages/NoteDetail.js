@@ -67,7 +67,7 @@ const NoteDetail = () => {
     const query = new URLSearchParams(search).get('note_id');
 
     axios
-        .get("http://localhost:7001/note", { headers: { 'Authorization': `JWT ${localStorage.getItem("idtoken")}` } })
+        .get(`${process.env.REACT_APP_URL}/note`, { headers: { 'Authorization': `JWT ${localStorage.getItem("idtoken")}` } })
         .then(result => {
             setData(result.data.filter(v => v.video._id === query));
         })
