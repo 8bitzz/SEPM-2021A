@@ -27,6 +27,7 @@ import { useHistory } from "react-router-dom"
 import Video from "../components/Video";
 import NavBar from "../components/NavBar";
 import SaveVideoButton from "../components/SaveVideoButton";
+import SaveNoteButton from "../components/SaveNoteButton";
 
 const drawerWidth = 250;
 
@@ -269,18 +270,15 @@ const Videos = ({videosList, searchTerm}) => {
       { totalVideos > 0
       ? <div>
           <div>
-              <Toolbar className={classes.functionBar}>
+              {/* <Toolbar className={classes.functionBar}>
                 <div>
-                  {/* <SaveButton />
-                  <StyledBadge badgeContent={1} max={9} >
-                    <IconButton><NoteAddOutlinedIcon/></IconButton>
-                  </StyledBadge> */}
                   <SaveVideoButton
                     key={video._id} 
                     tokenid={tokenid}
                     videoid={video._id}
                     searchTerm={searchTerm}
                   />
+                  <SaveNoteButton/>
                 </div>
 
                 <div className={classes.clipBar}>
@@ -305,12 +303,14 @@ const Videos = ({videosList, searchTerm}) => {
                     <LastPageIcon />
                   </IconButton>
                 </div>
-              </Toolbar>
-            </div>
+              </Toolbar> */}
+          </div>
           <Video 
+            key={video._id}
+            videoid={video._id}
+            tokenid={tokenid}
             video={video}
             keyWord={searchTerm}
-            key={video._id}
           />
         </div>
       : <div className={classes.error}><Typography>No videos found... </Typography></div>

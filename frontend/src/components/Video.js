@@ -5,35 +5,54 @@ import Toolbar from "@material-ui/core/Toolbar";
 import NavigateBeforeOutlinedIcon from "@material-ui/icons/NavigateBeforeOutlined";
 import NavigateNextOutlinedIcon from "@material-ui/icons/NavigateNextOutlined";
 import IconButton from "@material-ui/core/IconButton";
+import FirstPageIcon from "@material-ui/icons/FirstPage";
+import LastPageIcon from "@material-ui/icons/LastPage";
 
 import Highlighter from "react-highlight-words";
 import ReactPlayer from 'react-player/youtube'
 
+import SaveVideoButton from "./SaveVideoButton";
+import SaveNoteButton from "./SaveNoteButton";
+import { capitalize } from '@material-ui/core';
+
 const useStyles = makeStyles((theme) =>
     createStyles({
+        videotitle: {
+            paddingTop: theme.spacing(1),
+            paddingLeft: theme.spacing(3),
+            textAlign: "center",
+        },
         transcript: {
-            paddingTop: theme.spacing(2),
-            paddingLeft: theme.spacing(5),
+            paddingTop: theme.spacing(3),
+            paddingLeft: theme.spacing(3),
             textAlign: "center",
         },
         keywordsBar: {
-            paddingLeft: theme.spacing(5),
+            paddingLeft: theme.spacing(3),
             justifyContent: "space-between",
             border: "1px solid black",
             borderRadius: "10px",  
         },
         youtubevideo: {
             marginTop: theme.spacing(1),
-            marginLeft: theme.spacing(5),
+            marginLeft: theme.spacing(3),
             position: "relative",
             height: 0,
             paddingBottom: "56%",
             marginBottom: '10px',
         },
+        functionBar: {
+          paddingLeft: theme.spacing(3),
+          justifyContent: "space-between",
+        },
+        clipBar: {
+          display: "flex",
+          alignItems: "center",
+        },
     })
 );
 
-const Video = ({keyWord, video}) => {
+const Video = ({videoid, tokenid, keyWord, video}) => {
     const classes = useStyles();
 
     const totalWord = video.searchTranscript?.length ?? 0;
@@ -104,12 +123,48 @@ const Video = ({keyWord, video}) => {
     }
 
     return (
-        <> 
-        <div className={classes.transcript}>
-            <Typography variant="body1">{video.title}</Typography> 
+        <>
+        <div className={classes.videotitle}>
+            <Typography variant="h6">{video.title}</Typography> 
+        </div> 
+        <div>
+          <Toolbar className={classes.functionBar}>
+            <div>
+              <SaveVideoButton 
+                key={videoid} 
+                tokenid={tokenid}
+                videoid={videoid}
+                searchTerm={keyWord}
+              />
+              <SaveNoteButton/>
+            </div>
+            <div className={classes.clipBar}>
+              <IconButton>
+                <FirstPageIcon />
+              </IconButton>
+              <IconButton
+                onClick={handleBeforeButtonClicked}
+                disabled={word <= 0}
+              >
+                <NavigateBeforeOutlinedIcon />
+              </IconButton>
+              <Typography >
+                {" "}
+                {word + 1} out of {totalWord}
+              </Typography>
+              <IconButton
+                onClick={handleNextButtonClicked}
+                disabled={word >= totalWord - 1}
+              >
+                <NavigateNextOutlinedIcon />
+              </IconButton>
+              <IconButton>
+                <LastPageIcon />
+              </IconButton>
+            </div>
+          </Toolbar>
         </div>
         <div className={classes.youtubevideo}>
-            
             <ReactPlayer
               url={videoUrl}
               title={video.title}
@@ -127,7 +182,7 @@ const Video = ({keyWord, video}) => {
             />
         </div>
 
-        <div className={classes.transcript}>
+        {/* <div className={classes.transcript}>
           <Toolbar className={classes.keywordsBar}>
             <div>
             <Typography>
@@ -154,10 +209,10 @@ const Video = ({keyWord, video}) => {
             </div>
             
           </Toolbar>
-        </div>
+        </div> */}
 
         <div className={classes.transcript}>
-          <Typography variant="body1">
+          <Typography variant="h4">
             <Highlighter
                 searchWords={[keyWord]}
                 autoEscape={true}
