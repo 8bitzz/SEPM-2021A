@@ -9,23 +9,18 @@ import FirstPageIcon from "@material-ui/icons/FirstPage";
 import LastPageIcon from "@material-ui/icons/LastPage";
 
 import Highlighter from "react-highlight-words";
-import ReactPlayer from 'react-player/youtube'
+import ReactPlayer from 'react-player/youtube';
 
 import SaveVideoButton from "./SaveVideoButton";
 import SaveNoteButton from "./SaveNoteButton";
-import { capitalize } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) =>
     createStyles({
-        videotitle: {
-            paddingTop: theme.spacing(1),
-            paddingLeft: theme.spacing(3),
-            textAlign: "center",
-        },
         transcript: {
             paddingTop: theme.spacing(3),
             paddingLeft: theme.spacing(3),
             textAlign: "center",
+            marginBottom: theme.spacing(4)
         },
         keywordsBar: {
             paddingLeft: theme.spacing(3),
@@ -38,7 +33,7 @@ const useStyles = makeStyles((theme) =>
             marginLeft: theme.spacing(3),
             position: "relative",
             height: 0,
-            paddingBottom: "56%",
+            paddingBottom: "47%",
             marginBottom: '10px',
         },
         functionBar: {
@@ -124,46 +119,6 @@ const Video = ({videoid, tokenid, keyWord, video}) => {
 
     return (
         <>
-        <div className={classes.videotitle}>
-            <Typography variant="h6">{video.title}</Typography> 
-        </div> 
-        <div>
-          <Toolbar className={classes.functionBar}>
-            <div>
-              <SaveVideoButton 
-                key={videoid} 
-                tokenid={tokenid}
-                videoid={videoid}
-                searchTerm={keyWord}
-              />
-              <SaveNoteButton/>
-            </div>
-            <div className={classes.clipBar}>
-              <IconButton>
-                <FirstPageIcon />
-              </IconButton>
-              <IconButton
-                onClick={handleBeforeButtonClicked}
-                disabled={word <= 0}
-              >
-                <NavigateBeforeOutlinedIcon />
-              </IconButton>
-              <Typography >
-                {" "}
-                {word + 1} out of {totalWord}
-              </Typography>
-              <IconButton
-                onClick={handleNextButtonClicked}
-                disabled={word >= totalWord - 1}
-              >
-                <NavigateNextOutlinedIcon />
-              </IconButton>
-              <IconButton>
-                <LastPageIcon />
-              </IconButton>
-            </div>
-          </Toolbar>
-        </div>
         <div className={classes.youtubevideo}>
             <ReactPlayer
               url={videoUrl}
@@ -181,36 +136,46 @@ const Video = ({videoid, tokenid, keyWord, video}) => {
               onProgress={(e) => checkCurrentTime(e)}
             />
         </div>
-
-        {/* <div className={classes.transcript}>
-          <Toolbar className={classes.keywordsBar}>
+        <div>
+          <Toolbar className={classes.functionBar}>
             <div>
-            <Typography>
-              {" "}
-              {word + 1} of {totalWord} words
-            </Typography>
+              <SaveVideoButton 
+                key={videoid} 
+                tokenid={tokenid}
+                videoid={videoid}
+                searchTerm={keyWord}
+              />
+              <SaveNoteButton/>
             </div>
             <div>
-              <p> "<b>{keyWord}</b>" </p>
+              <Typography >
+                {" "}
+                {word + 1} out of {totalWord} results in this video
+              </Typography>
             </div>
-            <div>
-            <IconButton
+            <div className={classes.clipBar}>
+              <IconButton>
+                <FirstPageIcon />
+              </IconButton>
+              <IconButton
                 onClick={handleBeforeButtonClicked}
                 disabled={word <= 0}
               >
                 <NavigateBeforeOutlinedIcon />
               </IconButton>
+              
               <IconButton
                 onClick={handleNextButtonClicked}
                 disabled={word >= totalWord - 1}
               >
                 <NavigateNextOutlinedIcon />
               </IconButton>
+              <IconButton>
+                <LastPageIcon />
+              </IconButton>
             </div>
-            
           </Toolbar>
-        </div> */}
-
+        </div>
         <div className={classes.transcript}>
           <Typography variant="h4">
             <Highlighter
