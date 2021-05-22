@@ -28,12 +28,24 @@ const SaveVideoButton = ({tokenid, videoid, searchTerm}) => {
     const handleFavouriteButtonClicked = (event) => {
         axios
         .post(`${process.env.REACT_APP_URL}/saved-video`, data, { headers: { 'Authorization': `JWT ${tokenid}` } })
-        .then(() => {
-            console.log("Save video successfully");
+        .then((response) => {
+            console.log(response.data.message);
             setFavourite(true);
         })
         .catch((error) => {
-            console.log("Video has already saved");
+            console.log(error.message);
+        });
+    }
+
+    const handleRemoveSavedVideo = (event) => {
+        axios
+        .delete(`${process.env.REACT_APP_URL}/saved-video/${videoid}`, { headers: { 'Authorization': `JWT ${tokenid}` } })
+        .then((response) => {
+            console.log(response.data.message);
+            setFavourite(false);
+        })
+        .catch((error) => {
+            console.log(error.message);
         });
     }
 
@@ -41,7 +53,7 @@ const SaveVideoButton = ({tokenid, videoid, searchTerm}) => {
         <>
             { !favourite 
             ? <IconButton onClick={handleFavouriteButtonClicked}><FavoriteBorderIcon/></IconButton>
-            : <IconButton><FavoriteIcon/></IconButton> 
+            : <IconButton onClick={handleRemoveSavedVideo}><FavoriteIcon/></IconButton> 
             }
         </>
     );
