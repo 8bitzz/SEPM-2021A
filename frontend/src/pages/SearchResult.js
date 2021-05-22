@@ -26,7 +26,7 @@ import { useHistory } from "react-router-dom"
 
 import Video from "../components/Video";
 import NavBar from "../components/NavBar";
-import SaveButton from "../components/SaveButton";
+import SaveVideoButton from "../components/SaveVideoButton";
 
 const drawerWidth = 250;
 
@@ -262,6 +262,8 @@ const Videos = ({videosList, searchTerm}) => {
     setVideoCount(previousCount);
   }
 
+  const tokenid = localStorage.getItem("idtoken") ?? null;
+
   return(
     <div>
       { totalVideos > 0
@@ -269,10 +271,16 @@ const Videos = ({videosList, searchTerm}) => {
           <div>
               <Toolbar className={classes.functionBar}>
                 <div>
-                  <SaveButton />
+                  {/* <SaveButton />
                   <StyledBadge badgeContent={1} max={9} >
                     <IconButton><NoteAddOutlinedIcon/></IconButton>
-                  </StyledBadge>
+                  </StyledBadge> */}
+                  <SaveVideoButton
+                    key={video._id} 
+                    tokenid={tokenid}
+                    videoid={video._id}
+                    searchTerm={searchTerm}
+                  />
                 </div>
 
                 <div className={classes.clipBar}>
@@ -286,7 +294,7 @@ const Videos = ({videosList, searchTerm}) => {
                   </IconButton>
                   <Typography className={classes.countClip}>
                     {" "}
-                    {videoCount + 1}/{totalVideos}
+                    {videoCount + 1} of {totalVideos} videos
                   </Typography>
                   <IconButton
                     onClick={handleNextButtonClicked}
