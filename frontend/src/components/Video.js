@@ -132,7 +132,7 @@ const Video = ({keyWord, video}) => {
             <div>
             <Typography>
               {" "}
-              {word + 1}/{totalWord}
+              {word + 1} of {totalWord} words
             </Typography>
             </div>
             <div>
