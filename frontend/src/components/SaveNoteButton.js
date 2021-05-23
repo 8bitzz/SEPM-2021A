@@ -42,18 +42,6 @@ const SaveNoteButton = ({noteCount, noteInput, handleNoteInputChange, handleNote
                                         variant="outlined"
                                         required
                                         fullWidth
-                                        name="timeline"
-                                        label="Timeline"
-                                        type="password"
-                                        id="timeline"
-                                        disabled
-                                    />
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <TextField
-                                        variant="outlined"
-                                        required
-                                        fullWidth
                                         id="note"
                                         label="Note"
                                         name="note"
@@ -101,18 +89,6 @@ const SaveNoteButton = ({noteCount, noteInput, handleNoteInputChange, handleNote
                     >
                         <Box p={2}>
                             <Grid container spacing={2}>
-                                <Grid item xs={12}>
-                                    <TextField
-                                        variant="outlined"
-                                        required
-                                        fullWidth
-                                        name="timeline"
-                                        label="Timeline"
-                                        type="password"
-                                        id="timeline"
-                                        disabled
-                                    />
-                                </Grid>
                                 <Grid item xs={12}>
                                     <TextField
                                         variant="outlined"

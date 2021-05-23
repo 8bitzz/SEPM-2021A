@@ -77,7 +77,7 @@ const Video = ({videoid, keyWord, video}) => {
     const [videoTranscript, setVideoTranscript] = React.useState(INIT_TRANSCRIPT);
     const videoUrl = `https://www.youtube.com/embed/${video.id}?t=${startTime}`;
     const control = true;
-    const playing = false;
+    const [playing, setPlaying] = React.useState(false);
     
     
     // Check current Youtube timeframe to render transcript accordingly
@@ -125,21 +125,40 @@ const Video = ({videoid, keyWord, video}) => {
     }
 
     // State to manage Save Note components
+    const tokenid = localStorage.getItem("idtoken") ?? null;
     const [noteCount, setNoteCount] = React.useState(1);
     const [noteInput, setNoteInput] = React.useState(" ");
+    
 
     const handleNoteInputChange = (event) => {
       setNoteInput(event.target.value);
     }
 
     const handleNoteCreate = (event) => {
+      const timeframe = playerRef.current.getCurrentTime();
+      const newCount = noteCount + 1;
+      setNoteCount(newCount);
+      const tokenid = localStorage.getItem("idtoken") ?? null;
+      console.log(tokenid);
+      console.log(videoid);
+      console.log(timeframe);
       console.log(noteInput);
+      console.log(noteCount);
     }
+
+    const playerRef = React.useRef(null);
+    const [pauseTime, setPauseTime] = React.useState(1);
+
+    // const handlePauseButtonClick = () => {
+    //   const timeframe = playerRef.current.getCurrentTime();
+    //   setPauseTime(timeframe);
+    // }
 
     return (
         <>
         <div className={classes.youtubevideo}>
             <ReactPlayer
+              ref={playerRef}
               url={videoUrl}
               title={video.title}
               frameBorder="0"
@@ -153,26 +172,31 @@ const Video = ({videoid, keyWord, video}) => {
               controls={control}
               playing={playing}
               onProgress={(e) => checkCurrentTime(e)}
+              // onPause={handlePauseButtonClick}
             />
         </div>
         <div>
-          <Toolbar className={classes.functionBar}>
-            <div>
-              <SaveVideoButton 
-                key={videoid} 
-                videoid={videoid}
-                searchTerm={keyWord}
-              />
-              <SaveNoteButton
-                noteCount={noteCount}
-                noteInput={noteInput}
-                handleNoteInputChange={handleNoteInputChange}
-                handleNoteCreate={handleNoteCreate}
-              />
-            </div>
-            <div>
-              
-            </div>
+          <Toolbar className={classes.functionBar}> 
+            {
+              tokenid != null 
+              ? <div>
+                  <SaveVideoButton 
+                    tokenid={tokenid}
+                    key={videoid} 
+                    videoid={videoid}
+                    searchTerm={keyWord}
+                  />
+                  <SaveNoteButton
+                    tokenid={tokenid}
+                    noteCount={noteCount}
+                    timeframe={pauseTime}
+                    noteInput={noteInput}
+                    handleNoteInputChange={handleNoteInputChange}
+                    handleNoteCreate={handleNoteCreate}
+                  />
+                </div>
+              : <div></div>
+            }
             <div className={classes.clipBar}>
               <IconButton>
                 <FirstPageIcon />

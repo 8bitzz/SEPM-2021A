@@ -6,13 +6,13 @@ import styled from 'styled-components';
 
 import axios from 'axios';
 
-const SaveVideoButton = ({videoid, searchTerm}) => {
+const SaveVideoButton = ({tokenid, videoid, searchTerm}) => {
     const data = {
         "video": videoid,
         "search_term": searchTerm
     }
 
-    const tokenid = localStorage.getItem("idtoken") ?? null;
+    
 
     const INIT_STATE = () => {
         if (tokenid == null) {
