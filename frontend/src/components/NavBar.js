@@ -1,5 +1,6 @@
 import React from "react";
 import { createStyles, makeStyles, fade } from "@material-ui/core/styles";
+import { ClickAwayListener } from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
@@ -150,7 +151,8 @@ const NavBarAuth = (props) => {
               onClick={handleMenu}
               color="inherit">
               <AccountCircle />
-              <Menu
+            </IconButton>
+            <Menu
                 anchorEl={anchorEl}
                 anchorOrigin={{
                   vertical: 'top',
@@ -171,7 +173,6 @@ const NavBarAuth = (props) => {
                 <MenuItem><SignOutButton /></MenuItem>
 
               </Menu>
-            </IconButton>
           </div>
         </Toolbar>
       </AppBar>
