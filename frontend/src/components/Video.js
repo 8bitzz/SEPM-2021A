@@ -8,6 +8,7 @@ import IconButton from "@material-ui/core/IconButton";
 import FirstPageIcon from "@material-ui/icons/FirstPage";
 import LastPageIcon from "@material-ui/icons/LastPage";
 
+import axios from 'axios';
 import Highlighter from "react-highlight-words";
 import ReactPlayer from 'react-player/youtube';
 
@@ -126,9 +127,9 @@ const Video = ({videoid, keyWord, video}) => {
 
     // State to manage Save Note components
     const tokenid = localStorage.getItem("idtoken") ?? null;
-    const [noteCount, setNoteCount] = React.useState(1);
+    const [noteCount, setNoteCount] = React.useState(0);
     const [noteInput, setNoteInput] = React.useState(" ");
-    
+    const playerRef = React.useRef(null);
 
     const handleNoteInputChange = (event) => {
       setNoteInput(event.target.value);
@@ -137,22 +138,23 @@ const Video = ({videoid, keyWord, video}) => {
     const handleNoteCreate = (event) => {
       const timeframe = playerRef.current.getCurrentTime();
       const newCount = noteCount + 1;
-      setNoteCount(newCount);
-      const tokenid = localStorage.getItem("idtoken") ?? null;
-      console.log(tokenid);
-      console.log(videoid);
-      console.log(timeframe);
-      console.log(noteInput);
-      console.log(noteCount);
+
+      const data = {
+        "video": videoid,
+        "video_timeline": timeframe,
+        "note": noteInput
+      }
+      
+      axios
+      .post(`${process.env.REACT_APP_URL}/note`, data, { headers: { 'Authorization': `JWT ${tokenid}` } })
+      .then((response) => {
+          console.log(response.data.message);
+          setNoteCount(newCount);
+      })
+      .catch((error) => {
+          console.log(error.message);
+      });
     }
-
-    const playerRef = React.useRef(null);
-    const [pauseTime, setPauseTime] = React.useState(1);
-
-    // const handlePauseButtonClick = () => {
-    //   const timeframe = playerRef.current.getCurrentTime();
-    //   setPauseTime(timeframe);
-    // }
 
     return (
         <>
@@ -172,7 +174,6 @@ const Video = ({videoid, keyWord, video}) => {
               controls={control}
               playing={playing}
               onProgress={(e) => checkCurrentTime(e)}
-              // onPause={handlePauseButtonClick}
             />
         </div>
         <div>
@@ -189,7 +190,6 @@ const Video = ({videoid, keyWord, video}) => {
                   <SaveNoteButton
                     tokenid={tokenid}
                     noteCount={noteCount}
-                    timeframe={pauseTime}
                     noteInput={noteInput}
                     handleNoteInputChange={handleNoteInputChange}
                     handleNoteCreate={handleNoteCreate}

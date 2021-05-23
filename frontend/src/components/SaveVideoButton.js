@@ -12,22 +12,16 @@ const SaveVideoButton = ({tokenid, videoid, searchTerm}) => {
         "search_term": searchTerm
     }
 
-    
-
     const INIT_STATE = () => {
-        if (tokenid == null) {
-            setFavourite(false);
-        } else {
-            axios
-            .get(`${process.env.REACT_APP_URL}/saved-video/is-saved/${videoid}`, { headers: { 'Authorization': `JWT ${tokenid}` } })
-            .then((response) => {
-                console.log(response.data.message);
-                setFavourite(true);
-            })
-            .catch((error) => {
-                console.log(error.message);
-            });
-        }
+        axios
+        .get(`${process.env.REACT_APP_URL}/saved-video/is-saved/${videoid}`, { headers: { 'Authorization': `JWT ${tokenid}` } })
+        .then((response) => {
+            console.log(response.data.message);
+            setFavourite(true);
+        })
+        .catch((error) => {
+            console.log(error.message);
+        });
     }
 
     const [favourite, setFavourite] = React.useState(INIT_STATE);
