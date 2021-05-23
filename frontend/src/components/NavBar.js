@@ -10,13 +10,14 @@ import SearchIcon from "@material-ui/icons/Search";
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import Divider from "@material-ui/core/Divider";
+import axios from "axios";
 
 import EduSearchButton from "./EduSearchButton";
 import SignOutButton from "./SignOutButton";
 
 import { AuthUserContext } from "../session/index";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -85,15 +86,15 @@ const LinkWrap = styled(Link)`
 
 const NavBar = ({ searchTerm, onSearch, onSubmit }) => {
   return (
-    <AuthUserContext.Consumer>
-      {(authUser) => (authUser ? <NavBarAuth searchTerm={searchTerm} onSearch={onSearch} onSubmit={onSubmit} /> : <NavBarNonAuth searchTerm={searchTerm} onSearch={onSearch} onSubmit={onSubmit} />)}
-    </AuthUserContext.Consumer>
+      localStorage.getItem("isSignedIn") === "true" ? <NavBarAuth searchTerm={searchTerm} onSearch={onSearch} onSubmit={onSubmit} /> : <NavBarNonAuth searchTerm={searchTerm} onSearch={onSearch} onSubmit={onSubmit} />
   );
 };
 
 const NavBarAuth = (props) => {
+  const history = useHistory();
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [email, setEmail] = React.useState("");
   const open = Boolean(anchorEl);
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -102,6 +103,17 @@ const NavBarAuth = (props) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+
+  axios
+    .get(`${process.env.REACT_APP_URL}/app/email`, { headers: { 'Authorization': `JWT ${localStorage.getItem("idtoken")}` } })
+    .then(result => {
+        setEmail(result.data.email);
+    })
+    .catch((error) =>
+        console.log("No data")
+        // {alert("Token sai roi!")}
+    );
 
   return (
     <div className={classes.root}>
@@ -151,10 +163,10 @@ const NavBarAuth = (props) => {
                 }}
                 open={open}
                 onClose={handleClose}>
-                <MenuItem>User Email</MenuItem>
+                <MenuItem>{email}</MenuItem>
                 <Divider />
-                <MenuItem onclick={event => window.location.href = '/savedclips'}>Saved Clip</MenuItem>
-                <MenuItem onclick={event => window.location.href = '/notes'}>Notes</MenuItem>
+                <MenuItem onClick={() => history.push('/savedclips')}>Saved Clip</MenuItem>
+                <MenuItem onClick={() => history.push('/notes')}>Notes</MenuItem>
                 <Divider />
                 <MenuItem><SignOutButton /></MenuItem>
 

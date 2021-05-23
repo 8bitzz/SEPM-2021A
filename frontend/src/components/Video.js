@@ -18,7 +18,7 @@ import SaveNoteButton from "./SaveNoteButton";
 const useStyles = makeStyles((theme) =>
     createStyles({
         transcript: {
-            paddingTop: theme.spacing(3),
+            paddingTop: theme.spacing(1),
             paddingLeft: theme.spacing(3),
             textAlign: "center",
             marginBottom: theme.spacing(4)
@@ -82,7 +82,7 @@ const Video = ({videoid, keyWord, video}) => {
     const [videoTranscript, setVideoTranscript] = React.useState(INIT_TRANSCRIPT);
     const videoUrl = `https://www.youtube.com/embed/${video.id}?t=${startTime}`;
     const control = true;
-    const [playing, setPlaying] = React.useState(false);
+    const [playing, setPlaying] = React.useState(true);
     
     
     // Check current Youtube timeframe to render transcript accordingly
@@ -145,7 +145,7 @@ const Video = ({videoid, keyWord, video}) => {
 
       const data = {
         "video": videoid,
-        "video_timeline": timeframe,
+        "video_timeline": timeframe.toFixed(1),
         "note": noteInput
       }
       
@@ -154,6 +154,7 @@ const Video = ({videoid, keyWord, video}) => {
       .then((response) => {
           console.log(response.data.message);
           setNoteCount(newCount);
+          alert("Note Created Successfully!")
       })
       .catch((error) => {
           console.log(error.message);
@@ -178,6 +179,7 @@ const Video = ({videoid, keyWord, video}) => {
               controls={control}
               playing={playing}
               onProgress={(e) => checkCurrentTime(e)}
+              muted={true}
             />
         </div>
         <div>

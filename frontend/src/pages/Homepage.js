@@ -50,12 +50,11 @@ const Homepage = () => {
 const Wrapper = styled.section`
   margin: 0px;
   background: #ffffff;
-  height:100vh;
   text-align: center;
 `;
 
 const LogoWrapper = styled.div`
-  margin-top: 40px;
+  margin-top: 15vh;
   height:200px;
   text-align: center;
 `;

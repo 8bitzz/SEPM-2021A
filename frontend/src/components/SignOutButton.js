@@ -27,6 +27,7 @@ const SignOutButton = ({ firebase }) => {
     const handleSignOut = () => {
         firebase.doSignOut();
         localStorage.removeItem("userID");
+        alert("User signed out successfully!")
         history.push('/');
     }
 

@@ -17,7 +17,7 @@ router.get("/env-config", function (req, res) {
 
 //Get User Detail
 router.get("/email", loginRequired, (req, res) => {
-        return res.json({emai: req.user.email});
+        return res.json({email: req.user.email});
 })
 
 module.exports = router;

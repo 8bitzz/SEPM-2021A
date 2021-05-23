@@ -55,10 +55,10 @@ class SignInFormBase extends Component {
             })
             .then(() => {
                 this.setState({ ...INITIAL_STATE });
-                this.props.history.push('/search');
+                this.props.history.push('/');
             })
             .catch(error => {
-                this.setState({ error });
+                console.log(error);
             });
 
         event.preventDefault();
