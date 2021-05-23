@@ -5,37 +5,53 @@ import Toolbar from "@material-ui/core/Toolbar";
 import NavigateBeforeOutlinedIcon from "@material-ui/icons/NavigateBeforeOutlined";
 import NavigateNextOutlinedIcon from "@material-ui/icons/NavigateNextOutlined";
 import IconButton from "@material-ui/core/IconButton";
+import FirstPageIcon from "@material-ui/icons/FirstPage";
+import LastPageIcon from "@material-ui/icons/LastPage";
 
+import axios from 'axios';
 import Highlighter from "react-highlight-words";
-import ReactPlayer from 'react-player/youtube'
+import ReactPlayer from 'react-player/youtube';
+
+import SaveVideoButton from "./SaveVideoButton";
+import SaveNoteButton from "./SaveNoteButton";
 
 const useStyles = makeStyles((theme) =>
     createStyles({
         transcript: {
-            paddingTop: theme.spacing(2),
-            paddingLeft: theme.spacing(5),
+            paddingTop: theme.spacing(3),
+            paddingLeft: theme.spacing(3),
             textAlign: "center",
+            marginBottom: theme.spacing(4)
         },
         keywordsBar: {
-            paddingLeft: theme.spacing(5),
+            paddingLeft: theme.spacing(3),
             justifyContent: "space-between",
             border: "1px solid black",
             borderRadius: "10px",  
         },
         youtubevideo: {
             marginTop: theme.spacing(1),
-            marginLeft: theme.spacing(5),
+            marginLeft: theme.spacing(3),
             position: "relative",
             height: 0,
-            paddingBottom: "56%",
+            paddingBottom: "47%",
             marginBottom: '10px',
+        },
+        functionBar: {
+          paddingLeft: theme.spacing(3),
+          justifyContent: "space-between",
+        },
+        clipBar: {
+          display: "flex",
+          alignItems: "center",
         },
     })
 );
 
-const Video = ({keyWord, video}) => {
+const Video = ({videoid, keyWord, video}) => {
     const classes = useStyles();
 
+    // Retreive transcripts list from the props and set INITiAL state to render the video
     const totalWord = video.searchTranscript?.length ?? 0;
     const transcripts = video.transcriptList;
     const keywordTranscripts = video.searchTranscript;
@@ -47,6 +63,7 @@ const Video = ({keyWord, video}) => {
 
       return firstTranscript.startTime;
     }
+
     const INIT_TRANSCRIPT = () => {
       const firstTranscript = transcripts.find(transcript => {
         return transcript._id === keywordTranscripts[0];
@@ -55,14 +72,16 @@ const Video = ({keyWord, video}) => {
       return firstTranscript.text;
     }
 
-    const control = true;
-    const playing = false;
-
-    const [word, setWord] = React.useState(0);
+    
+    // Render the first transcript that contains keyword and start video there
     const [startTime, setStartTime] = React.useState(INIT_START_TIME);
     const [videoTranscript, setVideoTranscript] = React.useState(INIT_TRANSCRIPT);
     const videoUrl = `https://www.youtube.com/embed/${video.id}?t=${startTime}`;
-
+    const control = true;
+    const [playing, setPlaying] = React.useState(false);
+    
+    
+    // Check current Youtube timeframe to render transcript accordingly
     const checkCurrentTime = (e) => {
       const playedSeconds = e.playedSeconds;
 
@@ -73,6 +92,9 @@ const Video = ({keyWord, video}) => {
       })
 
     }
+
+    // Render next/previous transcript and update video starttime when users click next/previous button
+    const [word, setWord] = React.useState(0);
     const handleNextButtonClicked = () => {
       if ((word + 1) >= totalWord) {
         return;
@@ -103,14 +125,42 @@ const Video = ({keyWord, video}) => {
       setWord(previousIndex);
     }
 
+    // State to manage Save Note components
+    const tokenid = localStorage.getItem("idtoken") ?? null;
+    const [noteCount, setNoteCount] = React.useState(0);
+    const [noteInput, setNoteInput] = React.useState(" ");
+    const playerRef = React.useRef(null);
+
+    const handleNoteInputChange = (event) => {
+      setNoteInput(event.target.value);
+    }
+
+    const handleNoteCreate = (event) => {
+      const timeframe = playerRef.current.getCurrentTime();
+      const newCount = noteCount + 1;
+
+      const data = {
+        "video": videoid,
+        "video_timeline": timeframe,
+        "note": noteInput
+      }
+      
+      axios
+      .post(`${process.env.REACT_APP_URL}/note`, data, { headers: { 'Authorization': `JWT ${tokenid}` } })
+      .then((response) => {
+          console.log(response.data.message);
+          setNoteCount(newCount);
+      })
+      .catch((error) => {
+          console.log(error.message);
+      });
+    }
+
     return (
-        <> 
-        <div className={classes.transcript}>
-            <Typography variant="body1">{video.title}</Typography> 
-        </div>
+        <>
         <div className={classes.youtubevideo}>
-            
             <ReactPlayer
+              ref={playerRef}
               url={videoUrl}
               title={video.title}
               frameBorder="0"
@@ -126,38 +176,55 @@ const Video = ({keyWord, video}) => {
               onProgress={(e) => checkCurrentTime(e)}
             />
         </div>
-
-        <div className={classes.transcript}>
-          <Toolbar className={classes.keywordsBar}>
-            <div>
-            <Typography>
-              {" "}
-              {word + 1} of {totalWord} words
-            </Typography>
-            </div>
-            <div>
-              <p> "<b>{keyWord}</b>" </p>
-            </div>
-            <div>
-            <IconButton
+        <div>
+          <Toolbar className={classes.functionBar}> 
+            {
+              tokenid != null 
+              ? <div>
+                  <SaveVideoButton 
+                    tokenid={tokenid}
+                    key={videoid} 
+                    videoid={videoid}
+                    searchTerm={keyWord}
+                  />
+                  <SaveNoteButton
+                    tokenid={tokenid}
+                    noteCount={noteCount}
+                    noteInput={noteInput}
+                    handleNoteInputChange={handleNoteInputChange}
+                    handleNoteCreate={handleNoteCreate}
+                  />
+                </div>
+              : <div></div>
+            }
+            <div className={classes.clipBar}>
+              <IconButton>
+                <FirstPageIcon />
+              </IconButton>
+              <IconButton
                 onClick={handleBeforeButtonClicked}
                 disabled={word <= 0}
               >
                 <NavigateBeforeOutlinedIcon />
               </IconButton>
+              <Typography >
+                {" "}
+                {word + 1}/{totalWord} 
+              </Typography>
               <IconButton
                 onClick={handleNextButtonClicked}
                 disabled={word >= totalWord - 1}
               >
                 <NavigateNextOutlinedIcon />
               </IconButton>
+              <IconButton>
+                <LastPageIcon />
+              </IconButton>
             </div>
-            
           </Toolbar>
         </div>
-
         <div className={classes.transcript}>
-          <Typography variant="body1">
+          <Typography variant="h4">
             <Highlighter
                 searchWords={[keyWord]}
                 autoEscape={true}

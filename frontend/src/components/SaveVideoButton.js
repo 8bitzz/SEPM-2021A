@@ -2,6 +2,7 @@ import React from 'react'
 import IconButton from '@material-ui/core/IconButton';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import styled from 'styled-components';
 
 import axios from 'axios';
 
@@ -53,10 +54,14 @@ const SaveVideoButton = ({tokenid, videoid, searchTerm}) => {
         <>
             { !favourite 
             ? <IconButton onClick={handleFavouriteButtonClicked}><FavoriteBorderIcon/></IconButton>
-            : <IconButton onClick={handleRemoveSavedVideo}><FavoriteIcon/></IconButton> 
+            : <StyledFavourite onClick={handleRemoveSavedVideo}><FavoriteIcon/></StyledFavourite> 
             }
         </>
     );
 }
+
+const StyledFavourite = styled(IconButton)`
+    color: #4ca790;
+`;
 
 export default SaveVideoButton;
