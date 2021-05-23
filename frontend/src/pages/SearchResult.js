@@ -12,21 +12,18 @@ import ListItemText from "@material-ui/core/ListItemText";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import NoteAddIcon from '@material-ui/icons/NoteAdd';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Badge from '@material-ui/core/Badge';
-import NoteAddOutlinedIcon from "@material-ui/icons/NoteAddOutlined";
+import { Button } from "@material-ui/core";
 import NavigateBeforeOutlinedIcon from "@material-ui/icons/NavigateBeforeOutlined";
 import NavigateNextOutlinedIcon from "@material-ui/icons/NavigateNextOutlined";
-import FirstPageIcon from "@material-ui/icons/FirstPage";
-import LastPageIcon from "@material-ui/icons/LastPage";
-import IconButton from "@material-ui/core/IconButton";
 
 import axios from 'axios';
 import { useLocation } from "react-router-dom";
 import { useHistory } from "react-router-dom"
+import styled from 'styled-components';
 
 import Video from "../components/Video";
 import NavBar from "../components/NavBar";
-import SaveVideoButton from "../components/SaveVideoButton";
+
 
 const drawerWidth = 250;
 
@@ -55,7 +52,7 @@ const useStyles = makeStyles((theme) =>
     },
     content: {
       flexGrow: 1,
-      padding: theme.spacing(2, 24, 2, 24),
+      padding: theme.spacing(2, 14, 2, 14),
     },
     progress: {
       display: "flex",
@@ -68,14 +65,16 @@ const useStyles = makeStyles((theme) =>
       color: "red",
     },
     functionBar: {
-      paddingLeft: theme.spacing(5),
+      paddingTop: theme.spacing(3),
+      paddingLeft: theme.spacing(3),
+      paddingRight: theme.spacing(3),
       justifyContent: "space-between",
     },
-    clipBar: {
-        display: "flex",
-        alignItems: "center",
+    title: {
+      paddingTop: theme.spacing(1),
+      paddingLeft: theme.spacing(3),
+      textAlign: "center",
     },
-    countClip: {},
     })
 );
 
@@ -223,17 +222,6 @@ const SearchResult = () => {
   );
 };
 
-const StyledBadge = withStyles((theme) => ({
-  badge: {
-    right: 5,
-    top: 13,
-    border: `2px solid ${theme.palette.background.paper}`,
-    padding: '0 4px',
-    backgroundColor: '#4ca790',
-    color: 'white',
-  },
-}))(Badge);
-
 const Videos = ({videosList, searchTerm}) => {
   const classes = useStyles();
   const totalVideos = videosList?.length ?? 0;
@@ -262,61 +250,59 @@ const Videos = ({videosList, searchTerm}) => {
     setVideoCount(previousCount);
   }
 
-  const tokenid = localStorage.getItem("idtoken") ?? null;
-
   return(
     <div>
       { totalVideos > 0
       ? <div>
           <div>
+              <div className={classes.title}>
+                <Typography variant="h6">{totalVideos} videos found with keyword "{searchTerm}"</Typography> 
+              </div> 
               <Toolbar className={classes.functionBar}>
-                <div>
-                  {/* <SaveButton />
-                  <StyledBadge badgeContent={1} max={9} >
-                    <IconButton><NoteAddOutlinedIcon/></IconButton>
-                  </StyledBadge> */}
-                  <SaveVideoButton
-                    key={video._id} 
-                    tokenid={tokenid}
-                    videoid={video._id}
-                    searchTerm={searchTerm}
-                  />
-                </div>
-
-                <div className={classes.clipBar}>
-                  <IconButton onClick={() => setVideoCount(0)}>
-                    <FirstPageIcon />
-                  </IconButton>
-                  <IconButton
-                    onClick={handlePreviousButtonClicked}
-                  >
-                    <NavigateBeforeOutlinedIcon />
-                  </IconButton>
-                  <Typography className={classes.countClip}>
-                    {" "}
-                    {videoCount + 1} of {totalVideos} videos
-                  </Typography>
-                  <IconButton
-                    onClick={handleNextButtonClicked}
-                  >
-                    <NavigateNextOutlinedIcon />
-                  </IconButton>
-                  <IconButton onClick={() => setVideoCount(totalVideos - 1)}>
-                    <LastPageIcon />
-                  </IconButton>
-                </div>
+                <StyledButton
+                  onClick={handlePreviousButtonClicked}
+                  size="large"
+                  disabled={videoCount <= 0}
+                >
+                  <NavigateBeforeOutlinedIcon />
+                  Previous Video
+                </StyledButton>
+                <StyledButton
+                  onClick={handleNextButtonClicked}
+                  size="large"
+                  disabled={videoCount >= totalVideos - 1}
+                >
+                  Next Video
+                  <NavigateNextOutlinedIcon />
+                </StyledButton>
               </Toolbar>
+              <Video 
+                key={video._id}
+                videoid={video._id}
+                video={video}
+                keyWord={searchTerm}
+              />
             </div>
-          <Video 
-            video={video}
-            keyWord={searchTerm}
-            key={video._id}
-          />
         </div>
       : <div className={classes.error}><Typography>No videos found... </Typography></div>
       }
     </div>
   );
 }
+
+const StyledButton = styled(Button)`
+    && {
+        background-color: #f8f8f8;
+        color: #5f6368;
+        margin: 5px;
+        padding: 7px 15px;
+    }
+    
+    &&:hover {
+        box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+        background-color: #7de38d;
+        color: #222;
+    }
+`;
 
 export default SearchResult;
