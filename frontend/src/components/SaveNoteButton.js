@@ -15,30 +15,8 @@ import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
 import axios from 'axios';
 import styled from 'styled-components';
 
-const SaveNoteButton = ({video, timeline, note}) => {
-    const data = {
-        "video": "60942445b60614b00f3d8223",
-        "video_timeline": "12.6",
-        "note": "Curry is so good!"
-    }
-
-    const tokenid = localStorage.getItem("idtoken") ?? null;
-
-    const [noteCount, setNoteCount] = React.useState(1);
-
-    const handleSaveNoteButtonClicked = (event) => {
-        // axios
-        // .post(`${process.env.REACT_APP_URL}/note`, data, { headers: { 'Authorization': `JWT ${tokenid}` } })
-        // .then((response) => {
-        //     console.log(response.data.message);
-        //     setNoteCount(noteCount + 1);
-        // })
-        // .catch((error) => {
-        //     console.log(error.message);
-        // });
-        alert(tokenid);
-    }
-
+const SaveNoteButton = ({noteCount, noteInput, handleNoteInputChange, handleNoteCreate}) => {
+    
     return(
         <> 
             { noteCount == 0 ?
@@ -81,6 +59,9 @@ const SaveNoteButton = ({video, timeline, note}) => {
                                         name="note"
                                         multiline
                                         rows={4}
+                                        value={noteInput}
+                                        onChange={handleNoteInputChange}
+                                        autoFocus
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
@@ -89,6 +70,7 @@ const SaveNoteButton = ({video, timeline, note}) => {
                                         fullWidth
                                         variant="contained"
                                         color="primary"
+                                        onClick={handleNoteCreate}
                                     >
                                         Create Note
                                     </ButtonWrap>
@@ -141,6 +123,9 @@ const SaveNoteButton = ({video, timeline, note}) => {
                                         name="note"
                                         multiline
                                         rows={4}
+                                        value={noteInput}
+                                        onChange={handleNoteInputChange}
+                                        autoFocus
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
@@ -149,6 +134,7 @@ const SaveNoteButton = ({video, timeline, note}) => {
                                         fullWidth
                                         variant="contained"
                                         color="primary"
+                                        onClick={handleNoteCreate}
                                     >
                                         Create Note
                                     </ButtonWrap>

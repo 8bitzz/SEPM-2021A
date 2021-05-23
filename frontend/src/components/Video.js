@@ -50,6 +50,7 @@ const useStyles = makeStyles((theme) =>
 const Video = ({videoid, keyWord, video}) => {
     const classes = useStyles();
 
+    // Retreive transcripts list from the props and set INITiAL state to render the video
     const totalWord = video.searchTranscript?.length ?? 0;
     const transcripts = video.transcriptList;
     const keywordTranscripts = video.searchTranscript;
@@ -61,6 +62,7 @@ const Video = ({videoid, keyWord, video}) => {
 
       return firstTranscript.startTime;
     }
+
     const INIT_TRANSCRIPT = () => {
       const firstTranscript = transcripts.find(transcript => {
         return transcript._id === keywordTranscripts[0];
@@ -69,14 +71,16 @@ const Video = ({videoid, keyWord, video}) => {
       return firstTranscript.text;
     }
 
-    const control = true;
-    const playing = false;
-
-    const [word, setWord] = React.useState(0);
+    
+    // Render the first transcript that contains keyword and start video there
     const [startTime, setStartTime] = React.useState(INIT_START_TIME);
     const [videoTranscript, setVideoTranscript] = React.useState(INIT_TRANSCRIPT);
     const videoUrl = `https://www.youtube.com/embed/${video.id}?t=${startTime}`;
-
+    const control = true;
+    const playing = false;
+    
+    
+    // Check current Youtube timeframe to render transcript accordingly
     const checkCurrentTime = (e) => {
       const playedSeconds = e.playedSeconds;
 
@@ -87,6 +91,9 @@ const Video = ({videoid, keyWord, video}) => {
       })
 
     }
+
+    // Render next/previous transcript and update video starttime when users click next/previous button
+    const [word, setWord] = React.useState(0);
     const handleNextButtonClicked = () => {
       if ((word + 1) >= totalWord) {
         return;
@@ -117,6 +124,18 @@ const Video = ({videoid, keyWord, video}) => {
       setWord(previousIndex);
     }
 
+    // State to manage Save Note components
+    const [noteCount, setNoteCount] = React.useState(1);
+    const [noteInput, setNoteInput] = React.useState(" ");
+
+    const handleNoteInputChange = (event) => {
+      setNoteInput(event.target.value);
+    }
+
+    const handleNoteCreate = (event) => {
+      console.log(noteInput);
+    }
+
     return (
         <>
         <div className={classes.youtubevideo}>
@@ -145,6 +164,10 @@ const Video = ({videoid, keyWord, video}) => {
                 searchTerm={keyWord}
               />
               <SaveNoteButton
+                noteCount={noteCount}
+                noteInput={noteInput}
+                handleNoteInputChange={handleNoteInputChange}
+                handleNoteCreate={handleNoteCreate}
               />
             </div>
             <div>
