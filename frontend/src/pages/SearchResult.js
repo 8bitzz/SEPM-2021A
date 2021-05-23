@@ -1,16 +1,8 @@
 import React from "react";
 import { createStyles, makeStyles, withStyles } from "@material-ui/core/styles";
-import Drawer from "@material-ui/core/Drawer";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Toolbar from "@material-ui/core/Toolbar";
-import List from "@material-ui/core/List";
 import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import NoteAddIcon from '@material-ui/icons/NoteAdd';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Button } from "@material-ui/core";
 import NavigateBeforeOutlinedIcon from "@material-ui/icons/NavigateBeforeOutlined";
@@ -75,7 +67,9 @@ const useStyles = makeStyles((theme) =>
       paddingLeft: theme.spacing(3),
       textAlign: "center",
     },
-    })
+
+  })
+
 );
 
 // const API_ENDPOINT = 'http://localhost:7001/app/search?term=';
@@ -94,7 +88,7 @@ const videosReducer = (state, action) => {
         ...state,
         isLoading: false,
         isError: false,
-        data: action.payload.video_list_result, 
+        data: action.payload.video_list_result,
       };
     case 'VIDEOS_FETCH_FAILURE':
       return {
@@ -119,9 +113,10 @@ const SearchResult = () => {
   // Use Reducer to handle states related to asynchronous data
   const [videos, dispatchVideos] = React.useReducer(
     videosReducer,
-    { data: [], 
-      isLoading: false, 
-      isError: false 
+    {
+      data: [],
+      isLoading: false,
+      isError: false
     }
   );
 
@@ -129,7 +124,7 @@ const SearchResult = () => {
   const [url, setUrl] = React.useState(
     `${API_ENDPOINT}${searchTerm}&isExact=true`
   );
-  
+
   const handleFetchVideos = React.useCallback(() => {
     dispatchVideos({ type: 'VIDEOS_FETCH_INIT' });
 
@@ -154,7 +149,7 @@ const SearchResult = () => {
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
   };
-  
+
   const handleSubmit = (event) => {
     const params = new URLSearchParams();
 
@@ -170,59 +165,34 @@ const SearchResult = () => {
         search: params.toString()
       })
     }
-    
+
     event.preventDefault();
   }
 
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <NavBar searchTerm={searchTerm} onSearch={handleSearch} onSubmit={handleSubmit}/>
-      <Drawer
-        className={classes.drawer}
-        variant="permanent"
-        classes={{
-          paper: classes.drawerPaper,
-        }}
-      >
-        <Toolbar />
-        <div className={classes.drawerContainer}>
-          <List>
-            <ListItem button onClick={event =>  window.location.href='/savedclips'}>
-              <ListItemIcon>
-                <FavoriteIcon />
-              </ListItemIcon>
-              <ListItemText>Saved Clips</ListItemText>
-            </ListItem>
-            <Divider />
-            <ListItem button button onClick={event =>  window.location.href='/notes'}>
-              <ListItemIcon>
-                <NoteAddIcon />
-              </ListItemIcon>
-              <ListItemText>Notes</ListItemText>
-            </ListItem>
-            <Divider />
-          </List>
-        </div>
-      </Drawer>
+      <NavBar searchTerm={searchTerm} onSearch={handleSearch} onSubmit={handleSubmit} />
+      
+      
       <main className={classes.content}>
         <Toolbar />
 
-        { videos.isError && <div className={classes.error}><Typography>Something went wrong ... </Typography></div> }
+        {videos.isError && <div className={classes.error}><Typography>Something went wrong ... </Typography></div>}
 
-        { videos.isLoading 
-        ? <div className={classes.progress}><CircularProgress /></div>  
-        : <Videos 
+        {videos.isLoading
+          ? <div className={classes.progress}><CircularProgress /></div>
+          : <Videos
             searchTerm={searchTerm}
             videosList={videos.data}
-         /> 
+          />
         }
       </main>
     </div>
   );
 };
 
-const Videos = ({videosList, searchTerm}) => {
+const Videos = ({ videosList, searchTerm }) => {
   const classes = useStyles();
   const totalVideos = videosList?.length ?? 0;
   const [videoCount, setVideoCount] = React.useState(0);
@@ -250,41 +220,41 @@ const Videos = ({videosList, searchTerm}) => {
     setVideoCount(previousCount);
   }
 
-  return(
+  return (
     <div>
       { totalVideos > 0
-      ? <div>
+        ? <div>
           <div>
-              <div className={classes.title}>
-                <Typography variant="h6">{totalVideos} videos found with keyword "{searchTerm}"</Typography> 
-              </div> 
-              <Toolbar className={classes.functionBar}>
-                <StyledButton
-                  onClick={handlePreviousButtonClicked}
-                  size="large"
-                  disabled={videoCount <= 0}
-                >
-                  <NavigateBeforeOutlinedIcon />
+            <div className={classes.title}>
+              <Typography variant="h6">{totalVideos} videos found with keyword "{searchTerm}"</Typography>
+            </div>
+            <Toolbar className={classes.functionBar}>
+              <StyledButton
+                onClick={handlePreviousButtonClicked}
+                size="large"
+                disabled={videoCount <= 0}
+              >
+                <NavigateBeforeOutlinedIcon />
                   Previous Video
                 </StyledButton>
-                <StyledButton
-                  onClick={handleNextButtonClicked}
-                  size="large"
-                  disabled={videoCount >= totalVideos - 1}
-                >
-                  Next Video
+              <StyledButton
+                onClick={handleNextButtonClicked}
+                size="large"
+                disabled={videoCount >= totalVideos - 1}
+              >
+                Next Video
                   <NavigateNextOutlinedIcon />
-                </StyledButton>
-              </Toolbar>
-              <Video 
-                key={video._id}
-                videoid={video._id}
-                video={video}
-                keyWord={searchTerm}
-              />
-            </div>
+              </StyledButton>
+            </Toolbar>
+            <Video 
+              key={video._id}
+              videoid={video._id}
+              video={video}
+              keyWord={searchTerm}
+            />
+          </div>
         </div>
-      : <div className={classes.error}><Typography>No videos found... </Typography></div>
+        : <div className={classes.error}><Typography>No videos found... </Typography></div>
       }
     </div>
   );

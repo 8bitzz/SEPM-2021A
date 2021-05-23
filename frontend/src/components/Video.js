@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) =>
             marginTop: theme.spacing(1),
             marginLeft: theme.spacing(3),
             position: "relative",
-            height: 0,
+            // height: 0,
             paddingBottom: "47%",
             marginBottom: '10px',
         },
@@ -45,6 +45,10 @@ const useStyles = makeStyles((theme) =>
           display: "flex",
           alignItems: "center",
         },
+        video: {
+          width: "75%",
+          height: "75%"
+        }
     })
 );
 
@@ -159,7 +163,7 @@ const Video = ({videoid, keyWord, video}) => {
     return (
         <>
         <div className={classes.youtubevideo}>
-            <ReactPlayer
+            <ReactPlayer 
               ref={playerRef}
               url={videoUrl}
               title={video.title}
