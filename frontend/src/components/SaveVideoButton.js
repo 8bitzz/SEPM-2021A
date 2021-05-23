@@ -6,22 +6,28 @@ import styled from 'styled-components';
 
 import axios from 'axios';
 
-const SaveVideoButton = ({tokenid, videoid, searchTerm}) => {
+const SaveVideoButton = ({videoid, searchTerm}) => {
     const data = {
         "video": videoid,
         "search_term": searchTerm
     }
 
+    const tokenid = localStorage.getItem("idtoken") ?? null;
+
     const INIT_STATE = () => {
-        axios
-        .get(`${process.env.REACT_APP_URL}/saved-video/is-saved/${videoid}`, { headers: { 'Authorization': `JWT ${tokenid}` } })
-        .then((response) => {
-            console.log(response.data.message);
-            setFavourite(true);
-        })
-        .catch((error) => {
-            console.log(error.message);
-        });
+        if (tokenid == null) {
+            setFavourite(false);
+        } else {
+            axios
+            .get(`${process.env.REACT_APP_URL}/saved-video/is-saved/${videoid}`, { headers: { 'Authorization': `JWT ${tokenid}` } })
+            .then((response) => {
+                console.log(response.data.message);
+                setFavourite(true);
+            })
+            .catch((error) => {
+                console.log(error.message);
+            });
+        }
     }
 
     const [favourite, setFavourite] = React.useState(INIT_STATE);

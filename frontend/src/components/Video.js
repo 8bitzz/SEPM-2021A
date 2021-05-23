@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) =>
     })
 );
 
-const Video = ({videoid, tokenid, keyWord, video}) => {
+const Video = ({videoid, keyWord, video}) => {
     const classes = useStyles();
 
     const totalWord = video.searchTranscript?.length ?? 0;
@@ -141,17 +141,14 @@ const Video = ({videoid, tokenid, keyWord, video}) => {
             <div>
               <SaveVideoButton 
                 key={videoid} 
-                tokenid={tokenid}
                 videoid={videoid}
                 searchTerm={keyWord}
               />
-              <SaveNoteButton/>
+              <SaveNoteButton
+              />
             </div>
             <div>
-              <Typography >
-                {" "}
-                {word + 1} out of {totalWord} results in this video
-              </Typography>
+              
             </div>
             <div className={classes.clipBar}>
               <IconButton>
@@ -163,7 +160,10 @@ const Video = ({videoid, tokenid, keyWord, video}) => {
               >
                 <NavigateBeforeOutlinedIcon />
               </IconButton>
-              
+              <Typography >
+                {" "}
+                {word + 1}/{totalWord} 
+              </Typography>
               <IconButton
                 onClick={handleNextButtonClicked}
                 disabled={word >= totalWord - 1}

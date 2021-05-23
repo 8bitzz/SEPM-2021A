@@ -250,8 +250,6 @@ const Videos = ({videosList, searchTerm}) => {
     setVideoCount(previousCount);
   }
 
-  const tokenid = localStorage.getItem("idtoken") ?? null;
-
   return(
     <div>
       { totalVideos > 0
@@ -281,7 +279,6 @@ const Videos = ({videosList, searchTerm}) => {
               <Video 
                 key={video._id}
                 videoid={video._id}
-                tokenid={tokenid}
                 video={video}
                 keyWord={searchTerm}
               />
