@@ -99,6 +99,18 @@ const Video = ({videoid, keyWord, video}) => {
 
     // Render next/previous transcript and update video starttime when users click next/previous button
     const [word, setWord] = React.useState(0);
+    const handleFirstButtonCliked = () => {
+      if(word === 0) {
+        return
+      }
+      const nextTranscript = transcripts.find(transcript => {
+        return transcript._id === keywordTranscripts[0];
+      });
+      setVideoTranscript(nextTranscript.text);
+      setStartTime(nextTranscript.startTime);
+      setWord(0);
+
+    }
     const handleNextButtonClicked = () => {
       if ((word + 1) >= totalWord) {
         return;
@@ -127,6 +139,18 @@ const Video = ({videoid, keyWord, video}) => {
       setVideoTranscript(prevTranscript.text);
       setStartTime(prevTranscript.startTime);
       setWord(previousIndex);
+    }
+
+    const handleLastButtonCliked = () => {
+      if(word === totalWord - 1) {
+        return
+      }
+      const nextTranscript = transcripts.find(transcript => {
+        return transcript._id === keywordTranscripts[totalWord - 1];
+      });
+      setVideoTranscript(nextTranscript.text);
+      setStartTime(nextTranscript.startTime);
+      setWord(totalWord - 1);
     }
 
     // State to manage Save Note components
@@ -204,7 +228,10 @@ const Video = ({videoid, keyWord, video}) => {
               : <div></div>
             }
             <div className={classes.clipBar}>
-              <IconButton>
+              <IconButton
+                onClick={handleFirstButtonCliked}
+                disabled={word === 0}
+              >
                 <FirstPageIcon />
               </IconButton>
               <IconButton
@@ -223,7 +250,10 @@ const Video = ({videoid, keyWord, video}) => {
               >
                 <NavigateNextOutlinedIcon />
               </IconButton>
-              <IconButton>
+              <IconButton
+                onClick={handleLastButtonCliked}
+                disabled={word === totalWord - 1}
+              >
                 <LastPageIcon />
               </IconButton>
             </div>
