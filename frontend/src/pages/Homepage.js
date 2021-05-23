@@ -41,8 +41,8 @@ const Homepage = () => {
       <form onSubmit={handleSubmit}>
         <EduSearchBar searchTerm={searchTerm} onSearch={handleSearch}/>
       </form>
-      <EduSearchButton name='How to search'/>
-      <EduSearchButton name='Search this' onClick={putSearchParam}/>
+      <EduSearchButton name='Search this' handleClick={putSearchParam}/>
+      <EduSearchButton name="View Random Video" handleClick={putSearchParam}/>
     </Wrapper>
   );
 }
