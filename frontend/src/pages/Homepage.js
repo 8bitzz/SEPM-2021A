@@ -15,6 +15,9 @@ const Homepage = () => {
   };
 
   const putSearchParam = (event) => {
+    if (searchTerm === "") {
+      return;
+    }
     const params = new URLSearchParams()
     if (searchTerm) {
       params.append("term", searchTerm)
@@ -41,8 +44,8 @@ const Homepage = () => {
       <form onSubmit={handleSubmit}>
         <EduSearchBar searchTerm={searchTerm} onSearch={handleSearch}/>
       </form>
-      <EduSearchButton name='How to search'/>
-      <EduSearchButton name='Search this' onClick={putSearchParam}/>
+      <EduSearchButton name='Search this' handleClick={putSearchParam}/>
+      <EduSearchButton name="View Random Video" handleClick={putSearchParam}/>
     </Wrapper>
   );
 }
@@ -50,12 +53,11 @@ const Homepage = () => {
 const Wrapper = styled.section`
   margin: 0px;
   background: #ffffff;
-  height:100vh;
   text-align: center;
 `;
 
 const LogoWrapper = styled.div`
-  margin-top: 40px;
+  margin-top: 15vh;
   height:200px;
   text-align: center;
 `;

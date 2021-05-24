@@ -1,5 +1,6 @@
 var router = require("express").Router();
 var { search, searchMock } = require("../controllers/appController");
+var { loginRequired } = require("../controllers/userControllers");
 
 router.get("/search-mock", searchMock); // differnt format than normal search, should return list of videos rather than a single transcript
 router.get("/search", search);
@@ -13,5 +14,10 @@ router.get("/authtest", (req, res) => {
 router.get("/env-config", function (req, res) {
     res.send(`${JSON.stringify(process.env)}`);
 });
+
+//Get User Detail
+router.get("/email", loginRequired, (req, res) => {
+        return res.json({email: req.user.email});
+})
 
 module.exports = router;

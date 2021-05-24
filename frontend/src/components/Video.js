@@ -18,7 +18,7 @@ import SaveNoteButton from "./SaveNoteButton";
 const useStyles = makeStyles((theme) =>
     createStyles({
         transcript: {
-            paddingTop: theme.spacing(3),
+            paddingTop: theme.spacing(1),
             paddingLeft: theme.spacing(3),
             textAlign: "center",
             marginBottom: theme.spacing(4)
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) =>
             marginTop: theme.spacing(1),
             marginLeft: theme.spacing(3),
             position: "relative",
-            height: 0,
+            // height: 0,
             paddingBottom: "47%",
             marginBottom: '10px',
         },
@@ -45,6 +45,10 @@ const useStyles = makeStyles((theme) =>
           display: "flex",
           alignItems: "center",
         },
+        video: {
+          width: "75%",
+          height: "75%"
+        }
     })
 );
 
@@ -78,7 +82,7 @@ const Video = ({videoid, keyWord, video}) => {
     const [videoTranscript, setVideoTranscript] = React.useState(INIT_TRANSCRIPT);
     const videoUrl = `https://www.youtube.com/embed/${video.id}?t=${startTime}`;
     const control = true;
-    const [playing, setPlaying] = React.useState(false);
+    const [playing, setPlaying] = React.useState(true);
     
     
     // Check current Youtube timeframe to render transcript accordingly
@@ -95,6 +99,18 @@ const Video = ({videoid, keyWord, video}) => {
 
     // Render next/previous transcript and update video starttime when users click next/previous button
     const [word, setWord] = React.useState(0);
+    const handleFirstButtonCliked = () => {
+      if(word === 0) {
+        return
+      }
+      const nextTranscript = transcripts.find(transcript => {
+        return transcript._id === keywordTranscripts[0];
+      });
+      setVideoTranscript(nextTranscript.text);
+      setStartTime(nextTranscript.startTime);
+      setWord(0);
+
+    }
     const handleNextButtonClicked = () => {
       if ((word + 1) >= totalWord) {
         return;
@@ -125,6 +141,18 @@ const Video = ({videoid, keyWord, video}) => {
       setWord(previousIndex);
     }
 
+    const handleLastButtonCliked = () => {
+      if(word === totalWord - 1) {
+        return
+      }
+      const nextTranscript = transcripts.find(transcript => {
+        return transcript._id === keywordTranscripts[totalWord - 1];
+      });
+      setVideoTranscript(nextTranscript.text);
+      setStartTime(nextTranscript.startTime);
+      setWord(totalWord - 1);
+    }
+
     // State to manage Save Note components
     const tokenid = localStorage.getItem("idtoken") ?? null;
     const [noteCount, setNoteCount] = React.useState(0);
@@ -141,7 +169,7 @@ const Video = ({videoid, keyWord, video}) => {
 
       const data = {
         "video": videoid,
-        "video_timeline": timeframe,
+        "video_timeline": timeframe.toFixed(1),
         "note": noteInput
       }
       
@@ -150,6 +178,7 @@ const Video = ({videoid, keyWord, video}) => {
       .then((response) => {
           console.log(response.data.message);
           setNoteCount(newCount);
+          alert("Note Created Successfully!")
       })
       .catch((error) => {
           console.log(error.message);
@@ -159,7 +188,7 @@ const Video = ({videoid, keyWord, video}) => {
     return (
         <>
         <div className={classes.youtubevideo}>
-            <ReactPlayer
+            <ReactPlayer 
               ref={playerRef}
               url={videoUrl}
               title={video.title}
@@ -174,6 +203,7 @@ const Video = ({videoid, keyWord, video}) => {
               controls={control}
               playing={playing}
               onProgress={(e) => checkCurrentTime(e)}
+              muted={true}
             />
         </div>
         <div>
@@ -198,7 +228,10 @@ const Video = ({videoid, keyWord, video}) => {
               : <div></div>
             }
             <div className={classes.clipBar}>
-              <IconButton>
+              <IconButton
+                onClick={handleFirstButtonCliked}
+                disabled={word === 0}
+              >
                 <FirstPageIcon />
               </IconButton>
               <IconButton
@@ -217,7 +250,10 @@ const Video = ({videoid, keyWord, video}) => {
               >
                 <NavigateNextOutlinedIcon />
               </IconButton>
-              <IconButton>
+              <IconButton
+                onClick={handleLastButtonCliked}
+                disabled={word === totalWord - 1}
+              >
                 <LastPageIcon />
               </IconButton>
             </div>
