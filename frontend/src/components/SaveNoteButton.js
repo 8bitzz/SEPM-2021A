@@ -16,16 +16,31 @@ import axios from 'axios';
 import styled from 'styled-components';
 
 const SaveNoteButton = ({noteCount, noteInput, handleNoteInputChange, handleNoteCreate}) => {
-    
+    const divRef = React.useRef();
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open = Boolean(anchorEl);
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    // React.useEffect(() => {
+    //     setAnchorEl(divRef.current);
+    // },[divRef]);
+
+    const handleClick = (event) => {
+        setAnchorEl(divRef.current);
+    };
+
     return(
         <> 
             { noteCount == 0 ?
             <PopupState variant="popover" popupId="demo-popup-popover">
                 {(popupState) => (
                     <>
-                    <IconButton {...bindTrigger(popupState)}><NoteAddOutlinedIcon /></IconButton>
+                    <IconButton ref={divRef} {...bindTrigger(popupState)} onClick={handleClick}><NoteAddOutlinedIcon /></IconButton>
                     <Popover
                         {...bindPopover(popupState)}
+                        anchorEl={anchorEl}
                         anchorOrigin={{
                             vertical: 'top',
                             horizontal: 'center',
@@ -34,6 +49,8 @@ const SaveNoteButton = ({noteCount, noteInput, handleNoteInputChange, handleNote
                             vertical: 'top',
                             horizontal: 'center',
                         }}
+                        open={open}
+                        onClose={handleClose}
                     >
                         <Box p={2}>
                             <Grid container spacing={2}>
@@ -74,10 +91,11 @@ const SaveNoteButton = ({noteCount, noteInput, handleNoteInputChange, handleNote
                 {(popupState) => (
                     <>
                     <StyledBadge badgeContent={noteCount}>
-                        <IconButton {...bindTrigger(popupState)}><NoteAddOutlinedIcon /></IconButton>
+                        <IconButton ref={divRef} {...bindTrigger(popupState)} onClick={handleClick}><NoteAddOutlinedIcon /></IconButton>
                     </StyledBadge>
                     <Popover
                         {...bindPopover(popupState)}
+                        anchorEl={anchorEl}
                         anchorOrigin={{
                             vertical: 'top',
                             horizontal: 'center',
@@ -86,6 +104,8 @@ const SaveNoteButton = ({noteCount, noteInput, handleNoteInputChange, handleNote
                             vertical: 'top',
                             horizontal: 'center',
                         }}
+                        open={open}
+                        onClose={handleClose}
                     >
                         <Box p={2}>
                             <Grid container spacing={2}>
