@@ -8,7 +8,7 @@ import Divider from "@material-ui/core/Divider";
 import NavBar from '../components/NavBar';
 import Grid from '@material-ui/core/Grid';
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 
 
 
@@ -54,6 +54,32 @@ const NoteDetail = () => {
     const search = useLocation().search;
     const query = new URLSearchParams(search).get('note_id');
 
+    const [searchTerm, setSearchTerm] = React.useState("");
+    const history = useHistory();
+
+    const handleSearch = (event) => {
+        setSearchTerm(event.target.value);
+    };
+
+    const handleSubmitSearch = (event) => {
+        event.preventDefault();
+        if(searchTerm === "") {
+            return;
+        }
+
+        const params = new URLSearchParams();
+
+        if (searchTerm) {
+            // Update search param with new keyword
+            params.delete("term");
+            params.append("term", searchTerm);
+            history.push({
+                pathname: "/search",
+                search: params.toString(),
+            });
+        }
+    };
+
     axios
         .get(`${process.env.REACT_APP_URL}/note`, { headers: { 'Authorization': `JWT ${localStorage.getItem("idtoken")}` } })
         .then(result => {
@@ -67,7 +93,7 @@ const NoteDetail = () => {
     return (
         <div className={classes.root}>
             <CssBaseline />
-            <NavBar />
+            <NavBar searchTerm={searchTerm} onSearch={handleSearch} onSubmit={handleSubmitSearch} />
         
             <main className={classes.content}>
                 <Toolbar />

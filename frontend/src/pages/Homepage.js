@@ -15,6 +15,9 @@ const Homepage = () => {
   };
 
   const putSearchParam = (event) => {
+    if (searchTerm === "") {
+      return;
+    }
     const params = new URLSearchParams()
     if (searchTerm) {
       params.append("term", searchTerm)

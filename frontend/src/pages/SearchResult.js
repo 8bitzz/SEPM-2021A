@@ -106,7 +106,7 @@ const SearchResult = () => {
     // Set the initial state of searchTerm as the URL params
     const search = useLocation().search;
     const query = new URLSearchParams(search).get("term");
-    const [searchTerm, setSearchTerm] = React.useState(query || " ");
+    const [searchTerm, setSearchTerm] = React.useState(query || "");
 
     const fixedSearchTerm = query || "";
 
@@ -144,6 +144,11 @@ const SearchResult = () => {
     };
 
     const handleSubmit = (event) => {
+        event.preventDefault();
+        if(searchTerm === "") {
+            return;
+        }
+
         const params = new URLSearchParams();
 
         if (searchTerm) {
@@ -158,8 +163,6 @@ const SearchResult = () => {
                 search: params.toString(),
             });
         }
-
-        event.preventDefault();
     };
 
     return (
