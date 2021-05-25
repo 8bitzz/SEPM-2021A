@@ -218,6 +218,7 @@ const Video = ({videoid, keyWord, video}) => {
                     searchTerm={keyWord}
                   />
                   <SaveNoteButton
+                    key={noteCount}
                     tokenid={tokenid}
                     noteCount={noteCount}
                     noteInput={noteInput}

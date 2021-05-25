@@ -16,19 +16,16 @@ import axios from 'axios';
 import styled from 'styled-components';
 
 const SaveNoteButton = ({noteCount, noteInput, handleNoteInputChange, handleNoteCreate}) => {
-    const divRef = React.useRef();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
+    const id = open ? 'simple-popover' : undefined;
+    
     const handleClose = () => {
         setAnchorEl(null);
     };
 
-    // React.useEffect(() => {
-    //     setAnchorEl(divRef.current);
-    // },[divRef]);
-
     const handleClick = (event) => {
-        setAnchorEl(divRef.current);
+        setAnchorEl(event.currentTarget);
     };
 
     return(
@@ -37,7 +34,7 @@ const SaveNoteButton = ({noteCount, noteInput, handleNoteInputChange, handleNote
             <PopupState variant="popover" popupId="demo-popup-popover">
                 {(popupState) => (
                     <>
-                    <IconButton ref={divRef} {...bindTrigger(popupState)} onClick={handleClick}><NoteAddOutlinedIcon /></IconButton>
+                    <IconButton aria-describedby={id} {...bindTrigger(popupState)} onClick={handleClick}><NoteAddOutlinedIcon /></IconButton>
                     <Popover
                         {...bindPopover(popupState)}
                         anchorEl={anchorEl}
@@ -91,7 +88,7 @@ const SaveNoteButton = ({noteCount, noteInput, handleNoteInputChange, handleNote
                 {(popupState) => (
                     <>
                     <StyledBadge badgeContent={noteCount}>
-                        <IconButton ref={divRef} {...bindTrigger(popupState)} onClick={handleClick}><NoteAddOutlinedIcon /></IconButton>
+                        <IconButton aria-describedby={id} {...bindTrigger(popupState)} onClick={handleClick}><NoteAddOutlinedIcon /></IconButton>
                     </StyledBadge>
                     <Popover
                         {...bindPopover(popupState)}
