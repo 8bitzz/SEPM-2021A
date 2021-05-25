@@ -116,11 +116,13 @@ const VideoPage = () => {
     React.useEffect(() => {
         dispatchVideos({ type: "VIDEOS_FETCH_INIT" });
         let fetchURL = `${process.env.REACT_APP_URL}/video/${videoId}`;
+        let headers = { 'Authorization': `JWT ${localStorage.getItem("idtoken")}` };
         if(videoId === "random"){
             fetchURL = `${process.env.REACT_APP_URL}/video/getRandomVideo`;
+            headers = {};
         }
         axios
-            .get(fetchURL, { headers: { 'Authorization': `JWT ${localStorage.getItem("idtoken")}` } })
+            .get(fetchURL, { headers })
             .then((result) => {
                 console.log(result.data);
                 dispatchVideos({
