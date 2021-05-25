@@ -12,6 +12,19 @@ const getVideoById = async (req, res) => {
     }
 };
 
+const getRandomVideo = async (req, res) => {
+    try {
+        let findVideo = await Video.find({ processed: true, transcriptList: { $exists: true } })
+            .populate("transcriptList")
+            .exec();
+        let random = Math.floor(Math.random() * findVideo.length);
+        res.json({ video: findVideo[random] });
+    } catch (error) {
+        return res.status(400).json(error);
+    }
+};
+
 module.exports = {
+    getRandomVideo,
     getVideoById,
 };

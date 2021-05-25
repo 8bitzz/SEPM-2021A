@@ -10,6 +10,7 @@ import SavedClips from './pages/SavedClips';
 import TestFirebaseSendToken from "./components/TestFirebaseSendToken"
 
 import { withAuthentication } from './session/index';
+import VideoPage from './pages/VideoPage';
 
 
 
@@ -25,6 +26,7 @@ const App = () => {
             <Route path="/notedetail" component={NoteDetail} />
             <Route path="/savedclips" component={SavedClips} />
             <Route path="/testFirebaseSendToken" component={TestFirebaseSendToken} />
+            <Route path="/video/:videoId" component={VideoPage} />
           </Switch>
       </Router>
   );
