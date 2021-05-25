@@ -45,7 +45,7 @@ const Homepage = () => {
         <EduSearchBar searchTerm={searchTerm} onSearch={handleSearch}/>
       </form>
       <EduSearchButton name='Search this' handleClick={putSearchParam}/>
-      <EduSearchButton name="View Random Video" handleClick={putSearchParam}/>
+      <EduSearchButton name="View Random Video" handleClick={() => history.push(`/video/random`)}/>
     </Wrapper>
   );
 }

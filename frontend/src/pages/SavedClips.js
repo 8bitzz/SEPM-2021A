@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -92,7 +92,8 @@ const SavedClips = () => {
         }
     };
 
-    axios
+    useEffect(() => {
+        axios
         .get(`${process.env.REACT_APP_URL}/saved-video`, { headers: { 'Authorization': `JWT ${localStorage.getItem("idtoken")}` } })
         .then(result => {
             setData(result.data);
@@ -101,6 +102,8 @@ const SavedClips = () => {
             console.log("No data")
             // {alert("Token sai roi!")}
         );
+    }, [])
+    
 
     return (
         <div className={classes.root}>
@@ -123,9 +126,9 @@ const SavedClips = () => {
                         {
                             data.length > 0 && data.map(v =>
 
-                                <Grid item xs={3} zeroMinWidth>
+                                <Grid item xs={3} zeroMinWidth key={v.video.id}>
                                     <Card border="dark" style={{ width: '18rem' }}>
-                                        <CardActionArea href={"https://www.youtube.com/watch?v=" + v.video.id}>
+                                        <CardActionArea href={"/video/" + v.video._id}>
                                             <CardMedia>
                                                 <img style={{ width: "100%" }} src={v.video.thumbnail}></img>
                                             </CardMedia>

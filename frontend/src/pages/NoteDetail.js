@@ -1,16 +1,14 @@
-import React from 'react';
+import React, { useEffect } from "react";
 
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
-import NavBar from '../components/NavBar';
-import Grid from '@material-ui/core/Grid';
+import NavBar from "../components/NavBar";
+import Grid from "@material-ui/core/Grid";
 import axios from "axios";
 import { useLocation, useHistory } from "react-router-dom";
-
-
 
 const drawerWidth = 250;
 const useStyles = makeStyles((theme) =>
@@ -36,14 +34,19 @@ const useStyles = makeStyles((theme) =>
         title: {
             paddingTop: 40,
             paddingBottom: 20,
-
         },
         note: {
             paddingTop: 20,
             paddingBottom: 20,
             marginLeft: 10,
         },
-
+        typography_timeline: {
+            cursor: "pointer",
+            fontWeight: "bold",
+            "&:hover": {
+                color:"#4ca790"
+            }
+        }
     })
 );
 
@@ -52,7 +55,7 @@ const NoteDetail = () => {
     const [data, setData] = React.useState([]);
 
     const search = useLocation().search;
-    const query = new URLSearchParams(search).get('note_id');
+    const query = new URLSearchParams(search).get("note_id");
 
     const [searchTerm, setSearchTerm] = React.useState("");
     const history = useHistory();
@@ -63,7 +66,7 @@ const NoteDetail = () => {
 
     const handleSubmitSearch = (event) => {
         event.preventDefault();
-        if(searchTerm === "") {
+        if (searchTerm === "") {
             return;
         }
 
@@ -79,55 +82,70 @@ const NoteDetail = () => {
             });
         }
     };
-
-    axios
-        .get(`${process.env.REACT_APP_URL}/note`, { headers: { 'Authorization': `JWT ${localStorage.getItem("idtoken")}` } })
-        .then(result => {
-            setData(result.data.filter(v => v.video._id === query));
-        })
-        .catch((error) =>
-            console.log("No data")
-            // {alert("Token sai roi!")}
-        );
+    useEffect(() => {
+        axios
+            .get(`${process.env.REACT_APP_URL}/note`, { headers: { Authorization: `JWT ${localStorage.getItem("idtoken")}` } })
+            .then((result) => {
+                console.log(result.data);
+                setData(result.data.filter((v) => v.video._id === query));
+            })
+            .catch(
+                (error) => console.log("No data")
+                // {alert("Token sai roi!")}
+            );
+    }, []);
 
     return (
         <div className={classes.root}>
             <CssBaseline />
             <NavBar searchTerm={searchTerm} onSearch={handleSearch} onSubmit={handleSubmitSearch} />
-        
+
             <main className={classes.content}>
                 <Toolbar />
-                <div style={{ textAlign: "center" }}><Typography className={classes.title} variant="h4">Notes</Typography></div>
-
+                <div style={{ textAlign: "center" }}>
+                    <Typography className={classes.title} variant="h4">
+                        Notes
+                    </Typography>
+                </div>
 
                 <div>
-                    <Typography className={classes.title}><b>{data[0] && data[0].video.title}</b></Typography>
+                    <Typography className={classes.title}>
+                        <b>{data[0] && data[0].video.title}</b>
+                    </Typography>
                 </div>
 
                 <div className={classes.note}>
                     <Grid container spacing={2}>
                         <Grid item xs={2}>
-                            <Typography><b>Timeline</b></Typography>
+                            <Typography>
+                                <b>Timeline</b>
+                            </Typography>
                         </Grid>
                         <Grid item xs={8}>
-                            <Typography><b>Note detail</b></Typography>
+                            <Typography>
+                                <b>Note detail</b>
+                            </Typography>
                         </Grid>
                         <Grid item xs={2}>
-                            <Typography><b>Date created</b></Typography>
+                            <Typography>
+                                <b>Date created</b>
+                            </Typography>
                         </Grid>
                     </Grid>
                 </div>
 
-                {
-                    data.length > 0 && data.map(v =>
-                        <div>
+                {data.length > 0 &&
+                    data.map((v) => (
+                        <div key={v.note}>
                             <Divider />
 
                             <Divider />
                             <div className={classes.note}>
                                 <Grid container spacing={2}>
                                     <Grid item xs={2}>
-                                        <Typography><b>{v.video_timeline} s</b></Typography>
+                                        <Typography className={classes.typography_timeline} onClick={() => history.push(`/video/${v.video._id}?startTime=${v.video_timeline}`)}>
+                                            {v.video_timeline} s
+                                        </Typography>
                                     </Grid>
                                     <Grid item xs={8}>
                                         <Typography>{v.note}</Typography>
@@ -137,14 +155,11 @@ const NoteDetail = () => {
                                     </Grid>
                                 </Grid>
                             </div>
-
-
                         </div>
-                    )
-                }
+                    ))}
             </main>
         </div>
     );
-}
+};
 
 export default NoteDetail;
